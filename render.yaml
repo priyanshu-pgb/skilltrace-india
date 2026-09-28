@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: skillbridge
+    runtime: python
+    buildCommand: ./build.sh
+    startCommand: gunicorn config.wsgi:application
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: DB_ENGINE
+        value: sqlite
+      - key: USE_SQLITE_FALLBACK
+        value: "True"
