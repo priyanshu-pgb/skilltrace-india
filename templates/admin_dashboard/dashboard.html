@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+
+{% block title %}System Admin & Impact Analytics - SkillBridge{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+  <div>
+    <span class="badge bg-primary text-white mb-2 px-3 py-1">ADMINISTRATIVE INTELLIGENCE</span>
+    <h1 class="welcome-title">Skilling Impact & Employment Analytics</h1>
+    <p class="welcome-subtitle">Macro-level institutional analytics for tracking employment outcomes, skill gaps, and skilling initiative ROI</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a href="/admin/" target="_blank" class="btn-outline-custom">
+      <i class="fa-solid fa-database me-1"></i> Django Admin
+    </a>
+    <a href="{% url 'jobs_list' %}" class="btn-primary-custom">
+      <i class="fa-solid fa-briefcase me-1"></i> View Jobs & Curricula
+    </a>
+  </div>
+</div>
+
+<!-- Filter Bar -->
+<form method="get" action="{% url 'admin_dashboard' %}" class="filter-bar">
+  <div class="d-flex align-items-center gap-2">
+    <i class="fa-solid fa-filter text-muted"></i>
+    <span class="small fw-bold text-dark">Data Filter:</span>
+  </div>
+
+  <div class="d-flex align-items-center gap-2">
+    <label class="small text-muted mb-0">Employment Status:</label>
+    <select name="status" class="form-select form-select-sm" style="width: auto;">
+      <option value="">All Statuses</option>
+      <option value="employed" {% if selected_status == 'employed' %}selected{% endif %}>Formally Employed</option>
+      <option value="internship" {% if selected_status == 'internship' %}selected{% endif %}>Internship</option>
+      <option value="freelancing" {% if selected_status == 'freelancing' %}selected{% endif %}>Freelancing</option>
+      <option value="unemployed" {% if selected_status == 'unemployed' %}selected{% endif %}>Unemployed</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-sm btn-primary-custom py-1 px-3">
+    Apply Filters
+  </button>
+  {% if selected_status %}
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-sm btn-outline-secondary py-1 px-2">Clear</a>
+  {% endif %}
+</form>
+
+<!-- 6 Admin Macro KPIs -->
+<div class="stats-grid">
+  <div class="stat-card stagger-fade">
+    <div class="stat-icon primary"><i class="fa-solid fa-users"></i></div>
+    <div class="stat-value count-up" data-target="{{ total_users }}">{{ total_users }}</div>
+    <div class="stat-label">Registered Candidates</div>
+    <div class="small text-muted mt-1">Active student profiles</div>
+  </div>
+
+  <div class="stat-card stagger-fade">
+    <div class="stat-icon success"><i class="fa-solid fa-clipboard-check"></i></div>
+    <div class="stat-value count-up" data-target="{{ total_assessments }}">{{ total_assessments }}</div>
+    <div class="stat-label">Completed Assessments</div>
+    <div class="small text-muted mt-1">MCQ & Practical evaluations</div>
+  </div>
+
+  <div class="stat-card stagger-fade">
+    <div class="stat-icon info"><i class="fa-solid fa-diagram-project"></i></div>
+    <div class="stat-value count-up" data-target="{{ total_projects }}">{{ total_projects }}</div>
+    <div class="stat-label">Project Submissions</div>
+    <div class="small text-muted mt-1">{{ pending_projects }} pending evaluation</div>
+  </div>
+
+  <div class="stat-card stagger-fade">
+    <div class="stat-icon success"><i class="fa-solid fa-building-circle-check"></i></div>
+    <div class="stat-value count-up" data-target="{{ employment_rate }}" data-is-float="true" data-suffix="%">{{ employment_rate }}%</div>
+    <div class="stat-label">Employment Rate</div>
+    <div class="small text-muted mt-1">{{ employed_count }} active placements</div>
+  </div>
+
+  <div class="stat-card stagger-fade">
+    <div class="stat-icon warning"><i class="fa-solid fa-graduation-cap"></i></div>
+    <div class="stat-value count-up" data-target="{{ training_completion_rate }}" data-is-float="true" data-suffix="%">{{ training_completion_rate }}%</div>
+    <div class="stat-label">Training Completion</div>
+    <div class="small text-muted mt-1">Curriculum finish rate</div>
+  </div>
+
+  <div class="stat-card stagger-fade">
+    <div class="stat-icon primary"><i class="fa-solid fa-arrow-trend-up"></i></div>
+    <div class="stat-value count-up text-success" data-target="{{ avg_observed_delta }}" data-is-float="true" data-prefix="+" data-suffix=" pts">+{{ avg_observed_delta }} pts</div>
+    <div class="stat-label">Avg. Observed Delta</div>
+    <div class="small text-muted mt-1">Post-training improvement</div>
+  </div>
+</div>
+
+<!-- Section: Skilling Impact & Employment Distribution -->
+<div class="dashboard-main-grid" id="impact">
+  <!-- Before vs After Training Score Comparison (Impact Analytics) -->
+  <div class="card-custom">
+    <div class="card-header-custom">
+      <div>
+        <h3 class="fs-5 fw-bold mb-0">Longitudinal Skilling Impact (Before vs After Training)</h3>
+        <p class="text-muted small mb-0">Observed assessment score progression of trainees before vs after completing courses</p>
+      </div>
+      <span class="badge bg-success-subtle text-success px-3 py-1">Direct Impact Metric</span>
+    </div>
+    <div class="card-body-custom">
+      <div style="height: 320px; position: relative;">
+        <canvas id="impactChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Employment Status Breakdown -->
+  <div class="card-custom">
+    <div class="card-header-custom">
+      <h3 class="fs-5 fw-bold mb-0">Employment Status Breakdown</h3>
+    </div>
+    <div class="card-body-custom">
+      <div style="height: 320px; position: relative;">
+        <canvas id="employmentDonut"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Table: Most Common Skill Gaps Across Industry Jobs -->
+<div class="card-custom mb-4">
+  <div class="card-header-custom">
+    <h3 class="fs-5 fw-bold mb-0">High-Friction Skill Gaps (Market Benchmark vs Trainee Cohort)</h3>
+    <span class="text-muted small">Derived from live job requirements</span>
+  </div>
+  <div class="card-body-custom p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th class="ps-4">Skill Domain</th>
+            <th>Required Job Level (Avg)</th>
+            <th>Cohort Verified Level (Avg)</th>
+            <th>Friction Gap Delta</th>
+            <th>Associated Jobs</th>
+            <th class="pe-4">Recommendation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if common_gaps %}
+            {% for gap in common_gaps %}
+              <tr>
+                <td class="ps-4 fw-bold text-dark">{{ gap.skill_name }}</td>
+                <td><span class="badge bg-light text-dark border">Level {{ gap.avg_required_level }}</span></td>
+                <td><span class="badge bg-info-subtle text-info">Level {{ gap.user_avg_level }}</span></td>
+                <td>
+                  <span class="badge-custom {% if gap.gap_magnitude > 1 %}badge-gap{% else %}badge-warning{% endif %}">
+                    -{{ gap.gap_magnitude }} Levels
+                  </span>
+                </td>
+                <td>{{ gap.job_count }} Active Openings</td>
+                <td class="pe-4">
+                  <span class="small text-muted">Mandate Level {{ gap.avg_required_level }} Training</span>
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="6" class="text-center py-4 text-muted">No high-friction skill gaps detected.</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Pending Project Reviews -->
+<div class="card-custom">
+  <div class="card-header-custom">
+    <h3 class="fs-5 fw-bold mb-0">Pending Hands-on Project Evaluations</h3>
+    <span class="badge bg-warning-subtle text-warning px-3 py-1">{{ pending_submissions.count }} Awaiting Verification</span>
+  </div>
+  <div class="card-body-custom p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th class="ps-4">Candidate</th>
+            <th>Project Title</th>
+            <th>Skill Category</th>
+            <th>Submitted</th>
+            <th>Artifact Links</th>
+            <th class="pe-4 text-end">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if pending_submissions %}
+            {% for proj in pending_submissions %}
+              <tr>
+                <td class="ps-4 fw-semibold">{{ proj.user.username }}</td>
+                <td>{{ proj.title }}</td>
+                <td><span class="badge bg-light text-dark border">{{ proj.skill.name }}</span></td>
+                <td class="small text-muted">{{ proj.submitted_at|date:"M d, Y" }}</td>
+                <td>
+                  <a href="{{ proj.github_url }}" target="_blank" class="small text-decoration-none me-2">
+                    <i class="fa-brands fa-github"></i> Repository
+                  </a>
+                  {% if proj.live_demo_url %}
+                    <a href="{{ proj.live_demo_url }}" target="_blank" class="small text-decoration-none">
+                      <i class="fa-solid fa-arrow-up-right-from-square"></i> Demo
+                    </a>
+                  {% endif %}
+                </td>
+                <td class="pe-4 text-end">
+                  <a href="{% url 'review_project' proj.id %}" class="btn-primary-custom btn-sm py-1 px-3">
+                    Evaluate & Score
+                  </a>
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="6" class="text-center py-4 text-muted">All submitted projects have been verified!</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Render Employment Donut Chart
+    const statusLabels = {{ status_labels_json|safe }};
+    const statusCounts = {{ status_counts_json|safe }};
+    SkillBridgeCharts.renderEmploymentDonut('employmentDonut', statusLabels, statusCounts);
+
+    // 2. Render Before vs After Impact Chart
+    const impactLabels = {{ impact_labels_json|safe }};
+    const impactBefore = {{ impact_before_json|safe }};
+    const impactAfter = {{ impact_after_json|safe }};
+
+    if (impactLabels && impactLabels.length > 0) {
+      SkillBridgeCharts.renderImpactChart('impactChart', impactLabels, impactBefore, impactAfter);
+    } else {
+      const container = document.getElementById('impactChart').parentElement;
+      container.innerHTML = `
+        <div class="empty-state-box p-4 text-center">
+          <i class="fa-solid fa-chart-line empty-icon fs-3"></i>
+          <p class="empty-title fs-6">No Longitudinal Re-Assessment Records</p>
+          <p class="empty-text small mb-0">As candidates complete courses and undertake re-assessments, their before/after improvements will populate automatically.</p>
+        </div>
+      `;
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Evaluate Project: {{ project.title }} - SkillBridge{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card-custom p-4 p-md-5">
+      <div class="mb-4">
+        <a href="{% url 'admin_dashboard' %}" class="small text-muted text-decoration-none">
+          <i class="fa-solid fa-arrow-left me-1"></i> Back to Admin Dashboard
+        </a>
+        <h1 class="fw-bold fs-3 text-dark mt-2 mb-1">Evaluate Hands-on Project</h1>
+        <p class="text-muted small">
+          Review candidate code quality, architecture, and live demo to score the submission
+        </p>
+      </div>
+
+      <!-- Project Metadata -->
+      <div class="p-3 bg-light rounded border mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="badge bg-primary text-white">{{ project.skill.name }}</span>
+          <span class="small text-muted">Submitted by: <strong>{{ project.user.username }}</strong></span>
+        </div>
+        <h4 class="fs-5 fw-bold text-dark mb-2">{{ project.title }}</h4>
+        <p class="small text-muted mb-3">{{ project.description }}</p>
+        
+        <div class="small mb-3">
+          <strong>Technologies:</strong> {{ project.technologies }}
+        </div>
+
+        <div class="d-flex gap-3 pt-2 border-top">
+          <a href="{{ project.github_url }}" target="_blank" class="btn btn-outline-dark btn-sm">
+            <i class="fa-brands fa-github me-1"></i> Open GitHub Repository
+          </a>
+          {% if project.live_demo_url %}
+            <a href="{{ project.live_demo_url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+              <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> View Live Demo
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Review Form -->
+      <form method="post" action="{% url 'review_project' project.id %}" data-loading="true">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-dark">Decision Status</label>
+          <select name="status" class="form-select select-custom" required>
+            <option value="approved" {% if project.status == 'approved' %}selected{% endif %}>Approve & Credit Verified Score</option>
+            <option value="under_review" {% if project.status == 'under_review' %}selected{% endif %}>Mark Under Review</option>
+            <option value="rejected" {% if project.status == 'rejected' %}selected{% endif %}>Reject (Changes Required)</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-dark">Assigned Score (0 - 100%)</label>
+          <input type="number" step="1" min="0" max="100" name="score" value="{{ project.score|default:80 }}" class="form-control input-custom" required>
+          <div class="form-text small">This score directly updates the candidate's verified skill score with a 30% weight factor.</div>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label small fw-semibold text-dark">Evaluator Feedback & Recommendations</label>
+          <textarea name="admin_feedback" class="form-control input-custom" rows="3" placeholder="Provide actionable feedback on architecture, tests, documentation, or code style.">{{ project.admin_feedback }}</textarea>
+        </div>
+
+        <button type="submit" class="btn-primary-custom px-4 py-2">
+          <i class="fa-solid fa-check me-1"></i> Save Evaluation Decision
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

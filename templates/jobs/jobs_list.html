@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Jobs & Skill Gap Benchmark - SkillBridge{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+  <div>
+    <h1 class="welcome-title">Industry Job Benchmarks</h1>
+    <p class="welcome-subtitle">Compare your verified proficiencies against real industry vacancies and discover your exact skill gaps</p>
+  </div>
+</div>
+
+<div class="row g-4">
+  {% for card in job_cards %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card-custom p-4 h-100 d-flex flex-column justify-content-between">
+        <div>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <span class="badge bg-secondary-subtle text-secondary">{{ card.job.department }}</span>
+            <span class="badge bg-light text-dark border">{{ card.job.experience_level }}</span>
+          </div>
+
+          <h3 class="fs-5 fw-bold text-dark mb-1">{{ card.job.title }}</h3>
+          <p class="text-muted small mb-3">{{ card.job.description|truncatewords:20 }}</p>
+
+          <div class="p-3 bg-light rounded border mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="small fw-bold text-dark">Job Readiness Match:</span>
+              <span class="small fw-bold {% if card.match_percentage >= 70 %}text-success{% elif card.match_percentage >= 40 %}text-warning{% else %}text-danger{% endif %}">
+                {{ card.match_percentage }}%
+              </span>
+            </div>
+            
+            <div class="progress-custom mb-2">
+              <div class="progress-bar-custom" style="width: {{ card.match_percentage }}%;"></div>
+            </div>
+
+            <div class="d-flex justify-content-between small text-muted">
+              <span><i class="fa-solid fa-circle-check text-success me-1"></i>{{ card.matched_count }} Matched</span>
+              <span><i class="fa-solid fa-triangle-exclamation text-danger me-1"></i>{{ card.gap_count }} Gaps</span>
+            </div>
+          </div>
+
+          <div class="small text-muted mb-2">
+            <i class="fa-solid fa-location-dot me-1"></i> {{ card.job.location }} &bull; 
+            <i class="fa-solid fa-indian-rupee-sign me-1"></i> {{ card.job.salary_range }}
+          </div>
+        </div>
+
+        <div class="pt-3 border-top">
+          <a href="{% url 'job_skill_gap_report' card.job.id %}" class="btn-primary-custom w-100 justify-content-center">
+            <i class="fa-solid fa-chart-column me-1"></i> View Skill-Gap Report
+          </a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

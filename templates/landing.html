@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% block title %}SkillBridge - Assess. Improve. Connect.{% endblock %}
+
+{% block public_content %}
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-pill">
+      <i class="fa-solid fa-sparkles"></i> Autonomous Skilling & Outcome Platform
+    </div>
+    
+    <h1 class="hero-title">
+      Discover Your <span class="gradient-text">Real Skills</span>.<br>
+      Bridge Every Career Gap.
+    </h1>
+    
+    <p class="hero-subtitle">
+      {{ BRAND_SUBTITLE }} Move beyond unverified certificates with rigorous practical assessments, dynamic job-gap matching, and verified employment outcomes.
+    </p>
+    
+    <div class="hero-actions">
+      <a href="{% url 'register' %}" class="btn-primary-custom px-4 py-3 fs-6">
+        <i class="fa-solid fa-rocket me-2"></i> Get Started Free
+      </a>
+      <a href="#lifecycle" class="btn-outline-custom px-4 py-3 fs-6">
+        <i class="fa-solid fa-arrows-spin me-2"></i> Explore Skilling Lifecycle
+      </a>
+    </div>
+
+    <!-- Micro Stats Banner -->
+    <div class="row justify-content-center mt-5 pt-3">
+      <div class="col-6 col-md-3 mb-3">
+        <div class="p-3 bg-white rounded-3 border shadow-sm">
+          <h3 class="fw-bold mb-0 text-primary">100%</h3>
+          <span class="text-muted small">Server-Verified Scores</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <div class="p-3 bg-white rounded-3 border shadow-sm">
+          <h3 class="fw-bold mb-0 text-success">Level 1 - 5</h3>
+          <span class="text-muted small">Granular Skill Taxonomy</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <div class="p-3 bg-white rounded-3 border shadow-sm">
+          <h3 class="fw-bold mb-0 text-info">Dynamic</h3>
+          <span class="text-muted small">Job Match Gap Engine</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3 mb-3">
+        <div class="p-3 bg-white rounded-3 border shadow-sm">
+          <h3 class="fw-bold mb-0 text-warning">Longitudinal</h3>
+          <span class="text-muted small">Post-Training Impact</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- The Complete 8-Stage Lifecycle Section -->
+<section class="lifecycle-section" id="lifecycle">
+  <div class="container">
+    <div class="lifecycle-header">
+      <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold mb-2">COMPLETE WORKFLOW</span>
+      <h2 class="fw-bold fs-2 mb-3">The SkillBridge Skilling Lifecycle</h2>
+      <p class="text-muted">
+        Bridging the gap between training and employment requires an end-to-end evidence pipeline.
+      </p>
+    </div>
+
+    <div class="lifecycle-grid">
+      <!-- 1. Claimed Skill -->
+      <div class="lifecycle-card">
+        <div class="step-number">1</div>
+        <div class="lifecycle-icon"><i class="fa-solid fa-tags"></i></div>
+        <h3 class="lifecycle-title">Claimed Skill</h3>
+        <p class="lifecycle-desc">Declare candidate abilities and upload existing certifications as unverified baselines.</p>
+      </div>
+
+      <!-- 2. Assess -->
+      <div class="lifecycle-card">
+        <div class="step-number">2</div>
+        <div class="lifecycle-icon"><i class="fa-solid fa-stopwatch-20"></i></div>
+        <h3 class="lifecycle-title">Assess</h3>
+        <p class="lifecycle-desc">Timed randomized MCQs with anti-cheating logic and practical coding challenges.</p>
+      </div>
+
+      <!-- 3. Verify -->
+      <div class="lifecycle-card">
+        <div class="step-number">3</div>
+        <div class="lifecycle-icon"><i class="fa-solid fa-shield-check"></i></div>
+        <h3 class="lifecycle-title">Verify</h3>
+        <p class="lifecycle-desc">Weighted server-side computation (MCQ 20%, Practical 50%, Project 30%) yielding verified scores.</p>
+      </div>
+
+      <!-- 4. Compare with Job -->
+      <div class="lifecycle-card">
+        <div class="step-number">4</div>
+        <div class="lifecycle-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+        <h3 class="lifecycle-title">Compare with Job</h3>
+        <p class="lifecycle-desc">Benchmark individual skill ratings against active industry role requirements.</p>
+      </div>
+
+      <!-- 5. Identify Skill Gap -->
+      <div class="lifecycle-card">
+        <div class="step-number">5</div>
+        <div class="lifecycle-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <h3 class="lifecycle-title">Identify Gap</h3>
+        <p class="lifecycle-desc">Calculate exact numeric deltas (Required Level minus Candidate Level) per required skill.</p>
+      </div>
+
+      <!-- 6. Train -->
+      <div class="lifecycle-card">
+        <div class="step-number">6</div>
+        <div class="lifecycle-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+        <h3 class="lifecycle-title">Recommend Training</h3>
+        <p class="lifecycle-desc">Direct enrollment into curriculum mapped directly to diagnosed skill deficiencies.</p>
+      </div>
+
+      <!-- 7. Re-Assess -->
+      <div class="lifecycle-card">
+        <div class="step-number">7</div>
+        <div class="lifecycle-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+        <h3 class="lifecycle-title">Re-Assess</h3>
+        <p class="lifecycle-desc">Post-training re-evaluation to quantify and visualize exact before vs after improvement delta.</p>
+      </div>
+
+      <!-- 8. Track & Analyze -->
+      <div class="lifecycle-card">
+        <div class="step-number">8</div>
+        <div class="lifecycle-icon"><i class="fa-solid fa-chart-pie"></i></div>
+        <h3 class="lifecycle-title">Track & Analyze</h3>
+        <p class="lifecycle-desc">Longitudinal employment verification and institutional skilling ROI analytics.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section" id="features">
+  <div class="text-center mb-5">
+    <span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill fw-bold mb-2">SYSTEM CAPABILITIES</span>
+    <h2 class="fw-bold fs-2">Built for Colleges, Students, and Administrators</h2>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="feature-box">
+        <div class="feature-icon-wrapper bg-primary-subtle text-primary">
+          <i class="fa-solid fa-check-double"></i>
+        </div>
+        <h3 class="fs-5 fw-bold mb-2">Claimed vs Verified Skills</h3>
+        <p class="text-muted small">
+          Never confuse paper certificates with real competency. The system explicitly separates claimed knowledge from demonstrated code and assessment scores.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="feature-box">
+        <div class="feature-icon-wrapper bg-info-subtle text-info">
+          <i class="fa-solid fa-crosshairs"></i>
+        </div>
+        <h3 class="fs-5 fw-bold mb-2">Mathematical Skill-Gap Engine</h3>
+        <p class="text-muted small">
+          No generic advice. Clear level comparisons (Beginner to Expert) showing exact gaps between student profiles and job vacancies.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="feature-box">
+        <div class="feature-icon-wrapper bg-success-subtle text-success">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <h3 class="fs-5 fw-bold mb-2">Longitudinal Impact Analytics</h3>
+        <p class="text-muted small">
+          Evaluate skilling programs objectively by measuring cohort completion rates, score jumps, placement ratios, and salary distributions.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action Banner -->
+<section class="py-5 bg-light border-top">
+  <div class="container text-center py-4">
+    <h2 class="fw-bold mb-3">Ready to Measure and Elevate Career Readiness?</h2>
+    <p class="text-muted max-w-600 mx-auto mb-4">
+      Join SkillBridge today to benchmark skills, resolve critical gaps, and unlock verifiable career opportunities.
+    </p>
+    <a href="{% url 'register' %}" class="btn-primary-custom px-5 py-3 fs-6">
+      Create Free Account Now
+    </a>
+  </div>
+</section>
+{% endblock %}

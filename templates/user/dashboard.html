@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+
+{% block title %}Candidate Dashboard - SkillBridge{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+  <div>
+    <h1 class="welcome-title">Candidate Dashboard</h1>
+    <p class="welcome-subtitle">Overview of your real competencies, job benchmarks, and skill improvements</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a href="{% url 'assessment_catalog' %}" class="btn-primary-custom">
+      <i class="fa-solid fa-play me-1"></i> Take Assessment
+    </a>
+    <a href="{% url 'skills_dashboard' %}" class="btn-outline-custom">
+      <i class="fa-solid fa-plus me-1"></i> Add Claimed Skill
+    </a>
+  </div>
+</div>
+
+<!-- Career Readiness Banner Card -->
+<div class="readiness-card">
+  <div class="readiness-info">
+    <span class="badge bg-white bg-opacity-25 text-white mb-2 px-3 py-1 fw-bold">EVIDENCE-BASED INDEX</span>
+    <h2 class="readiness-title">Career Readiness Index: {{ readiness_score }}/100</h2>
+    <p class="readiness-desc">
+      Your career readiness score is algorithmically derived from your verified skill evaluations (40%), target job requirement alignment (30%), completed curriculum modules (15%), and approved hands-on projects (15%).
+    </p>
+    <div class="d-flex align-items-center gap-3">
+      {% if best_match_job %}
+        <span class="badge bg-primary text-white p-2">
+          <i class="fa-solid fa-bullseye me-1"></i> Target Job: {{ best_match_job.title }} ({{ best_match_percent }}% match)
+        </span>
+      {% else %}
+        <span class="badge bg-light text-dark p-2">Select a target job in the jobs portal</span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="circular-progress-container text-white">
+    <svg width="130" height="130" viewBox="0 0 130 130">
+      <circle class="circle-bg" cx="65" cy="65" r="52"></circle>
+      <circle class="circle-bar" cx="65" cy="65" r="52" stroke="#38bdf8" data-score="{{ readiness_score }}"></circle>
+    </svg>
+    <div class="circle-text">
+      <div class="circle-score text-white">{{ readiness_score }}%</div>
+      <div class="circle-caption text-light">Readiness</div>
+    </div>
+  </div>
+</div>
+
+<!-- 6 Macro Metric Summary Cards -->
+<div class="stats-grid">
+  <!-- 1. Verified Skills -->
+  <div class="stat-card stagger-fade">
+    <div class="stat-icon primary">
+      <i class="fa-solid fa-shield-check"></i>
+    </div>
+    <div class="stat-value count-up" data-target="{{ verified_count }}">{{ verified_count }}</div>
+    <div class="stat-label">Verified Skills</div>
+    <div class="mt-2 small text-muted">
+      Demonstrated through assessments
+    </div>
+  </div>
+
+  <!-- 2. Average Score -->
+  <div class="stat-card stagger-fade">
+    <div class="stat-icon info">
+      <i class="fa-solid fa-chart-simple"></i>
+    </div>
+    <div class="stat-value count-up" data-target="{{ avg_score }}" data-is-float="true" data-suffix="%">{{ avg_score }}%</div>
+    <div class="stat-label">Average Skill Score</div>
+    <div class="mt-2 small text-muted">
+      Across verified domains
+    </div>
+  </div>
+
+  <!-- 3. Job Match -->
+  <div class="stat-card stagger-fade">
+    <div class="stat-icon success">
+      <i class="fa-solid fa-briefcase"></i>
+    </div>
+    <div class="stat-value count-up" data-target="{{ best_match_percent }}" data-suffix="%">{{ best_match_percent }}%</div>
+    <div class="stat-label">Top Job Match</div>
+    <div class="mt-2 small text-muted">
+      {{ best_match_job.title|default:"No target job" }}
+    </div>
+  </div>
+
+  <!-- 4. Active Skill Gaps -->
+  <div class="stat-card stagger-fade">
+    <div class="stat-icon danger">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+    </div>
+    <div class="stat-value count-up" data-target="{{ gap_count }}">{{ gap_count }}</div>
+    <div class="stat-label">Active Skill Gaps</div>
+    <div class="mt-2 small text-muted">
+      Missing for target position
+    </div>
+  </div>
+
+  <!-- 5. Training Progress -->
+  <div class="stat-card stagger-fade">
+    <div class="stat-icon warning">
+      <i class="fa-solid fa-graduation-cap"></i>
+    </div>
+    <div class="stat-value count-up" data-target="{{ training_pct }}" data-suffix="%">{{ training_pct }}%</div>
+    <div class="stat-label">Training Progress</div>
+    <div class="mt-2 small text-muted">
+      {{ completed_training }}/{{ total_enrollments }} courses completed
+    </div>
+  </div>
+
+  <!-- 6. Employment Status -->
+  <div class="stat-card stagger-fade">
+    <div class="stat-icon secondary">
+      <i class="fa-solid fa-building-user"></i>
+    </div>
+    <div class="fs-5 fw-bold text-dark mt-1 mb-1">
+      <span class="badge bg-secondary-subtle text-secondary px-2 py-1">
+        {{ emp_record.get_status_display }}
+      </span>
+    </div>
+    <div class="stat-label">Employment Status</div>
+    <div class="mt-2 small text-muted">
+      {% if emp_record.company_name %}{{ emp_record.company_name }}{% else %}Self-reported{% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Main Split Section: Chart & Activities -->
+<div class="dashboard-main-grid">
+  <!-- Left Column: Competency Comparison Chart -->
+  <div class="card-custom">
+    <div class="card-header-custom">
+      <h3 class="fs-5 fw-bold mb-0">Claimed vs Verified Competencies</h3>
+      <a href="{% url 'skills_dashboard' %}" class="small text-decoration-none fw-semibold">View All Skills &rarr;</a>
+    </div>
+    <div class="card-body-custom">
+      <p class="text-muted small mb-3">
+        Direct comparison showing self-claimed skill confidence compared against objective server-evaluated assessment scores.
+      </p>
+      <div style="height: 320px; position: relative;">
+        <canvas id="userSkillsChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column: Recent Activity Timeline -->
+  <div class="card-custom">
+    <div class="card-header-custom">
+      <h3 class="fs-5 fw-bold mb-0">Recent Skilling Milestones</h3>
+    </div>
+    <div class="card-body-custom">
+      {% if activities %}
+        <ul class="timeline-list">
+          {% for act in activities %}
+            <li class="timeline-item">
+              <div class="timeline-dot"><i class="{{ act.icon }}"></i></div>
+              <div class="timeline-content">
+                <div class="timeline-title">{{ act.title }}</div>
+                <div class="text-muted small mb-1">{{ act.desc }}</div>
+                <div class="timeline-meta"><i class="fa-regular fa-clock me-1"></i>{{ act.date|date:"M d, Y" }}</div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <div class="empty-state-box p-4">
+          <i class="fa-solid fa-clock-rotate-left empty-icon fs-3"></i>
+          <p class="empty-title fs-6">No Activity Yet</p>
+          <p class="empty-text small mb-3">Take an assessment or enroll in training to see your progress timeline.</p>
+          <a href="{% url 'assessment_catalog' %}" class="btn-primary-custom btn-sm">Take First Assessment</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Row: Top Skill Gaps & Recommended Training -->
+<div class="row g-4">
+  <!-- Top 3 Skill Gaps -->
+  <div class="col-lg-6">
+    <div class="card-custom h-100">
+      <div class="card-header-custom">
+        <h3 class="fs-5 fw-bold mb-0">Priority Skill Gaps ({{ best_match_job.title|default:"Industry Benchmark" }})</h3>
+        <a href="{% url 'jobs_list' %}" class="small fw-semibold">All Jobs &rarr;</a>
+      </div>
+      <div class="card-body-custom">
+        {% if top_gaps %}
+          <div class="d-flex flex-column gap-3">
+            {% for gap in top_gaps %}
+              <div class="p-3 rounded border bg-light d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <div>
+                  <h4 class="fs-6 fw-bold mb-1">{{ gap.skill.name }}</h4>
+                  <div class="small text-muted">
+                    Required: <span class="fw-semibold text-dark">{{ gap.required_level_name }}</span> &bull; 
+                    Current: <span class="fw-semibold text-danger">{{ gap.user_level_name }}</span>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge-custom badge-gap">
+                    Gap: -{{ gap.gap }} Level{% if gap.gap > 1 %}s{% endif %}
+                  </span>
+                  <a href="{% url 'training_catalog' %}" class="btn-primary-custom btn-sm py-1 px-2 text-nowrap">
+                    Train
+                  </a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="p-4 text-center text-muted">
+            <i class="fa-solid fa-circle-check text-success fs-2 mb-2"></i>
+            <p class="mb-0 fw-semibold text-dark">No Immediate Skill Gaps Identified!</p>
+            <p class="small mb-0">Your verified competencies fulfill all primary criteria for your current target role.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Recommended Training Courses -->
+  <div class="col-lg-6">
+    <div class="card-custom h-100">
+      <div class="card-header-custom">
+        <h3 class="fs-5 fw-bold mb-0">Recommended Upskilling Courses</h3>
+        <a href="{% url 'training_catalog' %}" class="small fw-semibold">View Catalog &rarr;</a>
+      </div>
+      <div class="card-body-custom">
+        {% if recommended_courses %}
+          <div class="d-flex flex-column gap-3">
+            {% for course in recommended_courses %}
+              <div class="p-3 rounded border d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <div>
+                  <h4 class="fs-6 fw-bold mb-1">{{ course.name }}</h4>
+                  <div class="small text-muted">
+                    Skill: <span class="fw-medium text-dark">{{ course.skill.name }}</span> &bull; 
+                    Target: <span class="badge bg-light text-dark border">{{ course.get_target_level_display }}</span> &bull;
+                    {{ course.duration }}
+                  </div>
+                </div>
+                <a href="{% url 'enroll_course' course.id %}" class="btn-outline-custom btn-sm py-1 px-3">
+                  Enroll
+                </a>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="p-4 text-center text-muted">
+            <i class="fa-solid fa-book-open text-primary fs-2 mb-2"></i>
+            <p class="mb-0 fw-semibold text-dark">All Recommended Courses Enrolled</p>
+            <p class="small mb-0">Check your <a href="{% url 'my_training' %}">active courses</a> to continue learning.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const labels = {{ skill_chart_labels|safe }};
+    const claimed = {{ skill_chart_claimed|safe }};
+    const verified = {{ skill_chart_verified|safe }};
+
+    if (labels && labels.length > 0) {
+      SkillBridgeCharts.renderUserSkillsChart('userSkillsChart', labels, claimed, verified);
+    } else {
+      const container = document.getElementById('userSkillsChart').parentElement;
+      container.innerHTML = `
+        <div class="empty-state-box p-4 text-center">
+          <i class="fa-solid fa-chart-column empty-icon fs-3"></i>
+          <p class="empty-title fs-6">No Skill Data Available</p>
+          <p class="empty-text small mb-2">Claim or verify your skills to view graphical competency comparisons.</p>
+          <a href="{% url 'skills_dashboard' %}" class="btn-primary-custom btn-sm">Add Skills Now</a>
+        </div>
+      `;
+    }
+  });
+</script>
+{% endblock %}

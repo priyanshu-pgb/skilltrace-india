@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block title %}Assessments Catalog - SkillBridge{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+  <div>
+    <h1 class="welcome-title">Assessment & Verification Center</h1>
+    <p class="welcome-subtitle">Evidence-based competency evaluations through randomized MCQs and real practical coding tasks</p>
+  </div>
+</div>
+
+<!-- Tabs: MCQs vs Practical Tasks -->
+<ul class="nav nav-pills mb-4 gap-2" id="assessmentTabs" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active fw-semibold" id="mcq-tab" data-bs-toggle="pill" data-bs-target="#mcq-pane" type="button" role="tab">
+      <i class="fa-solid fa-list-check me-2"></i> Standard MCQ Assessments
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link fw-semibold" id="practical-tab" data-bs-toggle="pill" data-bs-target="#practical-pane" type="button" role="tab">
+      <i class="fa-solid fa-code me-2"></i> Practical Coding Tasks (50% Weight)
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link fw-semibold" id="history-tab" data-bs-toggle="pill" data-bs-target="#history-pane" type="button" role="tab">
+      <i class="fa-solid fa-clock-rotate-left me-2"></i> Attempt History
+    </button>
+  </li>
+</ul>
+
+<div class="tab-content" id="assessmentTabContent">
+  <!-- MCQ Tab Pane -->
+  <div class="tab-pane fade show active" id="mcq-pane" role="tabpanel">
+    <div class="row g-4">
+      {% for sk in skills %}
+        <div class="col-md-6 col-lg-4">
+          <div class="card-custom p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="stat-icon primary mb-0" style="width: 44px; height: 44px; font-size: 1.15rem;">
+                  <i class="{{ sk.icon_class }}"></i>
+                </div>
+                <div>
+                  <h3 class="fs-5 fw-bold mb-0 text-dark">{{ sk.name }}</h3>
+                  <span class="badge bg-light text-muted border small">{{ sk.get_category_display }}</span>
+                </div>
+              </div>
+              <p class="text-muted small mb-3">
+                Timed 10-minute assessment consisting of 10 randomized single-attempt questions with difficulty calibration.
+              </p>
+              <div class="p-2 bg-light rounded border small mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="text-muted">Questions:</span>
+                  <span class="fw-semibold">10 Randomized</span>
+                </div>
+                <div class="d-flex justify-content-between mb-1">
+                  <span class="text-muted">Time Limit:</span>
+                  <span class="fw-semibold">10 Minutes</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">Evaluation:</span>
+                  <span class="fw-semibold text-primary">Server-Side Scoring</span>
+                </div>
+              </div>
+            </div>
+
+            <a href="{% url 'start_assessment' sk.id %}" class="btn-primary-custom w-100 justify-content-center">
+              <i class="fa-solid fa-play"></i> Start Assessment
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Practical Tasks Pane -->
+  <div class="tab-pane fade" id="practical-pane" role="tabpanel">
+    <div class="row g-4">
+      {% for task in practicals %}
+        <div class="col-md-6 col-lg-6">
+          <div class="card-custom p-4 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="badge bg-primary text-white">{{ task.skill.name }}</span>
+                <span class="badge-custom badge-warning">{{ task.get_difficulty_display }}</span>
+              </div>
+              <h3 class="fs-5 fw-bold text-dark mb-2">{{ task.title }}</h3>
+              <p class="text-muted small mb-3">{{ task.description }}</p>
+
+              <div class="p-3 bg-light rounded border small mb-3 font-monospace">
+                <span class="fw-bold d-block text-dark mb-1">Requirements:</span>
+                {{ task.requirements|linebreaksbr }}
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-between pt-2 border-top">
+              <span class="small text-muted"><i class="fa-solid fa-flask me-1"></i>{{ task.test_cases_count }} Test Cases</span>
+              <a href="{% url 'practical_workspace' task.id %}" class="btn-primary-custom btn-sm">
+                <i class="fa-solid fa-terminal me-1"></i> Open Coding Workspace
+              </a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="col-12">
+          <div class="empty-state-box">
+            <i class="fa-solid fa-laptop-code empty-icon"></i>
+            <h4 class="empty-title">Practical Challenges Coming Soon</h4>
+            <p class="empty-text">Practical tasks are being added to the database.</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- History Pane -->
+  <div class="tab-pane fade" id="history-pane" role="tabpanel">
+    <div class="card-custom p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="ps-4">Skill Domain</th>
+              <th>Assessment Type</th>
+              <th>Score</th>
+              <th>Correct Answers</th>
+              <th>Date Taken</th>
+              <th class="pe-4 text-end">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for att in recent_attempts %}
+              <tr>
+                <td class="ps-4 fw-bold">{{ att.skill.name }}</td>
+                <td><span class="badge bg-light text-dark border">{{ att.get_attempt_type_display }}</span></td>
+                <td>
+                  <span class="fw-bold {% if att.score_percent >= 70 %}text-success{% elif att.score_percent >= 40 %}text-warning{% else %}text-danger{% endif %}">
+                    {{ att.score_percent }}%
+                  </span>
+                </td>
+                <td>{{ att.correct_answers }} / {{ att.total_questions }}</td>
+                <td class="small text-muted">{{ att.completed_at|date:"M d, Y - H:i" }}</td>
+                <td class="pe-4 text-end">
+                  <a href="{% url 'assessment_result' att.id %}" class="btn-outline-custom btn-sm py-1 px-2">
+                    Review Answers
+                  </a>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="6" class="text-center py-4 text-muted">No completed attempts recorded yet.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

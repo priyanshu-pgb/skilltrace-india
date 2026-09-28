@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Access Denied (403) - SkillBridge{% endblock %}
+
+{% block public_content %}
+<div class="container py-5 text-center my-auto">
+  <div class="py-5">
+    <div class="display-1 fw-bold text-danger mb-3">403</div>
+    <h1 class="fw-bold fs-2 mb-2">Access Denied</h1>
+    <p class="text-muted max-w-500 mx-auto mb-4">
+      You do not have administrative or authorization privileges to access this area of SkillBridge.
+    </p>
+    <a href="{% url 'dashboard_router' %}" class="btn-primary-custom px-4 py-2">
+      <i class="fa-solid fa-arrow-left me-2"></i> Go to My Dashboard
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,132 @@
+<aside class="sidebar" id="appSidebar" aria-label="Sidebar Navigation">
+  <!-- Brand Header -->
+  <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
+    <a href="{% url 'landing' %}" class="brand-logo text-decoration-none">
+      <div class="brand-icon-box">
+        <i class="fa-solid fa-bolt-lightning"></i>
+      </div>
+      <span>{{ BRAND_NAME }}</span>
+    </a>
+  </div>
+
+  <!-- Role Status Indicator -->
+  <div class="px-3 py-2 my-2 mx-3 rounded bg-light border text-center">
+    <span class="small text-muted d-block">ACTIVE ROLE</span>
+    <span class="fw-bold small {% if user.is_admin_role %}text-primary{% else %}text-success{% endif %}">
+      <i class="fa-solid {% if user.is_admin_role %}fa-shield-halved{% else %}fa-user-graduate{% endif %} me-1"></i>
+      {% if user.is_admin_role %}SYSTEM ADMIN{% else %}STUDENT / CANDIDATE{% endif %}
+    </span>
+  </div>
+
+  <!-- Navigation Menu -->
+  <div class="flex-grow-1 overflow-auto py-2 px-3">
+    <ul class="nav flex-column gap-1">
+      
+      {% if user.is_admin_role %}
+        <!-- Admin Routes -->
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'admin_dashboard' %}">
+            <i class="fa-solid fa-chart-line text-primary"></i> Admin Analytics
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'skills_dashboard' %}">
+            <i class="fa-solid fa-layer-group text-info"></i> Manage Skills
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'assessment_catalog' %}">
+            <i class="fa-solid fa-clipboard-check text-success"></i> Question Banks
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'project_list' %}">
+            <i class="fa-solid fa-diagram-project text-warning"></i> Project Reviews
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'jobs_list' %}">
+            <i class="fa-solid fa-briefcase text-secondary"></i> Job Requirements
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'training_catalog' %}">
+            <i class="fa-solid fa-graduation-cap text-primary"></i> Training Initiatives
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'employment_tracker' %}">
+            <i class="fa-solid fa-building-user text-success"></i> Employment Audits
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="/admin/" target="_blank">
+            <i class="fa-solid fa-sliders text-danger"></i> Django Admin Portal
+          </a>
+        </li>
+      {% else %}
+        <!-- Candidate / Student Routes -->
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'user_dashboard' %}">
+            <i class="fa-solid fa-house text-primary"></i> Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'skills_dashboard' %}">
+            <i class="fa-solid fa-award text-info"></i> My Skills
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'assessment_catalog' %}">
+            <i class="fa-solid fa-clipboard-question text-success"></i> Assessments
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'project_list' %}">
+            <i class="fa-solid fa-diagram-project text-warning"></i> Projects
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'jobs_list' %}">
+            <i class="fa-solid fa-briefcase text-secondary"></i> Jobs & Skill Gaps
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'training_catalog' %}">
+            <i class="fa-solid fa-book-open-reader text-primary"></i> Training
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'reassessment_overview' %}">
+            <i class="fa-solid fa-arrow-trend-up text-success"></i> Re-assessment
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'employment_tracker' %}">
+            <i class="fa-solid fa-building text-info"></i> Employment
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'profile' %}">
+            <i class="fa-solid fa-id-card text-muted"></i> My Profile
+          </a>
+        </li>
+      {% endif %}
+
+    </ul>
+  </div>
+
+  <!-- Logout Footer -->
+  <div class="p-3 border-top">
+    <a href="{% url 'logout' %}" class="btn btn-outline-danger w-100 btn-sm py-2 d-flex align-items-center justify-content-center gap-2">
+      <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+    </a>
+  </div>
+</aside>
+
+<style>
+  .hover-bg:hover {
+    background-color: var(--surface-alt);
+    color: var(--primary) !important;
+  }
+</style>

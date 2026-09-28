@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}Assessment Result: {{ attempt.skill.name }} - SkillBridge{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-9">
+    <!-- Result Header Card -->
+    <div class="card-custom p-4 text-center mb-4">
+      <div class="stat-icon mx-auto mb-3 {% if attempt.score_percent >= 70 %}success{% elif attempt.score_percent >= 40 %}warning{% else %}danger{% endif %}" style="width: 64px; height: 64px; font-size: 1.75rem;">
+        {% if attempt.score_percent >= 70 %}
+          <i class="fa-solid fa-trophy"></i>
+        {% elif attempt.score_percent >= 40 %}
+          <i class="fa-solid fa-medal"></i>
+        {% else %}
+          <i class="fa-solid fa-rotate-right"></i>
+        {% endif %}
+      </div>
+
+      <span class="badge-custom {% if attempt.score_percent >= 70 %}badge-verified{% else %}badge-warning{% endif %} mb-2">
+        Evaluation Completed
+      </span>
+
+      <h1 class="fw-bold fs-2 text-dark mb-1">{{ attempt.skill.name }} Assessment Result</h1>
+      <p class="text-muted small mb-4">Completed on {{ attempt.completed_at|date:"F d, Y - H:i" }}</p>
+
+      <div class="row justify-content-center g-3 mb-4">
+        <div class="col-sm-4">
+          <div class="p-3 bg-light rounded border">
+            <span class="text-muted small d-block mb-1">SCORE PERCENTAGE</span>
+            <span class="fs-2 fw-bold {% if attempt.score_percent >= 70 %}text-success{% elif attempt.score_percent >= 40 %}text-warning{% else %}text-danger{% endif %}">
+              {{ attempt.score_percent }}%
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="p-3 bg-light rounded border">
+            <span class="text-muted small d-block mb-1">ACCURACY</span>
+            <span class="fs-2 fw-bold text-dark">
+              {{ attempt.correct_answers }} / {{ attempt.total_questions }}
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="p-3 bg-light rounded border">
+            <span class="text-muted small d-block mb-1">UNLOCKED VERIFIED LEVEL</span>
+            <span class="fs-2 fw-bold text-primary">
+              {{ user_skill.verified_level_name }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center gap-2 flex-wrap">
+        <a href="{% url 'skills_dashboard' %}" class="btn-primary-custom">
+          <i class="fa-solid fa-award me-1"></i> View Skills Portfolio
+        </a>
+        <a href="{% url 'jobs_list' %}" class="btn-outline-custom">
+          <i class="fa-solid fa-briefcase me-1"></i> Check Job Matches
+        </a>
+      </div>
+    </div>
+
+    <!-- Detailed Question Breakdown -->
+    <div class="card-custom p-4 mb-4">
+      <h3 class="fs-5 fw-bold mb-4">Detailed Question Breakdown & Explanations</h3>
+
+      <div class="d-flex flex-column gap-4">
+        {% for ans in answers %}
+          <div class="p-3 rounded border {% if ans.is_correct %}border-success-subtle bg-success-subtle bg-opacity-10{% else %}border-danger-subtle bg-danger-subtle bg-opacity-10{% endif %}">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="badge bg-light text-dark border">Question {{ forloop.counter }}</span>
+              {% if ans.is_correct %}
+                <span class="badge bg-success text-white"><i class="fa-solid fa-check me-1"></i> Correct (+1)</span>
+              {% else %}
+                <span class="badge bg-danger text-white"><i class="fa-solid fa-xmark me-1"></i> Incorrect (0)</span>
+              {% endif %}
+            </div>
+
+            <p class="fw-semibold text-dark mb-3">{{ ans.question.text }}</p>
+
+            <div class="small mb-3">
+              <div class="mb-1">
+                <strong>Your Answer:</strong> 
+                <span class="{% if ans.is_correct %}text-success fw-bold{% else %}text-danger fw-bold{% endif %}">
+                  Option {{ ans.selected_option|upper|default:"Not Answered" }}
+                </span>
+              </div>
+              <div>
+                <strong>Correct Answer:</strong> 
+                <span class="text-success fw-bold">Option {{ ans.question.correct_option|upper }}</span>
+              </div>
+            </div>
+
+            {% if ans.question.explanation %}
+              <div class="p-2 rounded bg-white border small text-muted">
+                <i class="fa-solid fa-lightbulb text-warning me-1"></i>
+                <strong>Explanation:</strong> {{ ans.question.explanation }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

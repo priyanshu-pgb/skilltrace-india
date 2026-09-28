@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Submit Project for Verification - SkillBridge{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card-custom p-4 p-md-5">
+      <div class="mb-4">
+        <a href="{% url 'project_list' %}" class="small text-muted text-decoration-none">
+          <i class="fa-solid fa-arrow-left me-1"></i> Back to Projects
+        </a>
+        <h1 class="fw-bold fs-3 text-dark mt-2 mb-1">Submit Project for Verification</h1>
+        <p class="text-muted small">
+          Projects provide practical proof of competence and contribute 30% towards your verified skill score.
+        </p>
+      </div>
+
+      <form method="post" action="{% url 'submit_project' %}" data-loading="true">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-dark">Project Title</label>
+          <input type="text" name="title" class="form-control input-custom" placeholder="e.g. Real-Time Analytics Dashboard with Django" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-dark">Primary Skill to Verify</label>
+          <select name="skill_id" class="form-select select-custom" required>
+            {% for sk in skills %}
+              <option value="{{ sk.id }}">{{ sk.name }} ({{ sk.get_category_display }})</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-dark">Description & Features</label>
+          <textarea name="description" class="form-control input-custom" rows="4" placeholder="Explain the problem solved, architecture design, and core implementation details." required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small fw-semibold text-dark">Technologies & Frameworks</label>
+          <input type="text" name="technologies" class="form-control input-custom" placeholder="e.g. Python, Django, MySQL, Bootstrap 5, Chart.js" required>
+        </div>
+
+        <div class="row g-3 mb-4">
+          <div class="col-sm-6">
+            <label class="form-label small fw-semibold text-dark">GitHub Repository URL</label>
+            <input type="url" name="github_url" class="form-control input-custom" placeholder="https://github.com/username/project" required>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label small fw-semibold text-dark">Live Deployment URL (Optional)</label>
+            <input type="url" name="live_demo_url" class="form-control input-custom" placeholder="https://my-app.live">
+          </div>
+        </div>
+
+        <div class="p-3 bg-light rounded border small text-muted mb-4">
+          <i class="fa-solid fa-triangle-exclamation text-warning me-1"></i>
+          <strong>Submission Notice:</strong> Your submission will be evaluated by an administrator or peer reviewer. Scores will directly reflect in your SkillBridge verified score upon approval.
+        </div>
+
+        <button type="submit" class="btn-primary-custom px-4 py-2">
+          <i class="fa-solid fa-paper-plane me-1"></i> Submit for Verification
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

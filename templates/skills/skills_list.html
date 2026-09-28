@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block title %}My Skills - Claimed vs Verified - SkillBridge{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+  <div>
+    <h1 class="welcome-title">My Skills Portfolio</h1>
+    <p class="welcome-subtitle">Transparent distinction between self-claimed abilities and evidence-backed verified proficiencies</p>
+  </div>
+  <div class="d-flex gap-2">
+    <button class="btn-primary-custom" data-bs-toggle="modal" data-bs-target="#claimSkillModal">
+      <i class="fa-solid fa-plus me-1"></i> Add / Claim Skill
+    </button>
+    <a href="{% url 'assessment_catalog' %}" class="btn-outline-custom">
+      <i class="fa-solid fa-clipboard-check me-1"></i> Take Verification Assessment
+    </a>
+  </div>
+</div>
+
+<!-- Distinction Banner -->
+<div class="alert alert-info border-info-subtle d-flex align-items-center gap-3 mb-4">
+  <i class="fa-solid fa-circle-info fs-4 text-info"></i>
+  <div>
+    <span class="fw-bold">Claimed vs. Verified Distinction:</span>
+    A claimed skill reflects your self-assessed confidence level. A verified skill requires demonstrated competence across objective MCQs (20%), hands-on practical tasks (50%), and reviewed projects (30%).
+  </div>
+</div>
+
+<!-- Skills Cards Grid -->
+<div class="row g-4 mb-4">
+  {% if user_skills %}
+    {% for us in user_skills %}
+      <div class="col-md-6 col-xl-4">
+        <div class="card-custom h-100 p-4 d-flex flex-column justify-content-between">
+          <div>
+            <!-- Header: Icon & Status Badge -->
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="d-flex align-items-center gap-2">
+                <div class="stat-icon primary mb-0" style="width: 40px; height: 40px; font-size: 1rem;">
+                  <i class="{{ us.skill.icon_class }}"></i>
+                </div>
+                <h3 class="fs-5 fw-bold mb-0 text-dark">{{ us.skill.name }}</h3>
+              </div>
+              
+              {% if us.is_verified %}
+                <span class="badge-custom badge-verified">
+                  <i class="fa-solid fa-shield-check"></i> Verified
+                </span>
+              {% else %}
+                <span class="badge-custom badge-claimed">
+                  <i class="fa-regular fa-bookmark"></i> Claimed Only
+                </span>
+              {% endif %}
+            </div>
+
+            <!-- Claimed Level -->
+            <div class="p-2 rounded bg-light border mb-3 small d-flex justify-content-between align-items-center">
+              <span class="text-muted">Self-Reported Claim:</span>
+              <span class="fw-bold text-dark">{{ us.get_claimed_level_display }} (Level {{ us.claimed_level }})</span>
+            </div>
+
+            <!-- Verified Status / Breakdown -->
+            {% if us.is_verified %}
+              <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <span class="small fw-semibold text-dark">Verified Competency:</span>
+                  <span class="small fw-bold text-primary">{{ us.verified_score }}% ({{ us.verified_level_name }})</span>
+                </div>
+                <div class="progress-custom">
+                  <div class="progress-bar-custom" style="width: {{ us.verified_score }}%;"></div>
+                </div>
+              </div>
+
+              <!-- Component Breakdown -->
+              <div class="row g-2 text-center small mb-3">
+                <div class="col-4">
+                  <div class="p-1 rounded bg-light border">
+                    <div class="text-muted" style="font-size: 0.7rem;">MCQ (20%)</div>
+                    <div class="fw-bold">{{ us.mcq_score }}%</div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="p-1 rounded bg-light border">
+                    <div class="text-muted" style="font-size: 0.7rem;">Practical (50%)</div>
+                    <div class="fw-bold">{{ us.practical_score }}%</div>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="p-1 rounded bg-light border">
+                    <div class="text-muted" style="font-size: 0.7rem;">Project (30%)</div>
+                    <div class="fw-bold">{{ us.project_score }}%</div>
+                  </div>
+                </div>
+              </div>
+            {% else %}
+              <div class="p-3 rounded border border-dashed text-center bg-light mb-3">
+                <i class="fa-solid fa-lock text-muted mb-1"></i>
+                <p class="small text-muted mb-0">Unverified Competency</p>
+                <span class="small text-muted" style="font-size: 0.75rem;">Complete an assessment to unlock your official verification score</span>
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- Action Footer -->
+          <div class="pt-2 border-top d-flex gap-2">
+            <a href="{% url 'start_assessment' us.skill.id %}" class="btn-primary-custom btn-sm flex-grow-1 justify-content-center">
+              <i class="fa-solid fa-play"></i> {% if us.is_verified %}Re-Assess{% else %}Verify Now{% endif %}
+            </a>
+            <a href="{% url 'project_list' %}" class="btn-outline-custom btn-sm" title="Submit Project for this skill">
+              <i class="fa-solid fa-folder-open"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="col-12">
+      <div class="empty-state-box">
+        <i class="fa-solid fa-award empty-icon"></i>
+        <h3 class="empty-title">No Skills Added Yet</h3>
+        <p class="empty-text">Add skills that you currently possess or are learning to benchmark against industry job roles.</p>
+        <button class="btn-primary-custom" data-bs-toggle="modal" data-bs-target="#claimSkillModal">
+          <i class="fa-solid fa-plus me-1"></i> Add Your First Skill
+        </button>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<!-- Modal: Claim or Update Skill -->
+<div class="modal fade" id="claimSkillModal" tabindex="-1" aria-labelledby="claimSkillModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: var(--radius-lg);">
+      <div class="modal-header border-bottom">
+        <h5 class="modal-title fw-bold" id="claimSkillModalLabel">Claim a Skill</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" action="{% url 'claim_skill' %}">
+        {% csrf_token %}
+        <div class="modal-body p-4">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-dark">Select Skill Domain</label>
+            <select name="skill_id" class="form-select select-custom" required>
+              {% for sk in available_skills %}
+                <option value="{{ sk.id }}">{{ sk.name }} ({{ sk.get_category_display }})</option>
+              {% empty %}
+                {% for us in user_skills %}
+                  <option value="{{ us.skill.id }}">Update {{ us.skill.name }}</option>
+                {% endfor %}
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-dark">Self-Reported Claimed Level</label>
+            <select name="claimed_level" class="form-select select-custom">
+              <option value="1">Level 1 - Beginner (Foundational exposure)</option>
+              <option value="2">Level 2 - Basic (Can complete guided tasks)</option>
+              <option value="3" selected>Level 3 - Intermediate (Can build independent features)</option>
+              <option value="4">Level 4 - Advanced (Production-grade competence)</option>
+              <option value="5">Level 5 - Expert (Architecture, optimization, mentoring)</option>
+            </select>
+            <div class="form-text small">
+              This sets your starting claimed benchmark. You will need to take an assessment to achieve a Verified status.
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-top bg-light">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn-primary-custom">Save to Portfolio</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}My Training Progress - SkillBridge{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+  <div>
+    <h1 class="welcome-title">My Training Progress</h1>
+    <p class="welcome-subtitle">Track your learning progress, milestone completion, and eligibility for post-training re-assessment</p>
+  </div>
+  <a href="{% url 'reassessment_overview' %}" class="btn-primary-custom">
+    <i class="fa-solid fa-arrow-trend-up me-1"></i> View Re-Assessment Deltas
+  </a>
+</div>
+
+<div class="row g-4">
+  {% for enr in enrollments %}
+    <div class="col-md-6">
+      <div class="card-custom p-4 h-100 d-flex flex-column justify-content-between">
+        <div>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <span class="badge bg-primary text-white">{{ enr.course.skill.name }}</span>
+            <span class="badge-custom {% if enr.status == 'completed' %}badge-verified{% else %}badge-warning{% endif %}">
+              {{ enr.get_status_display }}
+            </span>
+          </div>
+
+          <h3 class="fs-5 fw-bold text-dark mb-1">{{ enr.course.name }}</h3>
+          <p class="text-muted small mb-3">{{ enr.course.description }}</p>
+
+          <!-- Progress Bar & Slider Form -->
+          <div class="p-3 bg-light rounded border mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-1 small fw-bold">
+              <span class="text-dark">Completion Status:</span>
+              <span class="text-primary">{{ enr.progress_percent }}%</span>
+            </div>
+            
+            <div class="progress-custom mb-3">
+              <div class="progress-bar-custom" style="width: {{ enr.progress_percent }}%;"></div>
+            </div>
+
+            <form method="post" action="{% url 'update_progress' enr.id %}" class="d-flex align-items-center gap-2">
+              {% csrf_token %}
+              <label class="small text-muted mb-0">Update:</label>
+              <input type="range" name="progress_percent" min="0" max="100" step="5" value="{{ enr.progress_percent }}" class="form-range flex-grow-1" oninput="this.nextElementSibling.value = this.value + '%'">
+              <output class="small fw-bold text-dark" style="min-width: 35px;">{{ enr.progress_percent }}%</output>
+              <button type="submit" class="btn btn-sm btn-outline-primary py-1 px-2">Save</button>
+            </form>
+          </div>
+
+          <!-- Baseline Score vs Latest -->
+          <div class="d-flex justify-content-between small text-muted">
+            <span>Pre-Training Score: <strong>{{ enr.score_before|default:"0.0" }}%</strong></span>
+            <span>Post-Training Re-assessed: <strong>{{ enr.score_after|default:"Pending" }}{% if enr.score_after %}%{% endif %}</strong></span>
+          </div>
+        </div>
+
+        <div class="pt-3 border-top mt-3 d-flex justify-content-between align-items-center">
+          <span class="small text-muted"><i class="fa-regular fa-calendar me-1"></i>Enrolled {{ enr.enrolled_at|date:"M d, Y" }}</span>
+          
+          {% if enr.status == 'completed' %}
+            <a href="{% url 'start_assessment' enr.course.skill.id %}?type=reassessment" class="btn-primary-custom btn-sm">
+              <i class="fa-solid fa-play me-1"></i> Take Re-Assessment
+            </a>
+          {% else %}
+            <span class="small text-muted"><i class="fa-solid fa-lock me-1"></i>Re-assess at 100%</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="col-12">
+      <div class="empty-state-box">
+        <i class="fa-solid fa-book-open empty-icon"></i>
+        <h3 class="empty-title">No Enrolled Courses Yet</h3>
+        <p class="empty-text">Enroll in targeted training programs to close your diagnosed skill gaps and earn higher verified levels.</p>
+        <a href="{% url 'training_catalog' %}" class="btn-primary-custom">
+          <i class="fa-solid fa-graduation-cap me-1"></i> Browse Training Catalog
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

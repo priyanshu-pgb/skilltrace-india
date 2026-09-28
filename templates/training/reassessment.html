@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Post-Training Re-Assessment & Improvement - SkillBridge{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+  <div>
+    <h1 class="welcome-title">Post-Training Re-Assessment & Impact</h1>
+    <p class="welcome-subtitle">Quantified proof of candidate skill growth before training vs after curriculum completion</p>
+  </div>
+  <a href="{% url 'my_training' %}" class="btn-outline-custom">
+    <i class="fa-solid fa-arrow-left me-1"></i> My Active Courses
+  </a>
+</div>
+
+<!-- Reassessment Highlights -->
+<div class="row g-4 mb-4">
+  {% for item in comparison_data %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card-custom p-4 h-100 d-flex flex-column justify-content-between">
+        <div>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <span class="badge bg-primary text-white">{{ item.skill.name }}</span>
+            <span class="badge-custom {% if item.enrollment.status == 'completed' %}badge-verified{% else %}badge-warning{% endif %}">
+              {{ item.enrollment.get_status_display }}
+            </span>
+          </div>
+
+          <h3 class="fs-5 fw-bold text-dark mb-3">{{ item.enrollment.course.name }}</h3>
+
+          <!-- Before vs After Score Comparison Cards -->
+          <div class="row g-2 mb-3 text-center">
+            <div class="col-6">
+              <div class="p-3 rounded bg-light border">
+                <span class="text-muted small d-block mb-1">BEFORE TRAINING</span>
+                <span class="score-badge score-before">{{ item.before }}%</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="p-3 rounded bg-light border">
+                <span class="text-muted small d-block mb-1">AFTER TRAINING</span>
+                <span class="score-badge score-after">{{ item.after }}%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Improvement Delta Callout -->
+          <div class="p-3 rounded border text-center {% if item.delta > 0 %}border-success-subtle bg-success-subtle bg-opacity-10{% elif item.delta == 0 %}border-secondary-subtle bg-light{% else %}border-danger-subtle bg-danger-subtle bg-opacity-10{% endif %} mb-3">
+            <span class="small fw-semibold text-dark d-block">MEASURED IMPROVEMENT DELTA</span>
+            <div class="fs-3 fw-bold {% if item.delta > 0 %}score-delta-positive{% else %}text-muted{% endif %}">
+              {% if item.delta > 0 %}+{{ item.delta }}{% else %}{{ item.delta }}{% endif %} points
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-2 border-top">
+          <a href="{% url 'start_assessment' item.skill.id %}?type=reassessment" class="btn-primary-custom w-100 justify-content-center btn-sm">
+            <i class="fa-solid fa-rotate me-1"></i> Retake Re-Assessment
+          </a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="col-12">
+      <div class="empty-state-box">
+        <i class="fa-solid fa-arrow-trend-up empty-icon"></i>
+        <h3 class="empty-title">No Re-Assessment Data Available</h3>
+        <p class="empty-text">Complete training courses to enable post-training re-assessments and calculate your documented improvement delta.</p>
+        <a href="{% url 'training_catalog' %}" class="btn-primary-custom">
+          <i class="fa-solid fa-graduation-cap me-1"></i> Explore Training Courses
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

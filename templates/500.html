@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Internal Server Error (500) - SkillBridge{% endblock %}
+
+{% block public_content %}
+<div class="container py-5 text-center my-auto">
+  <div class="py-5">
+    <div class="display-1 fw-bold text-warning mb-3">500</div>
+    <h1 class="fw-bold fs-2 mb-2">Something Went Wrong</h1>
+    <p class="text-muted max-w-500 mx-auto mb-4">
+      An unexpected internal server error occurred while processing your request. Please try again shortly.
+    </p>
+    <a href="{% url 'landing' %}" class="btn-primary-custom px-4 py-2">
+      <i class="fa-solid fa-house me-2"></i> Return to Homepage
+    </a>
+  </div>
+</div>
+{% endblock %}

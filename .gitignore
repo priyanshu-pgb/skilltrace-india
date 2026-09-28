@@ -1,0 +1,13 @@
+*.pyc
+__pycache__/
+*.sqlite3
+db.sqlite3-journal
+.env
+.venv/
+env/
+venv/
+ENV/
+media/
+staticfiles/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Training Courses - SkillBridge{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+  <div>
+    <h1 class="welcome-title">Targeted Skilling & Training Initiatives</h1>
+    <p class="welcome-subtitle">Curated curriculum aligned directly to address diagnosed student skill gaps</p>
+  </div>
+  <a href="{% url 'my_training' %}" class="btn-outline-custom">
+    <i class="fa-solid fa-book-bookmark me-1"></i> My Enrolled Courses
+  </a>
+</div>
+
+{% if recommended %}
+  <div class="mb-5">
+    <div class="d-flex align-items-center gap-2 mb-3">
+      <span class="badge bg-danger-subtle text-danger px-3 py-1 fw-bold">RECOMMENDED FOR YOUR GAPS</span>
+      <h3 class="fs-5 fw-bold mb-0">Priority Courses for Missing Competencies</h3>
+    </div>
+    <div class="row g-4">
+      {% for course in recommended %}
+        <div class="col-md-6 col-lg-4">
+          <div class="card-custom p-4 h-100 border-primary-subtle d-flex flex-column justify-content-between">
+            <div>
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-primary text-white">{{ course.skill.name }}</span>
+                <span class="badge bg-light text-dark border">{{ course.get_target_level_display }}</span>
+              </div>
+              <h4 class="fs-5 fw-bold text-dark mb-2">{{ course.name }}</h4>
+              <p class="text-muted small mb-3">{{ course.description }}</p>
+
+              <div class="small text-muted mb-3">
+                <i class="fa-solid fa-clock me-1"></i> {{ course.duration }} &bull; 
+                <i class="fa-solid fa-chalkboard-user me-1"></i> {{ course.provider }}
+              </div>
+            </div>
+
+            <div class="pt-3 border-top">
+              {% if course.id in user_enrolled_ids %}
+                <a href="{% url 'my_training' %}" class="btn btn-outline-success w-100 btn-sm">
+                  <i class="fa-solid fa-check me-1"></i> Enrolled (View Progress)
+                </a>
+              {% else %}
+                <a href="{% url 'enroll_course' course.id %}" class="btn-primary-custom w-100 justify-content-center btn-sm">
+                  <i class="fa-solid fa-plus me-1"></i> Enroll & Track
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+  <h3 class="fs-5 fw-bold mb-0">All Skilling Programs</h3>
+</div>
+
+<div class="row g-4">
+  {% for course in courses %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card-custom p-4 h-100 d-flex flex-column justify-content-between">
+        <div>
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="badge bg-secondary-subtle text-secondary">{{ course.skill.name }}</span>
+            <span class="badge bg-light text-dark border">{{ course.get_target_level_display }}</span>
+          </div>
+          <h4 class="fs-5 fw-bold text-dark mb-2">{{ course.name }}</h4>
+          <p class="text-muted small mb-3">{{ course.description }}</p>
+
+          <div class="small text-muted mb-3">
+            <i class="fa-solid fa-clock me-1"></i> {{ course.duration }} &bull; 
+            <i class="fa-solid fa-chalkboard-user me-1"></i> {{ course.provider }}
+          </div>
+        </div>
+
+        <div class="pt-3 border-top">
+          {% if course.id in user_enrolled_ids %}
+            <a href="{% url 'my_training' %}" class="btn btn-outline-success w-100 btn-sm">
+              <i class="fa-solid fa-check me-1"></i> Enrolled
+            </a>
+          {% else %}
+            <a href="{% url 'enroll_course' course.id %}" class="btn-primary-custom w-100 justify-content-center btn-sm">
+              <i class="fa-solid fa-plus me-1"></i> Enroll in Course
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

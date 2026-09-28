@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Practical Challenge: {{ task.title }} - SkillBridge{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+  <div>
+    <span class="badge bg-primary text-white mb-2">{{ task.skill.name }} Practical Challenge</span>
+    <h1 class="welcome-title">{{ task.title }}</h1>
+    <p class="welcome-subtitle">Complete the coding requirements and submit for automated deterministic evaluation</p>
+  </div>
+  <a href="{% url 'assessment_catalog' %}" class="btn-outline-custom">
+    <i class="fa-solid fa-arrow-left me-1"></i> Back to Catalog
+  </a>
+</div>
+
+<div class="row g-4">
+  <!-- Left Column: Task Description & Requirements -->
+  <div class="col-lg-5">
+    <div class="card-custom p-4 mb-4">
+      <h3 class="fs-5 fw-bold mb-3">Task Overview</h3>
+      <p class="text-muted small mb-4">{{ task.description }}</p>
+
+      <h4 class="fs-6 fw-bold mb-2">Requirements & Constraints</h4>
+      <div class="p-3 bg-light rounded border small mb-4 font-monospace">
+        {{ task.requirements|linebreaksbr }}
+      </div>
+
+      <div class="p-3 rounded border bg-light small mb-3">
+        <div class="d-flex justify-content-between mb-1">
+          <span class="text-muted">Total Test Cases:</span>
+          <span class="fw-bold">{{ task.test_cases_count }} Cases</span>
+        </div>
+        <div class="d-flex justify-content-between mb-1">
+          <span class="text-muted">Weight in Skill Score:</span>
+          <span class="fw-bold text-primary">50% of Final Score</span>
+        </div>
+        <div class="d-flex justify-content-between">
+          <span class="text-muted">Security:</span>
+          <span class="fw-bold text-success">Sandboxed Validation</span>
+        </div>
+      </div>
+
+      {% if submission %}
+        <div class="p-3 rounded border {% if submission.score_percent >= 70 %}border-success bg-success-subtle bg-opacity-10{% else %}border-warning bg-warning-subtle bg-opacity-10{% endif %}">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <span class="fw-bold text-dark">Latest Evaluation:</span>
+            <span class="fw-bold {% if submission.score_percent >= 70 %}text-success{% else %}text-warning{% endif %}">
+              {{ submission.score_percent }}% ({{ submission.test_cases_passed }}/{{ submission.total_test_cases }} Passed)
+            </span>
+          </div>
+          <div class="small text-muted">{{ submission.feedback }}</div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Right Column: Code Editor & Submission -->
+  <div class="col-lg-7">
+    <div class="card-custom p-4">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <h3 class="fs-5 fw-bold mb-0">Solution Editor</h3>
+        <span class="badge bg-dark text-white font-monospace">Python 3</span>
+      </div>
+
+      <form method="post" action="{% url 'submit_practical' task.id %}" data-loading="true">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <textarea 
+            name="submitted_code" 
+            id="codeEditor" 
+            class="form-control font-monospace p-3 text-dark bg-light border" 
+            rows="16" 
+            style="font-size: 0.925rem; line-height: 1.5; resize: vertical;" 
+            required
+            spellcheck="false">{% if submission %}{{ submission.submitted_code }}{% else %}{{ task.starter_code }}{% endif %}</textarea>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between">
+          <span class="text-muted small">
+            <i class="fa-solid fa-shield-halved text-success me-1"></i> Evaluated in safe deterministic environment
+          </span>
+          <button type="submit" class="btn-primary-custom px-4 py-2">
+            <i class="fa-solid fa-play me-1"></i> Run & Submit Tests
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

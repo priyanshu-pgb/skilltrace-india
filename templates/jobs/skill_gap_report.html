@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block title %}Skill Gap Report: {{ job.title }} - SkillBridge{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+  <div>
+    <a href="{% url 'jobs_list' %}" class="small text-muted text-decoration-none">
+      <i class="fa-solid fa-arrow-left me-1"></i> Back to Jobs
+    </a>
+    <h1 class="welcome-title mt-2">{{ job.title }} &mdash; Skill Gap Report</h1>
+    <p class="welcome-subtitle">Detailed mathematical analysis comparing your verified levels against role criteria</p>
+  </div>
+</div>
+
+<!-- Match Score Header Card -->
+<div class="readiness-card mb-4">
+  <div class="readiness-info">
+    <span class="badge bg-white bg-opacity-25 text-white mb-2 px-3 py-1 fw-bold">CALCULATED MATCH</span>
+    <h2 class="readiness-title">{{ analysis.match_percentage }}% Role Alignment</h2>
+    <p class="readiness-desc">
+      You currently satisfy <strong>{{ analysis.matched_count }} of {{ analysis.total_count }}</strong> required competencies. Addressing the {{ analysis.gap_count }} remaining gaps below will optimize your career readiness for this role.
+    </p>
+    <div class="d-flex gap-2">
+      <span class="badge bg-success text-white p-2">
+        <i class="fa-solid fa-check me-1"></i> {{ analysis.matched_count }} Requirements Met
+      </span>
+      <span class="badge bg-danger text-white p-2">
+        <i class="fa-solid fa-triangle-exclamation me-1"></i> {{ analysis.gap_count }} Skill Gaps Diagnosed
+      </span>
+    </div>
+  </div>
+
+  <div class="circular-progress-container text-white">
+    <svg width="130" height="130" viewBox="0 0 130 130">
+      <circle class="circle-bg" cx="65" cy="65" r="52"></circle>
+      <circle class="circle-bar" cx="65" cy="65" r="52" stroke="#10b981" data-score="{{ analysis.match_percentage }}"></circle>
+    </svg>
+    <div class="circle-text">
+      <div class="circle-score text-white">{{ analysis.match_percentage }}%</div>
+      <div class="circle-caption text-light">Match</div>
+    </div>
+  </div>
+</div>
+
+<!-- Detailed Skill Comparison Table -->
+<div class="card-custom mb-5">
+  <div class="card-header-custom">
+    <h3 class="fs-5 fw-bold mb-0">Competency Comparison Breakdown</h3>
+    <span class="small text-muted">Gap = Required Level &minus; Your Verified Level</span>
+  </div>
+  <div class="card-body-custom p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th class="ps-4">Required Skill</th>
+            <th>Required Level</th>
+            <th>Your Verified Level</th>
+            <th>Numeric Gap</th>
+            <th>Alignment Status</th>
+            <th class="pe-4 text-end">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in analysis.details %}
+            <tr>
+              <td class="ps-4 fw-bold text-dark">
+                <i class="{{ item.skill.icon_class }} text-primary me-2"></i> {{ item.skill.name }}
+              </td>
+              <td>
+                <span class="badge bg-light text-dark border">
+                  {{ item.required_level_name }} (Level {{ item.required_level_num }})
+                </span>
+              </td>
+              <td>
+                <span class="badge {% if item.user_level_num > 0 %}bg-info-subtle text-info{% else %}bg-secondary-subtle text-muted{% endif %}">
+                  {{ item.user_level_name }} {% if item.user_level_num > 0 %}(Level {{ item.user_level_num }}){% endif %}
+                </span>
+              </td>
+              <td>
+                {% if item.gap > 0 %}
+                  <span class="fw-bold text-danger">-{{ item.gap }} Level{% if item.gap > 1 %}s{% endif %}</span>
+                {% else %}
+                  <span class="fw-bold text-success">&plus;0 (Optimal)</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if item.meets %}
+                  <span class="badge-custom badge-meets">
+                    <i class="fa-solid fa-circle-check"></i> Meets Requirement
+                  </span>
+                {% else %}
+                  <span class="badge-custom badge-gap">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Skill Gap
+                  </span>
+                {% endif %}
+              </td>
+              <td class="pe-4 text-end">
+                {% if not item.meets %}
+                  <a href="{% url 'training_catalog' %}" class="btn-primary-custom btn-sm py-1 px-3">
+                    <i class="fa-solid fa-graduation-cap me-1"></i> Resolve Gap
+                  </a>
+                {% else %}
+                  <span class="small text-muted"><i class="fa-solid fa-check text-success me-1"></i> Verified</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Recommended Training Courses for Gaps -->
+{% if recommended_courses %}
+  <div class="card-custom">
+    <div class="card-header-custom">
+      <h3 class="fs-5 fw-bold mb-0">Recommended Training Courses to Close Identified Gaps</h3>
+    </div>
+    <div class="card-body-custom">
+      <div class="row g-3">
+        {% for course in recommended_courses %}
+          <div class="col-md-6">
+            <div class="p-3 rounded border bg-light d-flex align-items-center justify-content-between flex-wrap gap-2">
+              <div>
+                <h4 class="fs-6 fw-bold mb-1">{{ course.name }}</h4>
+                <div class="small text-muted">
+                  Skill: <strong>{{ course.skill.name }}</strong> &bull; 
+                  Target: <span class="badge bg-primary text-white">{{ course.get_target_level_display }}</span> &bull; 
+                  {{ course.duration }}
+                </div>
+              </div>
+              <a href="{% url 'enroll_course' course.id %}" class="btn-primary-custom btn-sm py-1 px-3">
+                Enroll
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}
