@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillTrace India - National Longitudinal Skilling Outcomes Platform</title>
+  <link rel="stylesheet" href="/static/css/tokens.css">
+  <link rel="stylesheet" href="/static/css/skilltrace.css">
+</head>
+<body>
+
+  <!-- Official Top Strip -->
+  <div class="gov-top-strip">
+    <div>
+      GOVERNMENT OF INDIA : MINISTRY OF SKILL DEVELOPMENT AND ENTREPRENEURSHIP
+    </div>
+    <div>
+      <button class="theme-toggle-btn" onclick="toggleTheme()" id="theme-btn">Dark Theme</button>
+      <a href="/privacy-policy/">DPDP Act 2023 Privacy Policy</a>
+      <a href="/terms-of-service/">Terms of Service</a>
+      <a href="/api/v1/metadata/" target="_blank">Open API</a>
+    </div>
+  </div>
+
+  <!-- Main Institutional Header -->
+  <header class="gov-main-header">
+    <div class="gov-header-brand">
+      <div class="gov-emblem-box">
+        सत्यमेव<br>जयते
+      </div>
+      <div class="gov-title-group">
+        <h1>SkillTrace India</h1>
+        <p>National Longitudinal Skilling Outcomes and Impact Measurement Platform</p>
+      </div>
+    </div>
+    <div class="gov-header-controls">
+      <div style="text-align:right; font-size:11px; color:#E2E8F0;">
+        <div>National DPI Standard v2.0</div>
+        <span class="tier-badge tier-badge-a" style="margin-top:2px;">DPDP SEC-6 COMPLIANT</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Bar (Product Map Surfaces) -->
+  <nav class="gov-nav-bar">
+    <button class="gov-nav-tab active" data-target="tab-policy">National Policy View</button>
+    <button class="gov-nav-tab" data-target="tab-dashboard">District & State Dashboard</button>
+    <button class="gov-nav-tab" data-target="tab-trainee-flow">Trainee Check-In (PWA/Bot)</button>
+    <button class="gov-nav-tab" data-target="tab-employer-portal">Employer 3-Tap Portal</button>
+    <button class="gov-nav-tab" data-target="tab-workbench">Field Agent Workbench</button>
+    <button class="gov-nav-tab" data-target="tab-registry">Longitudinal Registry (STID)</button>
+    <button class="gov-nav-tab" data-target="tab-identity-queue">Identity Review Queue</button>
+    <button class="gov-nav-tab" data-target="tab-dpo-console">Admin & DPO Console</button>
+  </nav>
+
+  <main class="gov-container">
+
+    <!-- TAB 1: NATIONAL POLICY VIEW (Section 7.5) -->
+    <section id="tab-policy" class="gov-view-section">
+      
+      <!-- Headline Story Insight Cards -->
+      <div class="gov-panel-header" style="border:none; margin-bottom:12px;">
+        <span class="gov-panel-title">National Skilling Outcome Insights (Story Layout)</span>
+        <span class="gov-panel-badge">Executive Briefing Layer</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; margin-bottom:20px;" id="policy-story-cards">
+        <div class="gov-panel" style="margin-bottom:0;">
+          <span class="tier-badge tier-badge-a" style="margin-bottom:8px;">PMKVY & NAPS</span>
+          <h3 style="font-size:15px; margin-bottom:6px; color:var(--st-primary-dark);">Automotive CNC Courses Deliver 88.4% 6-Month Retention</h3>
+          <p style="font-size:12px; color:var(--st-muted); line-height:1.5;">Trainees placed in Pune and Bengaluru industrial clusters show highest wage progression (+28% over minimum wage).</p>
+          <div style="margin-top:10px; font-size:11px; font-weight:700; color:var(--st-success);">Evidence Mix: 74% Tier A (EPFO statutory deposit match)</div>
+        </div>
+        <div class="gov-panel" style="margin-bottom:0;">
+          <span class="tier-badge tier-badge-c" style="margin-bottom:8px;">DDU-GKY Rural</span>
+          <h3 style="font-size:15px; margin-bottom:6px; color:var(--st-primary-dark);">Healthcare GDA Placement Gap in Rural Districts</h3>
+          <p style="font-size:12px; color:var(--st-muted); line-height:1.5;">High demand in Tier 1 healthcare facilities remains unfilled due to family relocation constraints reported in 42% of exit check-ins.</p>
+          <div style="margin-top:10px; font-size:11px; font-weight:700; color:var(--st-warning);">Evidence Mix: 62% Tier B/C corroborated</div>
+        </div>
+        <div class="gov-panel" style="margin-bottom:0;">
+          <span class="tier-badge tier-badge-b" style="margin-bottom:8px;">State Missions</span>
+          <h3 style="font-size:15px; margin-bottom:6px; color:var(--st-primary-dark);">Self-Employment Survival Rate at 12 Months</h3>
+          <p style="font-size:12px; color:var(--st-muted); line-height:1.5;">Udyam-registered micro-enterprises achieve 78% continuation compared to 49% for informal non-registered trades.</p>
+          <div style="margin-top:10px; font-size:11px; font-weight:700; color:var(--st-primary);">Evidence Mix: Tier B (Udyam & Merchant UPI)</div>
+        </div>
+      </div>
+
+      <!-- Scheme Comparison & Demand-Supply Gap -->
+      <div class="gov-split-layout">
+        <div class="gov-panel">
+          <div class="gov-panel-header">
+            <span class="gov-panel-title">Scheme Performance & Cost per Verified Outcome</span>
+            <span class="gov-panel-badge">National Benchmark</span>
+          </div>
+          <div class="gov-table-container">
+            <table class="gov-table">
+              <thead>
+                <tr>
+                  <th>Skilling Scheme</th>
+                  <th>Certified Cohort</th>
+                  <th>Verified Placement</th>
+                  <th>Cost per Verified Placed</th>
+                </tr>
+              </thead>
+              <tbody id="table-scheme-comparison">
+                <tr><td>PMKVY 4.0</td><td>64,000</td><td><span class="tier-badge tier-badge-b">68.2%</span></td><td>Rs. 14,200</td></tr>
+                <tr><td>NAPS Apprenticeship</td><td>42,000</td><td><span class="tier-badge tier-badge-a">84.6%</span></td><td>Rs. 9,800</td></tr>
+                <tr><td>DDU-GKY Rural</td><td>38,000</td><td><span class="tier-badge tier-badge-c">58.4%</span></td><td>Rs. 18,500</td></tr>
+                <tr><td>ITI Craftsmen (DGT)</td><td>55,000</td><td><span class="tier-badge tier-badge-a">76.1%</span></td><td>Rs. 11,200</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Budget Simulation Slider -->
+        <div class="gov-panel">
+          <div class="gov-panel-header">
+            <span class="gov-panel-title">Outcome Budget Simulation</span>
+            <span class="gov-panel-badge">Policy Slider</span>
+          </div>
+          <p style="font-size:12px; color:var(--st-muted); margin-bottom:12px;">Simulate shifting budget allocations toward top-performing schemes:</p>
+          
+          <div class="gov-form-group" style="margin-bottom:12px;">
+            <label>NAPS Apprenticeship Allocation Increase: <span id="budget-val" style="font-weight:700; color:var(--st-primary);">+15%</span></label>
+            <input type="range" min="0" max="50" value="15" class="gov-input" style="padding:0; height:32px;" oninput="updateBudgetSim(this.value)">
+          </div>
+
+          <div style="background:var(--st-tint); border:1px solid var(--st-border); border-radius:var(--st-radius-sm); padding:12px; font-size:12px;">
+            <p><strong>Projected Net Outcomes Gain:</strong></p>
+            <p style="font-size:18px; font-weight:700; color:var(--st-success); margin:4px 0;" id="sim-gain">+6,480 Verified Placements</p>
+            <p style="color:var(--st-muted);">Estimated fiscal efficiency improvement: 11.4% reduction in cost per sustained outcome.</p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TAB 2: DISTRICT & STATE DASHBOARD (Section 7.4) -->
+    <section id="tab-dashboard" class="gov-view-section" style="display:none;">
+
+      <!-- Data Confidence Strip -->
+      <div class="gov-confidence-strip">
+        <div>
+          Scope: <strong>National Rollup (12 Sample States & 18 Districts)</strong>
+        </div>
+        <div class="confidence-metrics">
+          <span>Tracked Certified: <strong>160</strong></span>
+          <span>Coverage Rate: <strong>96.2%</strong></span>
+          <span class="confidence-tag">85.6% VERIFIED (TIER A/B)</span>
+        </div>
+      </div>
+
+      <!-- 4-Metric KPI Ribbon -->
+      <div class="gov-kpi-ribbon">
+        <div class="gov-kpi-card">
+          <div class="gov-kpi-label">Certified Trainees</div>
+          <div class="gov-kpi-value" id="dash-certified">160</div>
+          <div class="gov-kpi-subtext">Based on consented crosswalks</div>
+        </div>
+        <div class="gov-kpi-card">
+          <div class="gov-kpi-label">Verified Placement Rate</div>
+          <div class="gov-kpi-value" style="color:var(--st-success);" id="dash-verified-rate">85.6%</div>
+          <div class="gov-kpi-subtext">Tier A (Registry) + Tier B (Employer)</div>
+        </div>
+        <div class="gov-kpi-card">
+          <div class="gov-kpi-label">Reported Placement Rate</div>
+          <div class="gov-kpi-value" style="color:var(--st-primary);" id="dash-reported-rate">88.8%</div>
+          <div class="gov-kpi-subtext">Includes uncorroborated self-reports</div>
+        </div>
+        <div class="gov-kpi-card">
+          <div class="gov-kpi-label">6-Month Retention</div>
+          <div class="gov-kpi-value" id="dash-retention-rate">93.0%</div>
+          <div class="gov-kpi-subtext">Continuous work (<= 30d gap)</div>
+        </div>
+      </div>
+
+      <!-- Split Layout: Evidence Tiers & Non-Placement Reasons -->
+      <div class="gov-split-layout">
+        <div class="gov-panel">
+          <div class="gov-panel-header">
+            <span class="gov-panel-title">Evidence Tiers Breakdown (Statutory Rigor)</span>
+            <span class="gov-panel-badge">Tiers A to U</span>
+          </div>
+          <div class="gov-table-container">
+            <table class="gov-table">
+              <thead>
+                <tr><th>Tier</th><th>Signal Description</th><th>Count</th><th>Share</th></tr>
+              </thead>
+              <tbody id="dash-tiers-body">
+                <tr><td><span class="tier-badge tier-badge-a">Tier A</span></td><td>EPFO / ESIC Registry Deposit or Verified Payroll Doc</td><td>94</td><td>58.8%</td></tr>
+                <tr><td><span class="tier-badge tier-badge-b">Tier B</span></td><td>Direct Employer 3-Tap Web Verification or Provider Proof</td><td>43</td><td>26.9%</td></tr>
+                <tr><td><span class="tier-badge tier-badge-c">Tier C</span></td><td>Corroborated Micro-Survey / Assisted Call</td><td>17</td><td>10.6%</td></tr>
+                <tr><td><span class="tier-badge tier-badge-d">Tier D</span></td><td>Unverified Self-Report</td><td>0</td><td>0.0%</td></tr>
+                <tr><td><span class="tier-badge tier-badge-u">Tier U</span></td><td>Unknown / Unreachable (Sub-sample Weighted)</td><td>6</td><td>3.8%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="gov-panel">
+          <div class="gov-panel-header">
+            <span class="gov-panel-title">Non-Placement Root Causes</span>
+            <span class="gov-panel-badge">NLP Classified</span>
+          </div>
+          <div class="gov-table-container">
+            <table class="gov-table">
+              <thead>
+                <tr><th>Root Cause</th><th>Cases</th></tr>
+              </thead>
+              <tbody id="dash-reasons-body">
+                <tr><td>Wage offered below state reservation threshold</td><td>3</td></tr>
+                <tr><td>Enrolled in formal higher degree program</td><td>3</td></tr>
+                <tr><td>Commute transport distance prohibitive</td><td>2</td></tr>
+                <tr><td>Medical / health condition during placement window</td><td>2</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ranked Risk-Adjusted Provider Table -->
+      <div class="gov-panel">
+        <div class="gov-panel-header">
+          <span class="gov-panel-title">Ranked Risk-Adjusted Provider Scorecards</span>
+          <span class="gov-panel-badge">Adjusted for District Labour Market Index (LMI)</span>
+        </div>
+        <div class="gov-table-container">
+          <table class="gov-table">
+            <thead>
+              <tr>
+                <th>Code</th><th>Provider Name</th><th>District</th><th>Grade</th><th>Enrolled</th><th>Observed Rate</th><th>Expected Baseline</th><th>Risk Delta</th>
+              </tr>
+            </thead>
+            <tbody id="dash-providers-body">
+              <tr><td>TC-MH-0192</td><td>Pimpri Chinchwad Skill Academy</td><td>Pune</td><td><span class="tier-badge tier-badge-a">A++</span></td><td>42</td><td>88.1%</td><td>45.8%</td><td style="color:var(--st-success); font-weight:700;">+42.3%</td></tr>
+              <tr><td>TC-KA-0220</td><td>Bengaluru Tech Skill Institute</td><td>Bengaluru Urban</td><td><span class="tier-badge tier-badge-a">A++</span></td><td>28</td><td>96.4%</td><td>48.9%</td><td style="color:var(--st-success); font-weight:700;">+47.5%</td></tr>
+              <tr><td>TC-UP-0105</td><td>Awadh Kaushal Kendra</td><td>Lucknow</td><td><span class="tier-badge tier-badge-b">A</span></td><td>28</td><td>85.7%</td><td>41.1%</td><td style="color:var(--st-success); font-weight:700;">+44.6%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TAB 3: TRAINEE EXPERIENCE (PWA / Mobile Bot Flow - Section 7.1) -->
+    <section id="tab-trainee-flow" class="gov-view-section" style="display:none;">
+      
+      <div class="gov-panel" style="max-width:540px; margin:0 auto;">
+        
+        <!-- Stepper -->
+        <div class="stepper-bar">
+          <span style="font-size:11px; font-weight:700; color:var(--st-muted);" id="trainee-step-indicator">Step 1 of 5</span>
+          <div class="stepper-track">
+            <div class="stepper-fill" id="trainee-stepper-fill" style="width:20%;"></div>
+          </div>
+          <span style="font-size:11px; color:var(--st-muted);">Check-In Flow</span>
+        </div>
+
+        <!-- SCREEN 1: Language Picker -->
+        <div id="trainee-screen-1">
+          <h2 style="font-size:18px; margin-bottom:6px; color:var(--st-primary-dark);">Choose Your Language / भाषा चुनें</h2>
+          <p style="font-size:12px; color:var(--st-muted); margin-bottom:14px;">Select the language you prefer for skilling check-ins and job leads:</p>
+          
+          <div class="big-choice-grid" style="grid-template-columns:1fr 1fr;">
+            <div class="big-choice-tile selected" onclick="selectLang(this, 'hi')">
+              <span class="big-choice-title">हिन्दी</span>
+              <span class="big-choice-desc">Hindi</span>
+            </div>
+            <div class="big-choice-tile" onclick="selectLang(this, 'en')">
+              <span class="big-choice-title">English</span>
+              <span class="big-choice-desc">English</span>
+            </div>
+            <div class="big-choice-tile" onclick="selectLang(this, 'mr')">
+              <span class="big-choice-title">मराठी</span>
+              <span class="big-choice-desc">Marathi</span>
+            </div>
+            <div class="big-choice-tile" onclick="selectLang(this, 'ta')">
+              <span class="big-choice-title">தமிழ்</span>
+              <span class="big-choice-desc">Tamil</span>
+            </div>
+            <div class="big-choice-tile" onclick="selectLang(this, 'te')">
+              <span class="big-choice-title">తెలుగు</span>
+              <span class="big-choice-desc">Telugu</span>
+            </div>
+            <div class="big-choice-tile" onclick="selectLang(this, 'bn')">
+              <span class="big-choice-title">বাংলা</span>
+              <span class="big-choice-desc">Bengali</span>
+            </div>
+          </div>
+
+          <button class="gov-btn gov-btn-action" style="width:100%;" onclick="nextTraineeStep(2)">Continue / आगे बढ़ें</button>
+        </div>
+
+        <!-- SCREEN 2: Welcome and Consent -->
+        <div id="trainee-screen-2" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <h2 style="font-size:18px; color:var(--st-primary-dark);">Consent & Rights / सहमति</h2>
+            <button class="gov-btn gov-btn-secondary" style="min-height:32px; padding:4px 10px; font-size:11px;" onclick="playVoicePrompt()">
+              🔊 Read aloud / सुनें
+            </button>
+          </div>
+          
+          <p style="font-size:13px; line-height:1.5; margin-bottom:12px;">
+            We track your placement to ensure training quality. We only share your name and course with employers to confirm hiring. You can change your mind any time.
+          </p>
+
+          <div style="background:var(--st-tint); border:1px solid var(--st-border); border-radius:var(--st-radius-sm); padding:12px; margin-bottom:14px; font-size:12px;">
+            <p style="margin-bottom:8px;"><strong>Consented Processing Purposes (DPDP Act 2023):</strong></p>
+            <label style="display:flex; gap:8px; margin-bottom:6px; cursor:pointer;">
+              <input type="checkbox" checked disabled> Follow-up outcome contact at 3, 6, 12 months
+            </label>
+            <label style="display:flex; gap:8px; margin-bottom:6px; cursor:pointer;">
+              <input type="checkbox" checked> Direct employer verification & verified badge
+            </label>
+            <label style="display:flex; gap:8px; cursor:pointer;">
+              <input type="checkbox" checked> Job leads & apprenticeship matchmaking
+            </label>
+          </div>
+
+          <div style="display:flex; gap:8px;">
+            <button class="gov-btn gov-btn-secondary" style="flex:1;" onclick="nextTraineeStep(1)">Back</button>
+            <button class="gov-btn gov-btn-action" style="flex:2;" onclick="nextTraineeStep(3)">Agree with OTP / सहमति दें</button>
+          </div>
+        </div>
+
+        <!-- SCREEN 3: OTP Screen -->
+        <div id="trainee-screen-3" style="display:none;">
+          <h2 style="font-size:18px; margin-bottom:6px; color:var(--st-primary-dark);">Enter Verification Code / OTP</h2>
+          <p style="font-size:12px; color:var(--st-muted); margin-bottom:16px;">Sent via SMS to +91 98****4921 (Resend in <span id="otp-timer">28s</span>):</p>
+          
+          <div style="display:flex; justify-content:center; gap:8px; margin-bottom:18px;">
+            <input type="text" maxlength="1" class="gov-input" style="width:44px; height:48px; text-align:center; font-size:18px; font-weight:700;" value="5">
+            <input type="text" maxlength="1" class="gov-input" style="width:44px; height:48px; text-align:center; font-size:18px; font-weight:700;" value="8">
+            <input type="text" maxlength="1" class="gov-input" style="width:44px; height:48px; text-align:center; font-size:18px; font-weight:700;" value="1">
+            <input type="text" maxlength="1" class="gov-input" style="width:44px; height:48px; text-align:center; font-size:18px; font-weight:700;" value="9">
+            <input type="text" maxlength="1" class="gov-input" style="width:44px; height:48px; text-align:center; font-size:18px; font-weight:700;" value="2">
+            <input type="text" maxlength="1" class="gov-input" style="width:44px; height:48px; text-align:center; font-size:18px; font-weight:700;" value="4">
+          </div>
+
+          <button class="gov-btn gov-btn-action" style="width:100%;" onclick="nextTraineeStep(4)">Verify & Check In</button>
+        </div>
+
+        <!-- SCREEN 4: Check-in Question (4 Big Choice Tiles) -->
+        <div id="trainee-screen-4" style="display:none;">
+          <h2 style="font-size:18px; margin-bottom:6px; color:var(--st-primary-dark);">What are you doing now? / आप अभी क्या कर रहे हैं?</h2>
+          <p style="font-size:12px; color:var(--st-muted); margin-bottom:14px;">Select the single option that best describes your primary activity:</p>
+
+          <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;">
+            <div class="big-choice-tile selected" onclick="pickActivity(this, 'Working')">
+              <span class="big-choice-title">Working in a Job / नौकरी कर रहे हैं</span>
+              <span class="big-choice-desc">Wage employment with an enterprise, factory, or office</span>
+            </div>
+            <div class="big-choice-tile" onclick="pickActivity(this, 'Own work')">
+              <span class="big-choice-title">Running Own Business / अपना व्यवसाय</span>
+              <span class="big-choice-desc">Self-employed, shop, workshop, micro-enterprise</span>
+            </div>
+            <div class="big-choice-tile" onclick="pickActivity(this, 'Studying')">
+              <span class="big-choice-title">Higher Education / आगे पढ़ाई कर रहे हैं</span>
+              <span class="big-choice-desc">Enrolled in degree, diploma, or advanced training</span>
+            </div>
+            <div class="big-choice-tile" onclick="pickActivity(this, 'Looking')">
+              <span class="big-choice-title">Looking for Work / काम की तलाश में हैं</span>
+              <span class="big-choice-desc">Unemployed and actively seeking job opportunities</span>
+            </div>
+          </div>
+
+          <button class="gov-btn gov-btn-action" style="width:100%;" onclick="nextTraineeStep(5)">Next / आगे बढ़ें</button>
+        </div>
+
+        <!-- SCREEN 5: Follow-Up & Done -->
+        <div id="trainee-screen-5" style="display:none;">
+          <h2 style="font-size:18px; margin-bottom:6px; color:var(--st-primary-dark);">Employment Details</h2>
+          <div class="gov-form-group" style="margin-bottom:12px;">
+            <label>Employer / Company Name</label>
+            <input type="text" id="t-employer-name" class="gov-input" value="Tata AutoComp Systems Ltd">
+          </div>
+          <div class="gov-form-group" style="margin-bottom:12px;">
+            <label>Monthly Earnings Band</label>
+            <select id="t-wage-band" class="gov-select">
+              <option value="1.0X_TO_1.5X">Rs. 15,500 - 22,000 (1.0x to 1.5x Min Wage)</option>
+              <option value="1.5X_TO_2.0X">Rs. 22,000 - 30,000 (1.5x to 2.0x Min Wage)</option>
+              <option value="ABOVE_2.0X">Above Rs. 30,000 (>2.0x Min Wage)</option>
+            </select>
+          </div>
+          <div class="gov-form-group" style="margin-bottom:16px;">
+            <label>Is this work related to your skilling course?</label>
+            <div style="display:flex; gap:8px;">
+              <button type="button" class="gov-btn gov-btn-secondary" style="flex:1;">Directly Related</button>
+              <button type="button" class="gov-btn gov-btn-secondary" style="flex:1;">Partially Related</button>
+              <button type="button" class="gov-btn gov-btn-secondary" style="flex:1;">Unrelated</button>
+            </div>
+          </div>
+
+          <button class="gov-btn gov-btn-action" style="width:100%; margin-bottom:10px;" onclick="submitTraineeCheckin()">Submit Check-In / सबमिट करें</button>
+        </div>
+
+        <!-- SCREEN 6: Done Screen -->
+        <div id="trainee-screen-done" style="display:none; text-align:center; padding:18px 0;">
+          <div style="width:52px; height:52px; background:#DCFCE7; color:#166534; border-radius:var(--st-radius-pill); display:flex; align-items:center; justify-content:center; margin:0 auto 12px auto; font-size:24px; font-weight:700;">
+            ✓
+          </div>
+          <h2 style="font-size:20px; color:var(--st-primary-dark); margin-bottom:6px;">Thank You! / धन्यवाद!</h2>
+          <p style="font-size:13px; color:var(--st-muted); margin-bottom:16px;">Your response has been committed to your SkillTrace longitudinal record.</p>
+
+          <div style="background:var(--st-tint); border:1px solid var(--st-border); border-radius:var(--st-radius-sm); padding:14px; text-align:left; font-size:12px; margin-bottom:18px;">
+            <p style="font-weight:700; color:var(--st-primary-dark); margin-bottom:6px;">My Data & Statutory Rights (DPDP Act 2023)</p>
+            <p>You can view all held data, see verification audit logs, or withdraw consent at any time.</p>
+            <a href="/privacy-policy/" style="color:var(--st-primary); font-weight:600; display:inline-block; margin-top:6px;">Manage My Data & Consents →</a>
+          </div>
+
+          <button class="gov-btn gov-btn-secondary" onclick="nextTraineeStep(1)">Restart Demo</button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- TAB 4: EMPLOYER 3-TAP PORTAL (Section 7.2) -->
+    <section id="tab-employer-portal" class="gov-view-section" style="display:none;">
+      <div class="gov-panel" style="max-width:680px; margin:0 auto;">
+        <div class="gov-panel-header">
+          <span class="gov-panel-title">Direct 3-Tap Employer Verification (No Login Required)</span>
+          <span class="tier-badge tier-badge-b">Zero Burden Standard</span>
+        </div>
+        
+        <div style="background:var(--st-tint); border:1px solid var(--st-border); border-radius:var(--st-radius-sm); padding:14px; margin-bottom:16px;">
+          <p style="font-size:12px; color:var(--st-muted);">Verification Link Sent via SMS/Email to Enterprise HR:</p>
+          <p style="font-size:15px; font-weight:700; color:var(--st-primary-dark); margin:4px 0;">Did Ravi Patil (Two Wheeler Service Technician) work with you?</p>
+          <p style="font-size:11px; color:var(--st-muted);">Enterprise: Tata AutoComp Systems Ltd | Pimpri Chinchwad Cluster</p>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-bottom:16px;">
+          <button class="gov-btn gov-btn-success" style="flex:1;" onclick="alert('Confirmed Yes! Elevated to Tier B Verified.')">Yes, Currently Employed</button>
+          <button class="gov-btn gov-btn-danger" style="flex:1;" onclick="alert('Recorded No. Flagged for review.')">No, Did Not Work Here</button>
+          <button class="gov-btn gov-btn-secondary" style="flex:1;" onclick="alert('Reminder scheduled in 48 hours.')">Not Sure / Remind Later</button>
+        </div>
+
+        <div style="border-top:1px solid var(--st-border); padding-top:14px; margin-top:14px;">
+          <h4 style="font-size:13px; color:var(--st-primary-dark); margin-bottom:8px;">Bulk Enterprise Upload (CSV / GSTIN API)</h4>
+          <p style="font-size:12px; color:var(--st-muted); margin-bottom:10px;">High-volume employers can upload monthly payroll CSV matching trainee STIDs or phone hashes:</p>
+          <div style="display:flex; gap:10px;">
+            <input type="file" class="gov-input" style="flex:1;">
+            <button class="gov-btn gov-btn-action" onclick="alert('Bulk verification processed: 48 matched, 2 flagged.')">Upload & Verify</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: FIELD AGENT WORKBENCH (PWA Offline First - Section 7.3) -->
+    <section id="tab-workbench" class="gov-view-section" style="display:none;">
+      <div class="gov-panel">
+        
+        <!-- PWA Top Strip -->
+        <div style="display:flex; justify-content:space-between; align-items:center; background:var(--st-tint); border:1px solid var(--st-border); border-radius:var(--st-radius-sm); padding:10px 14px; margin-bottom:14px;">
+          <div style="font-size:12px; font-weight:600;">
+            Field Agent Queue : <strong>Pune Rural Cluster (DSO-PUN-01)</strong>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="tier-badge tier-badge-a">● Online : Synced</span>
+            <span style="font-size:11px; color:var(--st-muted);">0 offline actions pending</span>
+          </div>
+        </div>
+
+        <div class="gov-table-container">
+          <table class="gov-table">
+            <thead>
+              <tr>
+                <th>Priority</th>
+                <th>Candidate Name</th>
+                <th>STID</th>
+                <th>Course Completed</th>
+                <th>Phone (Masked)</th>
+                <th>Response Propensity</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="tier-badge tier-badge-d">P1 High</span></td>
+                <td><strong>Rameshwar Kadam</strong></td>
+                <td><span class="stid-badge">ST-27-10000001</span></td>
+                <td>CNC Machine Operator</td>
+                <td>+91 98****2910</td>
+                <td>88% Propensity</td>
+                <td>
+                  <button class="gov-btn" style="min-height:30px; padding:2px 8px; font-size:11px;" onclick="alert('Calling +91 98****2910... Script loaded in Marathi.')">Call Script</button>
+                  <button class="gov-btn gov-btn-secondary" style="min-height:30px; padding:2px 8px; font-size:11px;" onclick="alert('Opening WhatsApp micro-survey template...')">WhatsApp</button>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="tier-badge tier-badge-c">P2 Normal</span></td>
+                <td><strong>Pooja Shinde</strong></td>
+                <td><span class="stid-badge">ST-27-10000002</span></td>
+                <td>Solar PV Installation Technician</td>
+                <td>+91 97****4120</td>
+                <td>74% Propensity</td>
+                <td>
+                  <button class="gov-btn" style="min-height:30px; padding:2px 8px; font-size:11px;" onclick="alert('Calling candidate...')">Call Script</button>
+                  <button class="gov-btn gov-btn-secondary" style="min-height:30px; padding:2px 8px; font-size:11px;">WhatsApp</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: LONGITUDINAL REGISTRY (STID) -->
+    <section id="tab-registry" class="gov-view-section" style="display:none;">
+      <div class="gov-panel">
+        <div class="gov-panel-header">
+          <span class="gov-panel-title">Longitudinal Trainee Directory (Pseudonymized STID)</span>
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="reg-search" class="gov-input" placeholder="Search STID or Phone..." style="width:240px;">
+            <button class="gov-btn" onclick="loadTrainees()">Filter</button>
+          </div>
+        </div>
+        <div class="gov-table-container">
+          <table class="gov-table">
+            <thead>
+              <tr>
+                <th>STID</th>
+                <th>Demographics</th>
+                <th>Contact Hash</th>
+                <th>State</th>
+                <th>Scheme</th>
+                <th>Course</th>
+                <th>Evidence Tier</th>
+                <th>Outcome Status</th>
+                <th>Current Employer</th>
+                <th>Wage Band</th>
+              </tr>
+            </thead>
+            <tbody id="table-trainees-body">
+              <tr><td colspan="10">Loading longitudinal records...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 7: IDENTITY REVIEW QUEUE -->
+    <section id="tab-identity-queue" class="gov-view-section" style="display:none;">
+      <div class="gov-panel">
+        <div class="gov-panel-header">
+          <span class="gov-panel-title">Probabilistic Match Review Queue (Grey Band 0.75 to 0.92)</span>
+          <span class="gov-panel-badge">Officer Determination</span>
+        </div>
+        <p style="font-size:12px; color:var(--st-muted); margin-bottom:14px;">
+          Deterministic matching (mobile hash + DOB, APAAR) auto-links above 0.92. Candidates in the grey band (0.75 - 0.92) are queued below for manual officer review with full audit logging:
+        </p>
+        <div id="identity-queue-container">
+          <div class="gov-panel">Loading queue...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 8: ADMIN & DPO CONSOLE (Section 7.6) -->
+    <section id="tab-dpo-console" class="gov-view-section" style="display:none;">
+      
+      <!-- Subtabs inside DPO Console -->
+      <div class="gov-panel">
+        <div class="gov-panel-header">
+          <span class="gov-panel-title">Data Protection Officer & Governance Console</span>
+          <span class="tier-badge tier-badge-a">DPDP Act 2023 Compliant</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; margin-bottom:18px;">
+          <div class="gov-kpi-card">
+            <div class="gov-kpi-label">Active Consents</div>
+            <div class="gov-kpi-value" style="color:var(--st-success);" id="dpo-active-consents">160</div>
+            <div class="gov-kpi-subtext">Purpose-bound under Section 6</div>
+          </div>
+          <div class="gov-kpi-card">
+            <div class="gov-kpi-label">Pending Grievances / Erasures</div>
+            <div class="gov-kpi-value" style="color:var(--st-warning);">2</div>
+            <div class="gov-kpi-subtext">Within statutory SLA (30 days)</div>
+          </div>
+          <div class="gov-kpi-card">
+            <div class="gov-kpi-label">k-Anonymity Suppression Guard</div>
+            <div class="gov-kpi-value" style="color:var(--st-primary);">k >= 10 Active</div>
+            <div class="gov-kpi-subtext">Suppresses cells with < 10 records</div>
+          </div>
+        </div>
+
+        <h4 style="font-size:13px; color:var(--st-primary-dark); margin-bottom:8px;">Statutory Grievance & Erasure Queue</h4>
+        <div class="gov-table-container" style="margin-bottom:18px;">
+          <table class="gov-table">
+            <thead>
+              <tr><th>Grievance ID</th><th>STID</th><th>Request Type</th><th>Details</th><th>Submitted</th><th>SLA Remaining</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>GRV-2026-081</td>
+                <td><span class="stid-badge">ST-27-10000014</span></td>
+                <td>Data Correction</td>
+                <td>Updated employer to Mahindra Auto Authorized Service</td>
+                <td>2026-09-22</td>
+                <td><span class="tier-badge tier-badge-b">3 Days</span></td>
+                <td><button class="gov-btn" style="min-height:28px; padding:2px 8px; font-size:11px;" onclick="alert('Correction approved & committed to vault.')">Approve</button></td>
+              </tr>
+              <tr>
+                <td>GRV-2026-094</td>
+                <td><span class="stid-badge">ST-29-10000042</span></td>
+                <td>Erasure / Purge</td>
+                <td>Data Principal requested erasure upon overseas migration</td>
+                <td>2026-09-24</td>
+                <td><span class="tier-badge tier-badge-c">5 Days</span></td>
+                <td><button class="gov-btn gov-btn-danger" style="min-height:28px; padding:2px 8px; font-size:11px;" onclick="alert('Record purged & anonymized under Section 12.')">Purge PII</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="font-size:13px; color:var(--st-primary-dark); margin-bottom:8px;">Cryptographic Hash-Chained Audit Stream</h4>
+        <div class="gov-table-container">
+          <table class="gov-table">
+            <thead>
+              <tr><th>Event ID</th><th>Timestamp</th><th>Actor</th><th>Action</th><th>Target Object</th><th>Block SHA-256 Hash</th></tr>
+            </thead>
+            <tbody id="table-audit-body">
+              <tr><td colspan="6">Loading audit stream...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Institutional Footer -->
+  <footer class="gov-footer">
+    <div class="gov-footer-content">
+      <div>
+        <h4>SkillTrace India</h4>
+        <p>National Longitudinal Skilling Outcomes and Impact Measurement Platform developed for Ministry of Skill Development and Entrepreneurship, Government of India.</p>
+        <p>Operating under the Digital Personal Data Protection Act 2023 regulations and National Data Governance Framework Policy.</p>
+      </div>
+      <div>
+        <h4>Statutory Links & Governance</h4>
+        <p><a href="/privacy-policy/">DPDP Act 2023 Privacy Policy</a></p>
+        <p><a href="/terms-of-service/">Terms of Service & Data Usage</a></p>
+        <p><a href="https://msde.gov.in" target="_blank">Ministry of Skill Development (MSDE)</a></p>
+        <p><a href="https://nsdcindia.org" target="_blank">National Skill Development Corporation</a></p>
+      </div>
+      <div>
+        <h4>Data Protection Officer (DPO)</h4>
+        <p>National Skilling Registry Cell, Shram Shakti Bhawan, New Delhi 110001</p>
+        <p>Email: dpo-skilltrace@gov.in | Phone: 011-23465800</p>
+      </div>
+    </div>
+    <div class="gov-footer-bottom">
+      <div>Copyright 2026 Government of India. Zero-cost open architecture ready for MeghRaj cloud hosting.</div>
+      <div>Designed for Indian National Digital Public Infrastructure (DPI)</div>
+    </div>
+  </footer>
+
+  <script src="/static/js/skilltrace.js"></script>
+</body>
+</html>

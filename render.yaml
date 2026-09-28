@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: skilltrace-india
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: "pip install -r requirements.txt && python manage.py migrate && python manage.py seed_data && python manage.py collectstatic --no-input"
+    startCommand: "gunicorn skilltrace_project.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: DEBUG
+        value: "True"

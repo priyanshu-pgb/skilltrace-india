@@ -1,0 +1,52 @@
+/* SkillTrace India : Design Tokens (docs/UIUX_Design_Brief.md) */
+:root {
+  --st-primary: #1F3A93;
+  --st-primary-dark: #142766;
+  --st-accent: #F28C1B;
+  --st-success: #1E8E5A;
+  --st-warning: #E0A400;
+  --st-danger: #C8382F;
+  --st-info: #2B7BE4;
+  --st-bg: #FAF8F5;
+  --st-surface: #FFFFFF;
+  --st-tint: #EEF1FA;
+  --st-border: #E3DED6;
+  --st-text: #1B1F2A;
+  --st-muted: #5B6270;
+  --st-radius: 12px;
+  --st-radius-sm: 10px;
+  --st-radius-pill: 999px;
+  
+  /* Evidence Tier Semantic Colors (Letter + Color pair) */
+  --tier-a-color: #1E8E5A;
+  --tier-a-bg: #DCFCE7;
+  --tier-b-color: #3E9B6B;
+  --tier-b-bg: #E8F5E9;
+  --tier-c-color: #E0A400;
+  --tier-c-bg: #FEF9C3;
+  --tier-d-color: #E07B2A;
+  --tier-d-bg: #FFEDD5;
+  --tier-u-color: #8A90A0;
+  --tier-u-bg: #F1F3F5;
+}
+
+[data-theme="dark"] {
+  --st-bg: #12151F;
+  --st-surface: #1B2030;
+  --st-tint: #252D42;
+  --st-border: #2E384D;
+  --st-text: #ECEFF6;
+  --st-muted: #9DA6B8;
+  --st-primary: #7C9BFF;
+  --st-primary-dark: #5879E6;
+  --st-accent: #FFB04D;
+  --st-success: #2CD385;
+  --st-warning: #F5B81C;
+  --st-danger: #E85D54;
+  
+  --tier-a-bg: rgba(30, 142, 90, 0.2);
+  --tier-b-bg: rgba(62, 155, 107, 0.2);
+  --tier-c-bg: rgba(224, 164, 0, 0.2);
+  --tier-d-bg: rgba(224, 123, 42, 0.2);
+  --tier-u-bg: rgba(138, 144, 160, 0.2);
+}

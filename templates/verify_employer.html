@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Direct Employer Verification - SkillTrace India</title>
+  <link rel="stylesheet" href="/static/css/skilltrace.css">
+</head>
+<body style="background-color:#EEF2F6;">
+
+  <div class="gov-top-strip">
+    <div>GOVERNMENT OF INDIA : MINISTRY OF SKILL DEVELOPMENT AND ENTREPRENEURSHIP</div>
+    <div>OFFICIAL SECURE VERIFICATION PORTAL</div>
+  </div>
+
+  <header class="gov-main-header">
+    <div class="gov-header-brand">
+      <div class="gov-emblem-box">सत्यमेव<br>जयते</div>
+      <div class="gov-title-group">
+        <h1>SkillTrace India : Employer Verification Gateway</h1>
+        <p>Direct 3-Tap Outcome Confirmation for National Skilling Registry</p>
+      </div>
+    </div>
+    <div class="gov-header-meta">
+      <div>Token Status: SECURE VALIDATED</div>
+      <span class="badge">DPDP SEC-6 COMPLIANT</span>
+    </div>
+  </header>
+
+  <main class="gov-container" style="max-width:760px; margin-top:24px;">
+    
+    <div class="gov-panel">
+      <div class="gov-panel-header">
+        <span class="gov-panel-title">Employment Confirmation Request</span>
+        <span class="gov-panel-badge">Token: {{ token }}</span>
+      </div>
+
+      <div style="background:#F8FAFC; border:1px solid #CBD5E1; padding:14px; margin-bottom:16px;">
+        <h4 style="font-size:13px; color:#0B2545; text-transform:uppercase; margin-bottom:8px;">Enterprise & Candidate Verification Details</h4>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:12px;">
+          <div>
+            <p><strong>Employer:</strong> {{ verification.employer.legal_name }}</p>
+            <p><strong>CIN / GSTIN:</strong> {{ verification.employer.cin_or_gstin }}</p>
+            <p><strong>Sector:</strong> {{ verification.employer.sector }}</p>
+          </div>
+          <div>
+            <p><strong>Candidate STID:</strong> {{ verification.person.stid }}</p>
+            <p><strong>Candidate Name:</strong> {{ verification.person.pii.full_name }}</p>
+            <p><strong>Qualification Pack:</strong> Vocational Certified</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="verify-form-container">
+        {% if verification.status == 'CONFIRMED' %}
+          <div style="background:#DCFCE7; border:1px solid #86EFAC; color:#14532D; padding:14px; font-size:13px;">
+            <strong>VERIFICATION ALREADY RECORDED:</strong> This employment record has been confirmed and elevated to <strong>Evidence Tier B (Employer Confirmed)</strong> on the National Skilling Registry.
+          </div>
+        {% else %}
+          <form id="verify-form" onsubmit="event.preventDefault(); submitVerification();">
+            
+            <div class="gov-form-group" style="margin-bottom:14px;">
+              <label style="font-size:12px;">1. Is this candidate currently employed at your enterprise?</label>
+              <select id="field-is-employed" class="gov-select" required>
+                <option value="true">Yes, Candidate is Currently Employed</option>
+                <option value="false">No, Candidate is Not Employed Here</option>
+              </select>
+            </div>
+
+            <div class="gov-form-group" style="margin-bottom:14px;">
+              <label style="font-size:12px;">2. Confirmed Joining / Placement Date</label>
+              <input type="date" id="field-start-date" class="gov-input" value="2024-06-01" required>
+            </div>
+
+            <div class="gov-form-group" style="margin-bottom:14px;">
+              <label style="font-size:12px;">3. Monthly Wage Band</label>
+              <select id="field-wage-band" class="gov-select" required>
+                <option value="1.0X_TO_1.5X">1.0x to 1.5x State Minimum Wage (Standard Skilled)</option>
+                <option value="1.5X_TO_2.0X">1.5x to 2.0x State Minimum Wage (Skilled Specialist)</option>
+                <option value="ABOVE_2.0X">Above 2.0x State Minimum Wage (Supervisory / High-Value)</option>
+                <option value="BELOW_MIN_WAGE">Below Minimum Wage (Apprentice Stipend)</option>
+              </select>
+            </div>
+
+            <div class="gov-form-group" style="margin-bottom:18px;">
+              <label style="font-size:12px;">4. Technical Skill Readiness Rating (1 to 5 Stars)</label>
+              <select id="field-skill-rating" class="gov-select">
+                <option value="5">5 - Exceptional Job Readiness & Core Competency</option>
+                <option value="4" selected>4 - Proficient Skill Level with Standard Onboarding</option>
+                <option value="3">3 - Adequate Fundamental Skills, Needed On-Job Coaching</option>
+                <option value="2">2 - Modest Gaps in Technical or Digital Skill</option>
+                <option value="1">1 - Severe Skill Mismatch for Role</option>
+              </select>
+            </div>
+
+            <div style="background:#F1F5F9; border:1px solid #CBD5E1; padding:10px; font-size:11px; color:#475569; margin-bottom:16px;">
+              <strong>Statutory Declaration:</strong> By submitting this confirmation, you certify that the employment information provided is accurate under Section 19 of the National Apprenticeship Act / MSDE Guidelines. False claims are subject to statutory scrutiny.
+            </div>
+
+            <button type="submit" class="gov-btn gov-btn-success" style="padding:10px 20px; font-size:13px; width:100%;">
+              Submit 3-Tap Verification (Elevate to Tier B)
+            </button>
+          </form>
+        {% endif %}
+      </div>
+
+      <div id="verify-success-msg" style="display:none; background:#DCFCE7; border:1px solid #86EFAC; color:#14532D; padding:14px; margin-top:14px;">
+        <strong>Verification Successfully Logged.</strong> The candidate's outcome episode has been upgraded to <strong>Evidence Tier B</strong> on the longitudinal ledger. Thank you for contributing to national skilling integrity.
+      </div>
+
+    </div>
+
+    <div style="text-align:center; margin-top:14px;">
+      <a href="/" class="gov-btn gov-btn-secondary" style="text-decoration:none;">Back to Main National Registry</a>
+    </div>
+
+  </main>
+
+  <script>
+    async function submitVerification() {
+      const isEmployed = document.getElementById('field-is-employed').value === 'true';
+      const startDate = document.getElementById('field-start-date').value;
+      const wageBand = document.getElementById('field-wage-band').value;
+      const skillRating = document.getElementById('field-skill-rating').value;
+
+      try {
+        const res = await fetch('/api/v1/verify/{{ token }}/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            is_currently_employed: isEmployed,
+            confirmed_start_date: startDate,
+            confirmed_wage_band: wageBand,
+            skill_rating: skillRating
+          })
+        });
+        const data = await res.json();
+        document.getElementById('verify-form').style.display = 'none';
+        document.getElementById('verify-success-msg').style.display = 'block';
+      } catch (err) {
+        alert("Error submitting verification.");
+      }
+    }
+  </script>
+</body>
+</html>
