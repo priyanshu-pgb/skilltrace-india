@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 
-{% block title %}Assessment: {{ attempt.skill.name }} - SkillBridge{% endblock %}
+{% block title %}Assessment: {{ attempt.skill.name }} - SOPAN{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
   <div class="col-lg-9">
     <!-- Top Assessment Control Bar (Sticky) -->
-    <div class="card-custom p-3 mb-4 sticky-top bg-white shadow-sm" style="top: calc(var(--navbar-height) + 10px); z-index: 850;">
+    <div class="card-custom p-3 mb-4 sticky-top bg-white shadow-sm" style="top: calc(var(--navbar-height) + 10px); z-index: 850; border-radius: 14px;">
       <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
         <div class="d-flex align-items-center gap-2">
-          <span class="badge bg-primary text-white">{{ attempt.skill.name }}</span>
-          <span class="text-muted small">&bull; {{ answers.count }} Questions</span>
+          <span class="badge bg-primary text-white px-3 py-2 fs-6">
+            <i class="fa-solid fa-graduation-cap me-1"></i> {{ attempt.skill.name }}
+          </span>
+          <span class="badge bg-light text-dark border px-2 py-1" id="answeredCountBadge">
+            <i class="fa-solid fa-list-check me-1 text-primary"></i> 0 / {{ answers.count }} Answered
+          </span>
         </div>
 
         <div class="d-flex align-items-center gap-3">
@@ -18,57 +22,68 @@
             <i class="fa-regular fa-clock"></i>
             <span id="assessmentTimer">10:00</span>
           </div>
-          <span class="badge bg-warning-subtle text-warning small">Anti-Cheating Active</span>
+          <span class="badge bg-warning-subtle text-dark border border-warning-subtle small d-none d-sm-inline-block">
+            <i class="fa-solid fa-shield-halved text-warning me-1"></i> Proctoring Active
+          </span>
         </div>
       </div>
 
+      <!-- Quick Question Jump Pills -->
+      <div class="d-flex gap-1 flex-wrap mt-3 pt-2 border-top" id="questionNavPills">
+        {% for ans in answers %}
+          <a href="#question-card-{{ forloop.counter }}" class="btn btn-sm btn-outline-secondary py-0 px-2 q-nav-pill" id="qNavPill-{{ ans.question.id }}" style="font-size: 0.75rem; border-radius: 6px;">
+            Q{{ forloop.counter }}
+          </a>
+        {% endfor %}
+      </div>
+
       <div class="progress-custom mt-2" style="height: 6px;">
-        <div class="progress-bar-custom" id="answeredProgressBar" style="width: 0%;"></div>
+        <div class="progress-bar-custom bg-success" id="answeredProgressBar" style="width: 0%; transition: width 0.3s ease;"></div>
       </div>
     </div>
 
     <!-- Questions Form -->
-    <form method="post" action="{% url 'submit_assessment' attempt.id %}" id="assessmentForm" data-loading="true">
+    <form method="post" action="{% url 'submit_assessment' attempt.id %}" id="assessmentForm">
       {% csrf_token %}
 
       {% for ans in answers %}
-        <div class="card-custom p-4 mb-4 question-card" data-q-id="{{ ans.question.id }}">
+        <div class="card-custom p-4 mb-4 question-card" id="question-card-{{ forloop.counter }}" data-q-id="{{ ans.question.id }}">
           <div class="d-flex align-items-center justify-content-between mb-3">
-            <span class="badge bg-light text-dark border">Question {{ forloop.counter }} of {{ answers.count }}</span>
+            <span class="badge bg-light text-dark border px-3 py-1 fw-bold">Question {{ forloop.counter }} of {{ answers.count }}</span>
             <span class="badge-custom {% if ans.question.difficulty == 'hard' %}badge-gap{% elif ans.question.difficulty == 'medium' %}badge-warning{% else %}badge-meets{% endif %}">
-              {{ ans.question.get_difficulty_display }}
+              {{ ans.question.get_difficulty_display|default:ans.question.difficulty|title }}
             </span>
           </div>
 
-          <h4 class="fs-6 fw-bold text-dark mb-4" style="line-height: 1.5;">
+          <h4 class="fs-6 fw-bold text-dark mb-4" style="line-height: 1.6;">
             {{ ans.question.text }}
           </h4>
 
           <div class="d-flex flex-column gap-2 mb-2">
             <label class="p-3 rounded border option-box d-flex align-items-center gap-3 cursor-pointer">
-              <input type="radio" name="question_{{ ans.question.id }}" value="a" class="form-check-input option-radio" required>
-              <span class="text-dark">{{ ans.question.option_a }}</span>
+              <input type="radio" name="question_{{ ans.question.id }}" value="a" class="form-check-input option-radio" data-q-id="{{ ans.question.id }}">
+              <span class="text-dark fw-medium">{{ ans.question.option_a }}</span>
             </label>
             <label class="p-3 rounded border option-box d-flex align-items-center gap-3 cursor-pointer">
-              <input type="radio" name="question_{{ ans.question.id }}" value="b" class="form-check-input option-radio">
-              <span class="text-dark">{{ ans.question.option_b }}</span>
+              <input type="radio" name="question_{{ ans.question.id }}" value="b" class="form-check-input option-radio" data-q-id="{{ ans.question.id }}">
+              <span class="text-dark fw-medium">{{ ans.question.option_b }}</span>
             </label>
             <label class="p-3 rounded border option-box d-flex align-items-center gap-3 cursor-pointer">
-              <input type="radio" name="question_{{ ans.question.id }}" value="c" class="form-check-input option-radio">
-              <span class="text-dark">{{ ans.question.option_c }}</span>
+              <input type="radio" name="question_{{ ans.question.id }}" value="c" class="form-check-input option-radio" data-q-id="{{ ans.question.id }}">
+              <span class="text-dark fw-medium">{{ ans.question.option_c }}</span>
             </label>
             <label class="p-3 rounded border option-box d-flex align-items-center gap-3 cursor-pointer">
-              <input type="radio" name="question_{{ ans.question.id }}" value="d" class="form-check-input option-radio">
-              <span class="text-dark">{{ ans.question.option_d }}</span>
+              <input type="radio" name="question_{{ ans.question.id }}" value="d" class="form-check-input option-radio" data-q-id="{{ ans.question.id }}">
+              <span class="text-dark fw-medium">{{ ans.question.option_d }}</span>
             </label>
           </div>
         </div>
       {% endfor %}
 
-      <div class="d-flex justify-content-between align-items-center p-3 card-custom mb-5">
-        <span class="small text-muted">Double-check all choices before submitting. Scores are final.</span>
-        <button type="submit" class="btn-primary-custom px-4 py-2" id="submitAssessmentBtn">
-          <i class="fa-solid fa-check-circle me-1"></i> Submit Assessment
+      <div class="d-flex justify-content-between align-items-center p-3 card-custom mb-5 flex-wrap gap-2">
+        <span class="small text-muted"><i class="fa-solid fa-circle-info me-1"></i> Review your choices. Once submitted, your score updates your SOPAN Career Readiness Index immediately.</span>
+        <button type="button" class="btn-primary-custom px-4 py-2" id="submitAssessmentBtn">
+          <i class="fa-solid fa-circle-check me-1"></i> Submit Assessment
         </button>
       </div>
     </form>
@@ -77,16 +92,23 @@
 
 <style>
   .option-box {
-    transition: background-color 0.15s ease, border-color 0.15s ease;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
     cursor: pointer;
+    background-color: #fafafa;
   }
   .option-box:hover {
-    background-color: var(--surface-alt);
-    border-color: var(--primary);
+    background-color: var(--surface-alt, #f0f7ff);
+    border-color: var(--primary, #0071e3);
   }
   .option-box:has(input:checked) {
-    background-color: var(--primary-light);
-    border-color: var(--primary);
+    background-color: #eff6ff !important;
+    border-color: #0071e3 !important;
+    border-width: 1.5px !important;
+  }
+  .q-nav-pill.answered {
+    background-color: #0c831f !important;
+    color: #ffffff !important;
+    border-color: #0c831f !important;
   }
 </style>
 {% endblock %}
@@ -97,7 +119,9 @@
     let timeLeft = 600; // 10 minutes (600 seconds)
     const timerDisplay = document.getElementById('assessmentTimer');
     const form = document.getElementById('assessmentForm');
+    const submitBtn = document.getElementById('submitAssessmentBtn');
     const progressBar = document.getElementById('answeredProgressBar');
+    const answeredBadge = document.getElementById('answeredCountBadge');
     const totalQuestions = {{ answers.count }};
 
     // Timer countdown
@@ -105,28 +129,63 @@
       timeLeft--;
       const minutes = Math.floor(timeLeft / 60);
       const seconds = timeLeft % 60;
-      timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      if (timerDisplay) {
+        timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }
 
       if (timeLeft <= 60) {
-        document.getElementById('timerBox').classList.add('text-danger', 'animate-pulse');
+        const timerBox = document.getElementById('timerBox');
+        if (timerBox) timerBox.classList.add('text-danger', 'animate-pulse');
       }
 
       if (timeLeft <= 0) {
         clearInterval(timerInterval);
-        alert('Time has expired! Submitting assessment automatically.');
+        alert('Time has expired! Submitting your assessment automatically.');
         form.submit();
       }
     }, 1000);
 
-    // Track answered progress
+    // Track answered progress and update UI
     const radios = document.querySelectorAll('.option-radio');
     radios.forEach(radio => {
       radio.addEventListener('change', () => {
-        const answeredCount = new Set([...document.querySelectorAll('.option-radio:checked')].map(r => r.name)).size;
-        const pct = Math.round((answeredCount / totalQuestions) * 100);
-        progressBar.style.width = pct + '%';
+        updateProgress();
       });
     });
+
+    function updateProgress() {
+      const checkedRadios = document.querySelectorAll('.option-radio:checked');
+      const answeredQIds = new Set([...checkedRadios].map(r => r.getAttribute('data-q-id')));
+      const answeredCount = answeredQIds.size;
+      const pct = Math.round((answeredCount / totalQuestions) * 100);
+      
+      if (progressBar) progressBar.style.width = pct + '%';
+      if (answeredBadge) answeredBadge.innerHTML = `<i class="fa-solid fa-list-check me-1 text-primary"></i> ${answeredCount} / ${totalQuestions} Answered`;
+
+      // Update question navigator pills
+      answeredQIds.forEach(qId => {
+        const pill = document.getElementById('qNavPill-' + qId);
+        if (pill) pill.classList.add('answered');
+      });
+    }
+
+    // Submit handler with friendly confirmation if unanswered
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function() {
+        const checkedRadios = document.querySelectorAll('.option-radio:checked');
+        const answeredCount = new Set([...checkedRadios].map(r => r.getAttribute('data-q-id'))).size;
+        
+        if (answeredCount < totalQuestions) {
+          const unanswered = totalQuestions - answeredCount;
+          const proceed = confirm(`You have answered ${answeredCount} of ${totalQuestions} questions (${unanswered} unanswered).\n\nUnanswered questions will receive 0 points. Are you sure you want to submit now?`);
+          if (!proceed) return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Evaluating Scores...';
+        form.submit();
+      });
+    }
   });
 </script>
 {% endblock %}

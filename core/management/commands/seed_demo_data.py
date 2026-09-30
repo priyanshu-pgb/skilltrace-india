@@ -107,6 +107,8 @@ class Command(BaseCommand):
             )
 
         self.stdout.write(self.style.SUCCESS("Seeded 40 comprehensive MCQs for Python and SQL."))
+        from django.core.management import call_command
+        call_command('seed_all_questions')
 
         # 4. Seed Practical Tasks (Section 29)
         PracticalTask.objects.get_or_create(
