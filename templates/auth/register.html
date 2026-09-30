@@ -1,94 +1,121 @@
 {% extends 'base.html' %}
 
-{% block title %}Create Account - SOPAN{% endblock %}
+{% block title %}Create Account - SOPAN (सोपान){% endblock %}
 
 {% block public_content %}
-<div class="container py-5">
+<div class="container py-5" id="main-content-focus">
   <div class="row justify-content-center">
     <div class="col-md-7 col-lg-6">
       <div class="apple-card p-4 p-md-5">
         <div class="text-center mb-4">
           <div class="mx-auto mb-3" style="width: 56px; height: 56px;">
-            <img src="/static/images/sopan_logo.svg" alt="SOPAN Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.1);">
+            <img src="/static/images/sopan_logo.svg" alt="SOPAN Platform Official Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.1);">
           </div>
-          <h2 class="fw-bold fs-3 text-dark">Join SOPAN (सोपान)</h2>
-          <p class="text-muted small">Start measuring, verifying, and tracking your real skills and wage growth</p>
+          <h1 class="fw-bold fs-3 text-dark">Join SOPAN (सोपान)</h1>
+          <p class="text-muted small">Steps to verified skills, wage progression, and sustained career mobility</p>
         </div>
 
-        <form method="post" action="{% url 'register' %}" data-loading="true">
+        <form method="post" action="{% url 'register' %}" data-loading="true" novalidate>
           {% csrf_token %}
           
           {% if form.non_field_errors %}
-            <div class="alert alert-danger py-2 small mb-3">
+            <div class="alert alert-danger py-2 small mb-3" role="alert">
               {% for error in form.non_field_errors %}
-                <div>{{ error }}</div>
+                <div><i class="fa-solid fa-circle-exclamation me-1"></i>{{ error }}</div>
               {% endfor %}
             </div>
           {% endif %}
 
           <div class="row g-3 mb-3">
             <div class="col-sm-6">
-              <label class="form-label small fw-semibold text-dark">First Name</label>
+              <label class="form-label small fw-semibold text-dark" for="{{ form.first_name.id_for_label }}">First Name <span class="text-danger">*</span></label>
               {{ form.first_name }}
               {% if form.first_name.errors %}
-                <div class="text-danger small mt-1">{{ form.first_name.errors.0 }}</div>
+                <div class="text-danger small mt-1" role="alert">{{ form.first_name.errors.0 }}</div>
               {% endif %}
             </div>
             <div class="col-sm-6">
-              <label class="form-label small fw-semibold text-dark">Last Name</label>
+              <label class="form-label small fw-semibold text-dark" for="{{ form.last_name.id_for_label }}">Last Name <span class="text-danger">*</span></label>
               {{ form.last_name }}
               {% if form.last_name.errors %}
-                <div class="text-danger small mt-1">{{ form.last_name.errors.0 }}</div>
+                <div class="text-danger small mt-1" role="alert">{{ form.last_name.errors.0 }}</div>
               {% endif %}
             </div>
           </div>
 
           <div class="mb-3">
-            <label class="form-label small fw-semibold text-dark">Username</label>
+            <label class="form-label small fw-semibold text-dark" for="{{ form.username.id_for_label }}">Username <span class="text-danger">*</span></label>
             {{ form.username }}
             {% if form.username.errors %}
-              <div class="text-danger small mt-1">{{ form.username.errors.0 }}</div>
+              <div class="text-danger small mt-1" role="alert">{{ form.username.errors.0 }}</div>
             {% endif %}
           </div>
 
           <div class="mb-3">
-            <label class="form-label small fw-semibold text-dark">Email Address</label>
+            <label class="form-label small fw-semibold text-dark" for="{{ form.email.id_for_label }}">Email Address <span class="text-danger">*</span></label>
             {{ form.email }}
             {% if form.email.errors %}
-              <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+              <div class="text-danger small mt-1" role="alert">{{ form.email.errors.0 }}</div>
             {% endif %}
           </div>
 
           <div class="mb-3">
-            <label class="form-label small fw-semibold text-dark">Account Role</label>
+            <label class="form-label small fw-semibold text-dark" for="{{ form.role.id_for_label }}">Account Role <span class="text-danger">*</span></label>
             {{ form.role }}
-            <div class="form-text small">Select 'Student / Candidate' to track skills, or 'System Administrator' to manage assessments and institutional metrics.</div>
+            <div class="form-text small">Select 'Student / Candidate' to track skills and milestones, or 'System Administrator' to manage assessments and institutional metrics.</div>
           </div>
 
           <div class="mb-3">
-            <label class="form-label small fw-semibold text-dark">Password</label>
-            <input type="password" name="password1" class="form-control input-custom" placeholder="Choose a secure password" required id="id_password1">
+            <label class="form-label small fw-semibold text-dark" for="id_password1">Password <span class="text-danger">*</span></label>
+            <input type="password" name="password1" class="form-control input-custom" placeholder="Choose a secure password" required id="id_password1" autocomplete="new-password">
             {% if form.password1.errors %}
-              <div class="text-danger small mt-1">{{ form.password1.errors.0 }}</div>
+              <div class="text-danger small mt-1" role="alert">{{ form.password1.errors.0 }}</div>
             {% endif %}
           </div>
 
-          <div class="mb-4">
-            <label class="form-label small fw-semibold text-dark">Confirm Password</label>
-            <input type="password" name="password2" class="form-control input-custom" placeholder="Re-enter password" required id="id_password2">
+          <div class="mb-3">
+            <label class="form-label small fw-semibold text-dark" for="id_password2">Confirm Password <span class="text-danger">*</span></label>
+            <input type="password" name="password2" class="form-control input-custom" placeholder="Re-enter password" required id="id_password2" autocomplete="new-password">
             {% if form.password2.errors %}
-              <div class="text-danger small mt-1">{{ form.password2.errors.0 }}</div>
+              <div class="text-danger small mt-1" role="alert">{{ form.password2.errors.0 }}</div>
             {% endif %}
           </div>
 
-          <button type="submit" class="btn-primary-custom w-100 py-2 justify-content-center fs-6">
-            Create Account
+          <!-- DPDP Act 2023 Statutory Consent & Terms Notice (Unchecked by default) -->
+          <div class="p-3 bg-light rounded-3 border mb-4">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="fa-solid fa-shield-halved text-success"></i>
+              <span class="small fw-bold text-dark">Data Protection & Affirmative Consent</span>
+            </div>
+
+            <div class="form-check mb-2">
+              {{ form.consent_given }}
+              <label class="form-check-label small text-dark fw-medium" for="id_consent_given">
+                I have read and agree to the <a href="{% url 'terms_conditions' %}" target="_blank" class="fw-bold text-primary text-decoration-underline">Terms of Service</a> and <a href="{% url 'privacy_policy' %}" target="_blank" class="fw-bold text-primary text-decoration-underline">Privacy Policy</a>, and give affirmative consent for my skill evaluations and longitudinal outcome tracking under India's <strong>Digital Personal Data Protection (DPDP) Act, 2023</strong>. <span class="text-danger">*</span>
+              </label>
+              {% if form.consent_given.errors %}
+                <div class="text-danger small mt-1 fw-bold" role="alert">
+                  <i class="fa-solid fa-circle-exclamation me-1"></i>{{ form.consent_given.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="form-check">
+              {{ form.allow_whatsapp_outreach }}
+              <label class="form-check-label small text-muted" for="id_allow_whatsapp_outreach">
+                Allow automated 30-second WhatsApp/SMS milestone check-ins to prevent contact drift (Optional, manageable in profile).
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary-custom w-100 py-3 justify-content-center fs-6" id="registerSubmitBtn">
+            <i class="fa-solid fa-user-plus me-1"></i> Create Account & Agree to Terms
           </button>
         </form>
 
         <div class="text-center mt-4 pt-3 border-top">
           <p class="text-muted small mb-0">
-            Already registered? <a href="{% url 'login' %}" class="fw-semibold">Sign In</a>
+            Already registered? <a href="{% url 'login' %}" class="fw-semibold">Sign In to Dashboard</a>
           </p>
         </div>
       </div>

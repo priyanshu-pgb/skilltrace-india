@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}My Profile - SkillBridge{% endblock %}
+{% block title %}My Profile - SOPAN (सोपान){% endblock %}
 
 {% block content %}
-<div class="dashboard-header">
+<div class="dashboard-header" id="main-content-focus">
   <div>
-    <h1 class="welcome-title">Candidate Profile & Background</h1>
+    <h1 class="welcome-title">Candidate Profile & Career Identity</h1>
     <p class="welcome-subtitle">Manage your personal information, education, career targets, and portfolio links</p>
   </div>
 </div>
@@ -24,26 +24,26 @@
           <h5 class="fw-bold fs-6 mb-3 text-primary">Basic Information</h5>
           <div class="row g-3 mb-3">
             <div class="col-sm-6">
-              <label class="form-label small fw-semibold">First Name</label>
+              <label class="form-label small fw-semibold" for="{{ user_form.first_name.id_for_label }}">First Name</label>
               {{ user_form.first_name }}
             </div>
             <div class="col-sm-6">
-              <label class="form-label small fw-semibold">Last Name</label>
+              <label class="form-label small fw-semibold" for="{{ user_form.last_name.id_for_label }}">Last Name</label>
               {{ user_form.last_name }}
             </div>
           </div>
 
           <div class="row g-3 mb-4">
             <div class="col-sm-6">
-              <label class="form-label small fw-semibold">Email</label>
+              <label class="form-label small fw-semibold" for="{{ user_form.email.id_for_label }}">Email</label>
               {{ user_form.email }}
             </div>
             <div class="col-sm-6">
-              <label class="form-label small fw-semibold">Phone Number</label>
+              <label class="form-label small fw-semibold" for="{{ user_form.phone.id_for_label }}">Phone Number</label>
               {{ user_form.phone }}
             </div>
             <div class="col-12">
-              <label class="form-label small fw-semibold">Location (City, Country)</label>
+              <label class="form-label small fw-semibold" for="{{ user_form.location.id_for_label }}">Location (City, State, Country)</label>
               {{ user_form.location }}
             </div>
           </div>
@@ -51,27 +51,27 @@
           <h5 class="fw-bold fs-6 mb-3 text-primary border-top pt-3">Academic & Career Goals</h5>
           <div class="row g-3 mb-3">
             <div class="col-sm-6">
-              <label class="form-label small fw-semibold">Degree / Program</label>
+              <label class="form-label small fw-semibold" for="{{ profile_form.degree.id_for_label }}">Degree / Program</label>
               {{ profile_form.degree }}
             </div>
             <div class="col-sm-6">
-              <label class="form-label small fw-semibold">Institution / University</label>
+              <label class="form-label small fw-semibold" for="{{ profile_form.institution.id_for_label }}">Institution / University</label>
               {{ profile_form.institution }}
             </div>
             <div class="col-sm-6">
-              <label class="form-label small fw-semibold">Graduation Year</label>
+              <label class="form-label small fw-semibold" for="{{ profile_form.graduation_year.id_for_label }}">Graduation Year</label>
               {{ profile_form.graduation_year }}
             </div>
             <div class="col-sm-6">
-              <label class="form-label small fw-semibold">Target Job Role</label>
+              <label class="form-label small fw-semibold" for="{{ profile_form.target_role.id_for_label }}">Target Job Role</label>
               {{ profile_form.target_role }}
             </div>
             <div class="col-12">
-              <label class="form-label small fw-semibold">Professional Headline</label>
+              <label class="form-label small fw-semibold" for="{{ profile_form.headline.id_for_label }}">Professional Headline</label>
               {{ profile_form.headline }}
             </div>
             <div class="col-12">
-              <label class="form-label small fw-semibold">Experience & Background Summary</label>
+              <label class="form-label small fw-semibold" for="{{ profile_form.experience_summary.id_for_label }}">Experience & Background Summary</label>
               {{ profile_form.experience_summary }}
             </div>
           </div>
@@ -79,20 +79,20 @@
           <h5 class="fw-bold fs-6 mb-3 text-primary border-top pt-3">Portfolio & Social Profiles</h5>
           <div class="row g-3 mb-4">
             <div class="col-sm-4">
-              <label class="form-label small fw-semibold"><i class="fa-brands fa-linkedin text-primary me-1"></i> LinkedIn URL</label>
+              <label class="form-label small fw-semibold" for="{{ profile_form.linkedin_url.id_for_label }}"><i class="fa-brands fa-linkedin text-primary me-1"></i> LinkedIn URL</label>
               {{ profile_form.linkedin_url }}
             </div>
             <div class="col-sm-4">
-              <label class="form-label small fw-semibold"><i class="fa-brands fa-github text-dark me-1"></i> GitHub URL</label>
+              <label class="form-label small fw-semibold" for="{{ profile_form.github_url.id_for_label }}"><i class="fa-brands fa-github text-dark me-1"></i> GitHub URL</label>
               {{ profile_form.github_url }}
             </div>
             <div class="col-sm-4">
-              <label class="form-label small fw-semibold"><i class="fa-solid fa-globe text-secondary me-1"></i> Portfolio Website</label>
+              <label class="form-label small fw-semibold" for="{{ profile_form.portfolio_url.id_for_label }}"><i class="fa-solid fa-globe text-secondary me-1"></i> Portfolio Website</label>
               {{ profile_form.portfolio_url }}
             </div>
           </div>
 
-          <button type="submit" class="btn-primary-custom px-4 py-2">
+          <button type="submit" class="btn-primary-custom px-4 py-2" id="saveProfileBtn">
             <i class="fa-solid fa-floppy-disk me-1"></i> Save Profile Details
           </button>
         </form>
@@ -100,9 +100,9 @@
     </div>
   </div>
 
-  <!-- Profile Card Preview -->
+  <!-- Right Column: Profile Preview & DPDP Act Data Governance -->
   <div class="col-lg-4">
-    <div class="card-custom text-center p-4">
+    <div class="card-custom text-center p-4 mb-4">
       <div class="brand-icon-box mx-auto mb-3" style="width: 72px; height: 72px; font-size: 2rem;">
         <i class="fa-solid fa-user-graduate"></i>
       </div>
@@ -114,7 +114,7 @@
       </span>
 
       <p class="small text-muted mb-3">
-        {{ profile.headline|default:"Student pursuing verified career excellence through SkillBridge." }}
+        {{ profile.headline|default:"Student pursuing verified career excellence through SOPAN." }}
       </p>
 
       <div class="p-3 bg-light rounded text-start small mb-3">
@@ -125,14 +125,40 @@
 
       <div class="d-flex justify-content-center gap-2">
         {% if profile.linkedin_url %}
-          <a href="{{ profile.linkedin_url }}" target="_blank" class="btn btn-outline-primary btn-sm"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="{{ profile.linkedin_url }}" target="_blank" class="btn btn-outline-primary btn-sm" title="LinkedIn Profile"><i class="fa-brands fa-linkedin"></i></a>
         {% endif %}
         {% if profile.github_url %}
-          <a href="{{ profile.github_url }}" target="_blank" class="btn btn-outline-dark btn-sm"><i class="fa-brands fa-github"></i></a>
+          <a href="{{ profile.github_url }}" target="_blank" class="btn btn-outline-dark btn-sm" title="GitHub Profile"><i class="fa-brands fa-github"></i></a>
         {% endif %}
         {% if profile.portfolio_url %}
-          <a href="{{ profile.portfolio_url }}" target="_blank" class="btn btn-outline-secondary btn-sm"><i class="fa-solid fa-globe"></i></a>
+          <a href="{{ profile.portfolio_url }}" target="_blank" class="btn btn-outline-secondary btn-sm" title="Portfolio Link"><i class="fa-solid fa-globe"></i></a>
         {% endif %}
+      </div>
+    </div>
+
+    <!-- DPDP Act 2023 Data Principal Governance Card -->
+    <div class="card-custom p-4">
+      <div class="d-flex align-items-center gap-2 mb-3">
+        <i class="fa-solid fa-shield-halved text-success fs-5"></i>
+        <h4 class="fs-6 fw-bold mb-0 text-dark">Data Protection & DPDP Rights</h4>
+      </div>
+      
+      <div class="p-2 bg-success-subtle text-success rounded small fw-semibold mb-3">
+        <i class="fa-solid fa-check-circle me-1"></i> DPDP Consent Active
+      </div>
+
+      <div class="small text-muted mb-3">
+        <div><strong>Skill India ID:</strong> <span class="text-primary font-monospace">{{ user.trainee_id|default:"SIDH-2026-IN-88912" }}</span></div>
+        <div><strong>WhatsApp Check-ins:</strong> <span class="badge {% if user.allow_whatsapp_outreach %}bg-success{% else %}bg-secondary{% endif %}">{% if user.allow_whatsapp_outreach %}Opted In{% else %}Opted Out{% endif %}</span></div>
+      </div>
+
+      <div class="d-flex flex-column gap-2 small">
+        <a href="{% url 'privacy_policy' %}" class="btn btn-outline-custom btn-sm text-start justify-content-start">
+          <i class="fa-solid fa-shield-check text-primary me-2"></i> Review Privacy Rights
+        </a>
+        <a href="{% url 'grievance_redressal' %}" class="btn btn-outline-danger btn-sm text-start justify-content-start">
+          <i class="fa-solid fa-user-shield text-danger me-2"></i> Contact Grievance Officer
+        </a>
       </div>
     </div>
   </div>

@@ -100,6 +100,41 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Accessibility Skip Link (WCAG 2.1 AA) */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  background: #111827;
+  color: #ffffff;
+  padding: 0.65rem 1.25rem;
+  border-radius: 0 0 8px 8px;
+  border: 2px solid #f8cb46;
+  font-weight: 700;
+  font-size: 0.875rem;
+  z-index: 100001;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transition: top 0.2s ease-in-out;
+}
+
+.skip-link:focus {
+  top: 0;
+  color: #f8cb46;
+  outline: 3px solid #0071e3;
+  outline-offset: 2px;
+}
+
+/* Global Focus-Visible for WCAG 2.1 Keyboard Navigation */
+:focus-visible {
+  outline: 2.5px solid #0071e3 !important;
+  outline-offset: 2px !important;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
 a {
   color: var(--primary);
   text-decoration: none;

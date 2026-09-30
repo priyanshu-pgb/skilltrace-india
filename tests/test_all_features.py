@@ -55,8 +55,22 @@ class SkillBridgeCoreTests(TestCase):
             provider='SkillBridge Lab'
         )
 
-    # 1. Authentication Tests
+    # 1. Authentication & DPDP Consent Tests
     def test_user_registration(self):
+        # Missing consent must fail
+        fail_response = self.client.post(reverse('register'), {
+            'username': 'noconsentuser',
+            'email': 'noconsent@example.com',
+            'first_name': 'No',
+            'last_name': 'Consent',
+            'role': 'user',
+            'password1': 'newsecurepass123',
+            'password2': 'newsecurepass123',
+        })
+        self.assertEqual(fail_response.status_code, 200)
+        self.assertFalse(User.objects.filter(username='noconsentuser').exists())
+
+        # Valid registration with explicit affirmative consent
         response = self.client.post(reverse('register'), {
             'username': 'newuser',
             'email': 'newuser@example.com',
@@ -65,11 +79,13 @@ class SkillBridgeCoreTests(TestCase):
             'role': 'user',
             'password1': 'newsecurepass123',
             'password2': 'newsecurepass123',
+            'consent_given': 'on',
         })
         self.assertEqual(response.status_code, 302)
         self.assertTrue(User.objects.filter(username='newuser').exists())
         new_u = User.objects.get(username='newuser')
         self.assertTrue(hasattr(new_u, 'profile'))
+        self.assertTrue(new_u.consent_given)
 
     def test_user_login_and_logout(self):
         login_success = self.client.login(username='test_student', password='password123')
@@ -168,3 +184,32 @@ class SkillBridgeCoreTests(TestCase):
         self.client.login(username='test_admin', password='password123')
         response = self.client.get(reverse('admin_dashboard'))
         self.assertEqual(response.status_code, 200)
+
+    # 7. Legal, DPDP Compliance & Governance Pages Tests
+    def test_privacy_policy_page(self):
+        response = self.client.get(reverse('privacy_policy'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Digital Personal Data Protection Act, 2023")
+        self.assertContains(response, "Data Fiduciary")
+
+    def test_terms_conditions_page(self):
+        response = self.client.get(reverse('terms_conditions'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "NO JOB GUARANTEE")
+
+    def test_cookie_policy_page(self):
+        response = self.client.get(reverse('cookie_policy'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "csrftoken")
+        self.assertContains(response, "sessionid")
+
+    def test_refund_policy_page(self):
+        response = self.client.get(reverse('refund_policy'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "100% free of charge")
+
+    def test_grievance_redressal_page(self):
+        response = self.client.get(reverse('grievance_redressal'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Grievance Redressal")
+

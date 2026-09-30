@@ -20,6 +20,26 @@ def custom_403(request, exception=None):
 def custom_500(request):
     return render(request, '500.html', status=500)
 
+def privacy_policy(request):
+    """India DPDP Act 2023 & IT Act 2000 compliant Privacy Policy page."""
+    return render(request, 'legal/privacy_policy.html', {'is_public_page': True})
+
+def terms_conditions(request):
+    """Official Terms and Conditions with Non-Employment Guarantee disclaimer."""
+    return render(request, 'legal/terms_conditions.html', {'is_public_page': True})
+
+def cookie_policy(request):
+    """Detailed Cookie & Local Storage transparency policy."""
+    return render(request, 'legal/cookie_policy.html', {'is_public_page': True})
+
+def refund_policy(request):
+    """Transparent Refund & Cancellation terms (100% free candidate guarantee)."""
+    return render(request, 'legal/refund_policy.html', {'is_public_page': True})
+
+def grievance_redressal(request):
+    """Statutory Grievance Redressal and Data Protection Officer page."""
+    return render(request, 'legal/grievance_redressal.html', {'is_public_page': True})
+
 
 @csrf_exempt
 def chat_assistant_api(request):

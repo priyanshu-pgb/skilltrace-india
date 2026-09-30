@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Refund & Cancellation Policy - SOPAN Platform{% endblock %}
+
+{% block public_content %}
+<div class="container py-5" id="main-content-focus">
+  <!-- Breadcrumb -->
+  <div class="mb-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a href="{% url 'landing' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Refund Policy</li>
+      </ol>
+    </nav>
+    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: #eef2ff; border: 1px solid #c7d2fe;">
+      <i class="fa-solid fa-receipt text-primary"></i>
+      <span class="small fw-bold text-primary">FAIR & TRANSPARENT BILLING TERMS</span>
+    </div>
+    <h1 class="fw-bold fs-2 text-dark mb-2">Refund & Cancellation Policy</h1>
+    <p class="text-muted small mb-0">
+      Effective Date: September 30, 2026 &bull; Last Revised: September 30, 2026 &bull; Version: 2.1
+    </p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-4 col-xl-3">
+      <div class="card-custom p-3 sticky-top" style="top: 90px;">
+        <h2 class="fs-6 fw-bold text-dark mb-3"><i class="fa-solid fa-money-bill-transfer me-2 text-primary"></i> Policy Index</h2>
+        <nav class="nav flex-column small gap-1">
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#free-service">1. 100% Free Candidate Services</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#no-candidate-fees">2. Zero Hidden Fees</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#institutional-services">3. Institutional Enterprise Terms</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#dispute-redressal">4. Dispute Redressal & Support</a>
+        </nav>
+
+        <div class="p-3 bg-success-subtle rounded border border-success-subtle mt-3">
+          <span class="badge bg-success text-white fw-bold mb-1">CANDIDATE GUARANTEE</span>
+          <p class="small text-success mb-0">
+            SOPAN never charges candidates or job seekers for taking assessments, viewing skill gaps, or verifying employment.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8 col-xl-9">
+      <div class="card-custom p-4 p-md-5">
+
+        <!-- 1. Free Service -->
+        <section id="free-service" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">1. Free Access for Students & Candidates</h2>
+          <div class="p-3 rounded-3 bg-light border mb-3">
+            <h3 class="fs-6 fw-bold text-success mb-1"><i class="fa-solid fa-circle-check me-2"></i> Zero Cost to Candidates</h3>
+            <p class="small text-muted mb-0">
+              The <strong>SOPAN (सोपान)</strong> platform is provided as an open national skilling initiative. Registration, profile creation, skill assessments (MCQ & practical coding), skill gap diagnostics, and longitudinal wage retention logging are <strong>100% free of charge</strong> for all individual students, candidates, and job seekers.
+            </p>
+          </div>
+          <p class="text-secondary leading-relaxed">
+            Because candidates are never charged any application fees, subscription costs, or assessment fees, no monetary refunds apply to individual candidate accounts.
+          </p>
+        </section>
+
+        <!-- 2. Zero Hidden Fees -->
+        <section id="no-candidate-fees" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">2. Warning Against Unauthorized Fee Solicitations</h2>
+          <div class="alert alert-warning py-3">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <i class="fa-solid fa-triangle-exclamation fs-5 text-warning"></i>
+              <strong class="fs-6 text-dark">Notice to Candidates: Beware of Fraud</strong>
+            </div>
+            <p class="small text-dark mb-0">
+              SOPAN and its representatives will <strong>never ask you for money, bank account details, UPI PINs, or processing fees</strong> for job verification, placement assistance, or certificate issuance. If any individual or agency demands payment claiming to represent SOPAN, do not pay and immediately report them to <a href="mailto:{{ GRIEVANCE_EMAIL|default:'grievance@sopan-career.gov.in' }}" class="fw-bold">{{ GRIEVANCE_EMAIL|default:"grievance@sopan-career.gov.in" }}</a>.
+            </p>
+          </div>
+        </section>
+
+        <!-- 3. Institutional Services -->
+        <section id="institutional-services" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">3. Institutional, Training Partner & Enterprise Terms</h2>
+          <p class="text-secondary leading-relaxed">
+            Where commercial agreements, institutional cohort benchmarking licenses, or enterprise API services are contracted with educational colleges, corporate employers, or private training partners, the following refund and cancellation terms govern:
+          </p>
+          <ul class="text-secondary leading-relaxed small">
+            <li><strong>Cancellation Window:</strong> Institutional partners may cancel contracted assessment cohort batches up to <strong>7 calendar days</strong> prior to cohort activation for a 100% refund of prepaid fees.</li>
+            <li><strong>Technical Service Interruptions:</strong> If an institutional assessment batch cannot be executed due to verified server outages or technical platform failure attributable directly to SOPAN, a full refund or equivalent service credit will be issued within 14 business days.</li>
+            <li><strong>Non-Refundable Scenarios:</strong> Once assessment batches have commenced, candidate invitations have been dispatched, or verified cryptographic credential badges have been published on the ledger, the associated service fees are non-refundable.</li>
+          </ul>
+        </section>
+
+        <!-- 4. Dispute Redressal & Support -->
+        <section id="dispute-redressal" class="mb-4">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">4. Billing Dispute Redressal & Contact</h2>
+          <p class="text-secondary leading-relaxed">
+            If you have questions regarding any institutional billing invoice or suspect unauthorized fee solicitation:
+          </p>
+
+          <div class="p-3 bg-light rounded border">
+            <span class="fw-bold text-dark d-block">SOPAN Finance & Governance Desk</span>
+            <span class="small text-muted d-block">{{ OFFICE_ADDRESS|default:"Infocity Technology Hub, Patia, Bhubaneswar, Odisha, 751024, India" }}</span>
+            <span class="small fw-semibold text-primary d-block mt-1">
+              Email: <a href="mailto:{{ SUPPORT_EMAIL|default:'support@sopan-career.gov.in' }}">{{ SUPPORT_EMAIL|default:"support@sopan-career.gov.in" }}</a>
+            </span>
+            <span class="small text-muted d-block mt-1">Response timeline: 48 business hours.</span>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

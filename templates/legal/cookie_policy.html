@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block title %}Cookie Policy - SOPAN Platform{% endblock %}
+
+{% block public_content %}
+<div class="container py-5" id="main-content-focus">
+  <!-- Breadcrumb -->
+  <div class="mb-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a href="{% url 'landing' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cookie Policy</li>
+      </ol>
+    </nav>
+    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: #eef2ff; border: 1px solid #c7d2fe;">
+      <i class="fa-solid fa-cookie-bite text-primary"></i>
+      <span class="small fw-bold text-primary">TRANSPARENT COOKIE & STORAGE DISCLOSURE</span>
+    </div>
+    <h1 class="fw-bold fs-2 text-dark mb-2">Cookie & Local Storage Policy</h1>
+    <p class="text-muted small mb-0">
+      Effective Date: September 30, 2026 &bull; Last Revised: September 30, 2026 &bull; Version: 2.1
+    </p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-4 col-xl-3">
+      <div class="card-custom p-3 sticky-top" style="top: 90px;">
+        <h2 class="fs-6 fw-bold text-dark mb-3"><i class="fa-solid fa-cookie me-2 text-primary"></i> Cookie Index</h2>
+        <nav class="nav flex-column small gap-1">
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#what-are-cookies">1. What Are Cookies?</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#cookies-we-use">2. Cookies We Use</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#no-tracking-cookies">3. Zero Advertising Cookies</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#managing-cookies">4. How to Manage Cookies</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#contact-us">5. Contact Information</a>
+        </nav>
+
+        <div class="p-3 bg-light rounded border mt-3">
+          <span class="badge bg-success-subtle text-success fw-bold mb-1">PRIVACY FIRST</span>
+          <p class="small text-muted mb-0">
+            SOPAN only sets cookies strictly necessary for login authentication and security against website forgery.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8 col-xl-9">
+      <div class="card-custom p-4 p-md-5">
+
+        <!-- 1. What Are Cookies -->
+        <section id="what-are-cookies" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">1. What Are Cookies and Local Storage?</h2>
+          <p class="text-secondary leading-relaxed">
+            Cookies are small text files placed on your device (computer, smartphone, or tablet) by websites that you visit. They are widely used to make websites work properly, improve security, and remember your session while navigating pages.
+          </p>
+          <p class="text-secondary leading-relaxed">
+            <strong>Local Storage:</strong> In addition to HTTP cookies, modern web applications use browser `localStorage` to securely store lightweight user preferences (such as your cookie consent choice) directly on your device without sending them over the network with every request.
+          </p>
+        </section>
+
+        <!-- 2. Cookies We Use -->
+        <section id="cookies-we-use" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">2. Cookies & Storage Elements Used by SOPAN</h2>
+          <p class="text-secondary leading-relaxed">
+            Under international privacy regulations (including the EU ePrivacy Directive and global data protection guidelines), <strong>strictly necessary cookies</strong> do not require opt-in consent because the service cannot function without them. However, we believe in full transparency and list every cookie set by SOPAN below:
+          </p>
+
+          <div class="table-responsive my-3">
+            <table class="table table-bordered align-middle small">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col" style="width: 20%;">Cookie / Token</th>
+                  <th scope="col" style="width: 25%;">Category</th>
+                  <th scope="col" style="width: 15%;">Duration</th>
+                  <th scope="col" style="width: 40%;">Purpose & Security Function</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="fw-bold font-monospace">csrftoken</td>
+                  <td><span class="badge bg-danger-subtle text-danger">Strictly Necessary</span></td>
+                  <td>1 Year</td>
+                  <td>
+                    Protects you and the platform against Cross-Site Request Forgery (CSRF) attacks by ensuring form submissions originate authentically from your browser session.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="fw-bold font-monospace">sessionid</td>
+                  <td><span class="badge bg-danger-subtle text-danger">Strictly Necessary</span></td>
+                  <td>2 Weeks (or until Logout)</td>
+                  <td>
+                    Stores your encrypted, randomized authentication session token once you log in. Allows you to stay authenticated across candidate dashboards and assessment rooms without re-entering credentials on every page.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="fw-bold font-monospace">sopan_cookie_consent</td>
+                  <td><span class="badge bg-primary-subtle text-primary">Functional Preference</span></td>
+                  <td>Persistent (`localStorage`)</td>
+                  <td>
+                    Records your acknowledgment of our Cookie and Privacy policy so that the bottom consent banner is not repetitively displayed on every page load.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 3. Zero Advertising Cookies -->
+        <section id="no-tracking-cookies" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">3. Zero Advertising & Tracking Cookies</h2>
+          <div class="alert alert-success py-3">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <i class="fa-solid fa-circle-check fs-5 text-success"></i>
+              <strong class="fs-6">Our Commitment: No Behavioral Surveillance</strong>
+            </div>
+            <p class="small mb-0">
+              SOPAN DOES NOT USE third-party advertising cookies, retargeting pixels (such as Meta Pixel, TikTok Pixel, or Google Remarketing), behavioral trackers, or cross-site fingerprinting beacons. Your activity on our skilling platform is never monetized or shared with ad networks.
+            </p>
+          </div>
+        </section>
+
+        <!-- 4. How to Manage Cookies -->
+        <section id="managing-cookies" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">4. How You Can Control & Delete Cookies</h2>
+          <p class="text-secondary leading-relaxed">
+            Most web browsers allow you to manage or delete cookies via browser settings. Please note that disabling strictly necessary cookies (`csrftoken` and `sessionid`) will prevent you from signing in or submitting assessments.
+          </p>
+          <ul class="text-secondary leading-relaxed small">
+            <li><strong>Google Chrome:</strong> Settings ➜ Privacy and Security ➜ Third-party cookies ➜ See all site data and permissions.</li>
+            <li><strong>Mozilla Firefox:</strong> Settings ➜ Privacy & Security ➜ Cookies and Site Data.</li>
+            <li><strong>Apple Safari:</strong> Preferences ➜ Privacy ➜ Manage Website Data.</li>
+            <li><strong>Microsoft Edge:</strong> Settings ➜ Cookies and Site Permissions ➜ Manage and delete cookies.</li>
+          </ul>
+
+          <div class="mt-3">
+            <button type="button" class="btn btn-outline-dark btn-sm rounded-pill px-3" id="resetCookieSettingsBtn">
+              <i class="fa-solid fa-rotate-left me-1"></i> Reset My Cookie Consent Preferences
+            </button>
+            <span class="small text-muted ms-2" id="resetCookieStatus"></span>
+          </div>
+        </section>
+
+        <!-- 5. Contact Us -->
+        <section id="contact-us" class="mb-4">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">5. Inquiries Regarding Cookies</h2>
+          <p class="text-secondary leading-relaxed">
+            If you have questions regarding our use of cookies or technical storage, please reach out to our privacy office at:
+          </p>
+          <div class="p-3 bg-light rounded border">
+            <span class="fw-bold text-dark d-block">Privacy & Technical Security Desk</span>
+            <span class="small text-muted">Email: <a href="mailto:{{ GRIEVANCE_EMAIL|default:'grievance@sopan-career.gov.in' }}">{{ GRIEVANCE_EMAIL|default:"grievance@sopan-career.gov.in" }}</a></span>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const resetBtn = document.getElementById('resetCookieSettingsBtn');
+  const statusEl = document.getElementById('resetCookieStatus');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', function() {
+      localStorage.removeItem('sopan_cookie_consent');
+      if (statusEl) {
+        statusEl.textContent = 'Preferences cleared! Reloading page to display cookie banner...';
+        statusEl.className = 'small text-success ms-2';
+      }
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    });
+  }
+});
+</script>
+{% endblock %}

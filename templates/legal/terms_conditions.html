@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block title %}Terms & Conditions - SOPAN Platform{% endblock %}
+
+{% block public_content %}
+<div class="container py-5" id="main-content-focus">
+  <!-- Header / Breadcrumb -->
+  <div class="mb-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a href="{% url 'landing' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Terms & Conditions</li>
+      </ol>
+    </nav>
+    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: #eef2ff; border: 1px solid #c7d2fe;">
+      <i class="fa-solid fa-scale-balanced text-primary"></i>
+      <span class="small fw-bold text-primary">INDIAN CONTRACT ACT 1872 & IT ACT 2000 GOVERNED</span>
+    </div>
+    <h1 class="fw-bold fs-2 text-dark mb-2">Terms of Service & Platform Agreement</h1>
+    <p class="text-muted small mb-0">
+      Effective Date: September 30, 2026 &bull; Last Revised: September 30, 2026 &bull; Version: 2.1
+    </p>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Navigation Index -->
+    <div class="col-lg-4 col-xl-3">
+      <div class="card-custom p-3 sticky-top" style="top: 90px;">
+        <h2 class="fs-6 fw-bold text-dark mb-3"><i class="fa-solid fa-bookmark me-2 text-primary"></i> Navigation Index</h2>
+        <nav class="nav flex-column small gap-1">
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#acceptance-scope">1. Acceptance of Terms</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#platform-nature">2. Nature of Platform & Scope</a>
+          <a class="nav-link py-1 px-2 rounded text-dark text-danger fw-bold" href="#no-job-guarantee">3. Critical Disclaimer: No Job Guarantee</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#user-conduct">4. Eligibility & Candidate Conduct</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#assessment-integrity">5. Assessment Integrity & Cheating</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#employer-verification">6. Employer Verification Terms</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#intellectual-property">7. Intellectual Property Rights</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#limitation-liability">8. Limitation of Liability</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#governing-law">9. Governing Law & Jurisdiction</a>
+        </nav>
+
+        <div class="p-3 bg-danger-subtle rounded border border-danger-subtle mt-3">
+          <span class="badge bg-danger text-white fw-bold mb-1">IMPORTANT DISCLAIMER</span>
+          <p class="small text-danger mb-0">
+            SOPAN evaluates skills and tracks outcomes. We do not provide, promise, or guarantee employment or job offers.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-lg-8 col-xl-9">
+      <div class="card-custom p-4 p-md-5">
+
+        <!-- 1. Acceptance of Terms -->
+        <section id="acceptance-scope" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">1. Acceptance of Terms & Conditions</h2>
+          <p class="text-secondary leading-relaxed">
+            By creating an account, accessing, or using the <strong>SOPAN (सोपान)</strong> platform ("Platform"), accessible at <a href="{{ request.scheme }}://{{ request.get_host }}">{{ request.get_host }}</a>, operated by <strong>{{ OPERATING_ENTITY|default:"SOPAN Skilling Intelligence Technologies" }}</strong>, you enter into a legally binding electronic agreement under the <strong>Indian Contract Act, 1872</strong> and the <strong>Information Technology Act, 2000</strong>.
+          </p>
+          <p class="text-secondary leading-relaxed">
+            If you do not agree to these Terms and Conditions in full, you must immediately refrain from creating an account or using any feature of the Platform.
+          </p>
+        </section>
+
+        <!-- 2. Nature of Platform & Scope -->
+        <section id="platform-nature" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">2. Nature of the Platform & Intended Purpose</h2>
+          <p class="text-secondary leading-relaxed">
+            SOPAN is an educational technology and national skilling outcome-measurement research system. The Platform is designed to:
+          </p>
+          <ul class="text-secondary leading-relaxed">
+            <li>Assess technical, professional, and practical competencies through standardized interactive evaluations (MCQs, coding challenges, project audits).</li>
+            <li>Provide candidates with a granular diagnostic map of skill gaps against active industry occupational standards.</li>
+            <li>Enable voluntary, longitudinal tracking of employment outcomes (e.g. Month 3, Month 6, and Month 12 retention milestones) to assist state skill development missions, training providers, and funders in evaluating vocational training efficacy.</li>
+          </ul>
+        </section>
+
+        <!-- 3. Critical Disclaimer: No Job Guarantee -->
+        <section id="no-job-guarantee" class="mb-5">
+          <div class="p-4 rounded-4 border-2 border-danger bg-danger-subtle">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="fa-solid fa-triangle-exclamation text-danger fs-4"></i>
+              <h2 class="fs-5 fw-bold text-danger mb-0">3. Critical Disclaimer: NO JOB GUARANTEE</h2>
+            </div>
+            <p class="text-dark small leading-relaxed fw-medium mb-2">
+              PLEASE READ CAREFULLY. SOPAN IS STRICTLY AN ASSESSMENT AND OUTCOME BENCHMARKING PLATFORM.
+            </p>
+            <ul class="text-dark small leading-relaxed mb-3">
+              <li><strong>Not an Employment Agency:</strong> SOPAN is NOT a recruitment agency, employment exchange, job broker, or placement consultancy.</li>
+              <li><strong>Zero Employment Guarantee:</strong> SOPAN does NOT guarantee, warrant, or promise employment, job placement, interview invitations, minimum wage thresholds, or promotion opportunities.</li>
+              <li><strong>Informational Job Matching:</strong> Any job roles, vacancies, or wage progression estimates displayed on the Platform represent algorithmic matching based on declared industry occupational standards. They do not constitute job offers or employment contracts.</li>
+              <li><strong>Pilot & Research Nature:</strong> Trainee metrics, district curves, and wage delta averages shown across promotional or demonstration dashboards reflect simulated pilot cohort data designed to demonstrate longitudinal tracking methodology.</li>
+            </ul>
+            <div class="small text-danger fw-bold">
+              By using SOPAN, you explicitly release the Platform, its developers, operators, and affiliates from any claims arising out of your employment status or career results.
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. Eligibility & Candidate Conduct -->
+        <section id="user-conduct" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">4. User Eligibility & Account Responsibilities</h2>
+          <p class="text-secondary leading-relaxed">
+            <strong>Eligibility:</strong> You must be at least 18 years of age to register independently. Minors aged 16 to 18 participating in government-approved vocational schemes (such as NAPS apprenticeships) may only register with verified parental or guardian consent under Section 9 of the DPDP Act 2023.
+          </p>
+          <p class="text-secondary leading-relaxed">
+            <strong>Account Accuracy:</strong> You agree to provide true, accurate, current, and complete information during registration and in your skilling profile. You are responsible for safeguarding your login credentials.
+          </p>
+          <p class="text-secondary leading-relaxed">
+            <strong>Prohibited Conduct:</strong> You may not:
+          </p>
+          <ul class="text-secondary leading-relaxed small">
+            <li>Impersonate any other student, candidate, trainer, or organization.</li>
+            <li>Submit forged, falsified, or fraudulent academic or employer credentials.</li>
+            <li>Attempt to probe, reverse-engineer, decompile, or bypass security features or rate limits of the Platform.</li>
+            <li>Deploy automated scrapers, bots, or crawlers without express written permission.</li>
+          </ul>
+        </section>
+
+        <!-- 5. Assessment Integrity & Cheating -->
+        <section id="assessment-integrity" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">5. Assessment Integrity & Anti-Cheating Protocol</h2>
+          <p class="text-secondary leading-relaxed">
+            SOPAN verifies skills using randomized question pools, server-side execution timing, practical challenges, and behavioral monitoring. You agree that:
+          </p>
+          <ul class="text-secondary leading-relaxed small">
+            <li>You will undertake all assessments independently, without unauthorized collaboration, automated code completion tools, or proxy test-takers.</li>
+            <li>Any detection of test-cheating, browser tampering, or synchronized answering will result in the immediate nullification of the assessment score and permanent blacklisting of the candidate credential.</li>
+            <li>Assessment scores and verification badges are non-transferable.</li>
+          </ul>
+        </section>
+
+        <!-- 6. Employer Verification Terms -->
+        <section id="employer-verification" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">6. 1-Click Employer Verification Terms</h2>
+          <p class="text-secondary leading-relaxed">
+            When a candidate generates a tokenized employer verification link:
+          </p>
+          <ul class="text-secondary leading-relaxed small">
+            <li>The responding employer or HR representative warrants that they are authorized to confirm employee designation, joining date, wage bracket, and social security coverage.</li>
+            <li>Submitted verification data is recorded into the longitudinal outcomes registry with a cryptographic timestamp and token validation trail.</li>
+            <li>Submission of fictitious employer verifications by candidates constitutes fraud and will result in referral to appropriate statutory bodies.</li>
+          </ul>
+        </section>
+
+        <!-- 7. Intellectual Property Rights -->
+        <section id="intellectual-property" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">7. Intellectual Property Rights & Copyright</h2>
+          <p class="text-secondary leading-relaxed">
+            All proprietary rights, title, and interest in and to the Platform—including but not limited to the SOPAN name, logo, custom SVG vector artwork, assessment questions, algorithmic gap-matching formulas, user interface design, and software code—are the exclusive intellectual property of <strong>{{ OPERATING_ENTITY|default:"SOPAN Skilling Intelligence Technologies" }}</strong> and protected under the <strong>Indian Copyright Act, 1957</strong> and international copyright treaties.
+          </p>
+          <p class="text-secondary leading-relaxed">
+            Candidates retain ownership of their original project code submissions, granting SOPAN a non-exclusive license to evaluate and display the submitted project for skill assessment verification.
+          </p>
+        </section>
+
+        <!-- 8. Limitation of Liability -->
+        <section id="limitation-liability" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">8. Limitation of Liability & Warranty Disclaimer</h2>
+          <p class="text-secondary leading-relaxed">
+            TO THE FULLEST EXTENT PERMISSIBLE BY APPLICABLE INDIAN LAW:
+          </p>
+          <ul class="text-secondary leading-relaxed small">
+            <li>THE PLATFORM IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR ACCURACY OF THIRD-PARTY SCHEMES.</li>
+            <li>IN NO EVENT SHALL SOPAN, ITS OPERATORS, OR CONTRIBUTORS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, CONSEQUENTIAL, SPECIAL, OR PUNITIVE DAMAGES, INCLUDING LOSS OF PROFITS, LOSS OF EMPLOYMENT OPPORTUNITIES, DATA LOSS, OR BUSINESS INTERRUPTION.</li>
+          </ul>
+        </section>
+
+        <!-- 9. Governing Law & Jurisdiction -->
+        <section id="governing-law" class="mb-4">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">9. Governing Law & Jurisdiction</h2>
+          <p class="text-secondary leading-relaxed">
+            These Terms and Conditions shall be governed by, construed, and enforced in accordance with the laws of the <strong>Republic of India</strong>, without regard to conflict of law principles.
+          </p>
+          <p class="text-secondary leading-relaxed">
+            Any dispute, controversy, or claim arising out of or relating to these Terms shall be subject to the exclusive jurisdiction of the competent courts situated in <strong>{{ JURISDICTION|default:"Bhubaneswar, Odisha, India" }}</strong>.
+          </p>
+
+          <div class="p-3 bg-light rounded border mt-4">
+            <span class="fw-bold text-dark d-block mb-1">Questions regarding our Terms?</span>
+            <span class="small text-muted">
+              Contact our legal and governance team at <a href="mailto:{{ SUPPORT_EMAIL|default:'support@sopan-career.gov.in' }}">{{ SUPPORT_EMAIL|default:"support@sopan-career.gov.in" }}</a>.
+            </span>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

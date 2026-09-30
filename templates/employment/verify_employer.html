@@ -75,13 +75,15 @@
           </label>
         </div>
 
-        <div class="mb-4">
-          <label class="form-label small fw-semibold text-dark">Feedback on Candidate's Skill Readiness</label>
-          <textarea name="feedback_on_trainee" rows="3" class="form-control input-custom" placeholder="Share a brief line on practical skills, work ethic, and relevance of skilling curriculum..."></textarea>
+        <div class="form-check mb-3 p-3 bg-light rounded border">
+          <input class="form-check-input" type="checkbox" name="employer_consent" id="employerConsent" required>
+          <label class="form-check-label small text-dark fw-medium" for="employerConsent">
+            <strong>Employer Declaration:</strong> I confirm that I am an authorized workplace representative of {{ verif_req.company_name }}, and the designation and monthly salary information provided above is true and authentic, submitted voluntarily for longitudinal skilling verification under India's DPDP Act 2023. <span class="text-danger">*</span>
+          </label>
         </div>
 
         <div class="d-flex gap-2">
-          <button type="submit" class="btn-primary-custom px-4 py-2">
+          <button type="submit" class="btn-primary-custom px-4 py-2" id="submitEmployerVerifyAuth">
             <i class="fa-solid fa-stamp me-1"></i> Confirm & Authorize Verification
           </button>
         </div>
@@ -170,7 +172,14 @@
             <textarea name="feedback_on_trainee" rows="3" class="form-control input-custom" placeholder="Share a brief line on practical skills, work ethic, and relevance of skilling curriculum..."></textarea>
           </div>
 
-          <button type="submit" class="btn-primary-custom px-4 py-2">
+          <div class="form-check mb-3 p-3 bg-light rounded border">
+            <input class="form-check-input" type="checkbox" name="employer_consent_pub" id="employerConsentPub" required>
+            <label class="form-check-label small text-dark fw-medium" for="employerConsentPub">
+              <strong>Employer Declaration:</strong> I confirm that I am an authorized workplace representative of {{ verif_req.company_name }}, and the designation and monthly salary information provided above is true and authentic, submitted voluntarily for longitudinal skilling verification under India's DPDP Act 2023. <span class="text-danger">*</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary-custom px-4 py-2" id="submitEmployerVerifyPub">
             <i class="fa-solid fa-stamp me-1"></i> Confirm & Authorize Verification
           </button>
         </form>

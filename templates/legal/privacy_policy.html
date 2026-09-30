@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+
+{% block title %}Privacy Policy - SOPAN (DPDP Act 2023 Compliant){% endblock %}
+
+{% block public_content %}
+<div class="container py-5" id="main-content-focus">
+  <!-- Header / Breadcrumb -->
+  <div class="mb-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a href="{% url 'landing' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Privacy Policy</li>
+      </ol>
+    </nav>
+    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: #eef2ff; border: 1px solid #c7d2fe;">
+      <i class="fa-solid fa-shield-check text-primary"></i>
+      <span class="small fw-bold text-primary">DPDP ACT 2023 & IT ACT 2000 COMPLIANT</span>
+    </div>
+    <h1 class="fw-bold fs-2 text-dark mb-2">Privacy Policy & Personal Data Governance</h1>
+    <p class="text-muted small mb-0">
+      Effective Date: September 30, 2026 &bull; Last Revised: September 30, 2026 &bull; Version: 2.1
+    </p>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Navigation / Quick Summary Box -->
+    <div class="col-lg-4 col-xl-3">
+      <div class="card-custom p-3 sticky-top" style="top: 90px;">
+        <h2 class="fs-6 fw-bold text-dark mb-3"><i class="fa-solid fa-list-check me-2 text-primary"></i> Policy Index</h2>
+        <nav class="nav flex-column small gap-1">
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#data-fiduciary">1. Data Fiduciary Identity</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#data-minimization">2. Data We Collect & Minimization</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#processing-purpose">3. Purpose of Processing</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#dpdp-consent">4. Notice & Consent Architecture</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#data-principal-rights">5. Your Rights as Data Principal</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#security-safeguards">6. Security & Storage Safeguards</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#third-parties">7. Third Parties & Sub-processors</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#retention-erasure">8. Data Retention & Erasure</a>
+          <a class="nav-link py-1 px-2 rounded text-dark" href="#grievance-officer">9. Grievance Redressal Officer</a>
+        </nav>
+
+        <div class="p-3 bg-light rounded border mt-3">
+          <span class="badge bg-success-subtle text-success fw-bold mb-1">DATA MINIMIZATION</span>
+          <p class="small text-muted mb-0">
+            We only collect data strictly necessary to measure skills, verify employment, and track wage escalation. No surveillance, ad trackers, or third-party data brokerage.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Policy Content -->
+    <div class="col-lg-8 col-xl-9">
+      <div class="card-custom p-4 p-md-5">
+
+        <!-- 1. Data Fiduciary Identity -->
+        <section id="data-fiduciary" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">1. Identity of the Data Fiduciary</h2>
+          <p class="text-secondary leading-relaxed">
+            This Privacy Policy governs the processing of personal data by <strong>SOPAN (सोपान)</strong>, operated by <strong>{{ OPERATING_ENTITY|default:"SOPAN Skilling Intelligence Technologies" }}</strong> ("we", "us", or "our"), having its administrative hub at {{ OFFICE_ADDRESS|default:"Infocity Technology Hub, Patia, Bhubaneswar, Odisha, 751024, India" }}.
+          </p>
+          <p class="text-secondary leading-relaxed">
+            Under India's <strong>Digital Personal Data Protection Act, 2023 (DPDP Act)</strong> and the <strong>Information Technology Act, 2000</strong> read with the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011, SOPAN acts as the <strong>Data Fiduciary</strong> determining the purpose and means of processing personal digital data.
+          </p>
+        </section>
+
+        <!-- 2. Data We Collect & Minimization -->
+        <section id="data-minimization" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">2. Personal Data Collected & Data Minimization</h2>
+          <p class="text-secondary leading-relaxed">
+            We practice strict <strong>Data Minimization</strong> under Section 4 of the DPDP Act 2023. We collect only what is essential to provide skill assessments, career guidance, and longitudinal employment verification.
+          </p>
+
+          <div class="table-responsive my-3">
+            <table class="table table-bordered align-middle small">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col" style="width: 25%;">Category</th>
+                  <th scope="col" style="width: 45%;">Specific Data Fields</th>
+                  <th scope="col" style="width: 30%;">Lawful Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="fw-semibold">Account Identity</td>
+                  <td>Full Name, Username, Email Address, Role selection (Candidate / Administrator / Trainer)</td>
+                  <td>Account authentication, session management, secure access control.</td>
+                </tr>
+                <tr>
+                  <td class="fw-semibold">Contact & Anti-Churn</td>
+                  <td>Primary Mobile Number, Optional Secondary / Guardian Contact Number</td>
+                  <td>Milestone follow-up and preventing contact drift when trainees change SIM cards during rural-urban migration.</td>
+                </tr>
+                <tr>
+                  <td class="fw-semibold">Skill Verification</td>
+                  <td>MCQ responses, practical programming tasks, project submissions, time logs, code syntax, verified proficiency scores (1–5).</td>
+                  <td>Objective assessment of candidate competencies; computing skill gap deltas against industry vacancies.</td>
+                </tr>
+                <tr>
+                  <td class="fw-semibold">Longitudinal Employment</td>
+                  <td>Current employer name, job title, joining date, monthly wage bracket, EPFO/ESIC coverage flag, tokenized verification responses.</td>
+                  <td>Tracking post-training employment sustainability at 3, 6, 12, and 24 months for national skilling outcome audits.</td>
+                </tr>
+                <tr>
+                  <td class="fw-semibold">Technical & Security</td>
+                  <td>Session ID cookie, CSRF security cookie, login timestamps.</td>
+                  <td>Platform protection against Cross-Site Request Forgery and unauthorized session hijacking.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="alert alert-info py-2 small mb-0">
+            <i class="fa-solid fa-circle-info me-1"></i>
+            <strong>Data We DO NOT Collect:</strong> We never collect plaintext Aadhaar numbers, biometric fingerprint/iris data, banking passwords, credit card numbers, religion, sexual orientation, or continuous device GPS telemetry.
+          </div>
+        </section>
+
+        <!-- 3. Purpose of Processing -->
+        <section id="processing-purpose" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">3. Purpose of Data Processing</h2>
+          <p class="text-secondary leading-relaxed">Your personal data is processed solely for specified, explicit, and lawful purposes:</p>
+          <ul class="text-secondary leading-relaxed">
+            <li><strong>Outcome Measurement:</strong> Measuring whether vocational training under PMKVY, NAPS, or institutional programs leads to sustainable jobs and wage growth.</li>
+            <li><strong>Skill Gap Resolution:</strong> Comparing candidate verified capabilities with active employer vacancies to recommend targeted upskilling.</li>
+            <li><strong>1-Click Employer Verification:</strong> Enabling employers or HR managers to confirm employment status and wage progression via secure tokenized links.</li>
+            <li><strong>Conversational Support:</strong> Powering the SOPAN Rozgar Sahayak bot and AI career guide to provide transparent status summaries.</li>
+            <li><strong>Aggregated Governance Insights:</strong> Generating non-identifiable, cohort-level statistical reports for state skill missions and educational institutions.</li>
+          </ul>
+        </section>
+
+        <!-- 4. Notice & Consent Architecture -->
+        <section id="dpdp-consent" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">4. Notice & Consent Architecture (DPDP Act Sec 5 & 6)</h2>
+          <p class="text-secondary leading-relaxed">
+            In compliance with Section 6 of the DPDP Act 2023, consent obtained from you is:
+          </p>
+          <div class="row g-3 my-2">
+            <div class="col-md-6">
+              <div class="p-3 bg-light rounded border h-100">
+                <span class="fw-bold text-dark d-block mb-1"><i class="fa-solid fa-check-circle text-success me-1"></i> Free & Affirmative</span>
+                <span class="small text-muted">You give consent through an active, unchecked opt-in checkbox during sign-up. We never use pre-ticked consent boxes.</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-3 bg-light rounded border h-100">
+                <span class="fw-bold text-dark d-block mb-1"><i class="fa-solid fa-rotate-left text-warning me-1"></i> Easily Withdrawable</span>
+                <span class="small text-muted">You may withdraw your consent at any time from your account settings or by emailing our Grievance Officer, with no retroactive penalty.</span>
+              </div>
+            </div>
+          </div>
+          <p class="text-secondary leading-relaxed mt-3">
+            If you withdraw consent, we will cease processing your personal data within 7 business days, except where retention is strictly required to comply with statutory legal obligations or audited government reporting mandates.
+          </p>
+        </section>
+
+        <!-- 5. Data Principal Rights -->
+        <section id="data-principal-rights" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">5. Your Statutory Rights as Data Principal</h2>
+          <p class="text-secondary leading-relaxed">
+            Under Chapter III (Sections 11 through 14) of the DPDP Act 2023, you have the following enforceable rights:
+          </p>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="p-3 border rounded">
+                <h3 class="fs-6 fw-bold text-dark mb-1"><i class="fa-solid fa-file-lines text-primary me-2"></i> Right to Access Information (Sec 11)</h3>
+                <p class="small text-muted mb-0">Obtain a summary of personal data being processed and identities of all entities with whom data has been shared.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-3 border rounded">
+                <h3 class="fs-6 fw-bold text-dark mb-1"><i class="fa-solid fa-user-pen text-success me-2"></i> Right to Correction & Updating (Sec 12)</h3>
+                <p class="small text-muted mb-0">Correct inaccurate, incomplete, or out-of-date personal data directly from your profile dashboard.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-3 border rounded">
+                <h3 class="fs-6 fw-bold text-dark mb-1"><i class="fa-solid fa-trash-can text-danger me-2"></i> Right to Erasure / Forgotten (Sec 12)</h3>
+                <p class="small text-muted mb-0">Request deletion of personal data when the processing purpose is fulfilled or consent is withdrawn.</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-3 border rounded">
+                <h3 class="fs-6 fw-bold text-dark mb-1"><i class="fa-solid fa-user-shield text-info me-2"></i> Right to Nominate (Sec 14)</h3>
+                <p class="small text-muted mb-0">Designate another individual who may exercise your data rights in the event of death or incapacity.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. Security Safeguards -->
+        <section id="security-safeguards" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">6. Security & Storage Safeguards (Sec 8 DPDP Act)</h2>
+          <p class="text-secondary leading-relaxed">
+            We implement comprehensive technical and organizational safeguards:
+          </p>
+          <ul class="text-secondary leading-relaxed">
+            <li><strong>Transport Encryption:</strong> All platform traffic is encrypted end-to-end via TLS 1.3 / HTTPS.</li>
+            <li><strong>Password Cryptography:</strong> Passwords are hashed using standard cryptographic algorithms (PBKDF2 with SHA-256) and never stored in readable text.</li>
+            <li><strong>Session Security:</strong> Django secure cookie flags (`HttpOnly`, `SameSite=Lax`, CSRF verification) to safeguard against session hijacking.</li>
+            <li><strong>Access Controls:</strong> Role-based access controls (RBAC) ensuring candidate records can only be accessed by the candidate or authorized institution administrators.</li>
+          </ul>
+        </section>
+
+        <!-- 7. Third Parties & Sub-processors -->
+        <section id="third-parties" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">7. Third Parties, Analytics & Sub-processors</h2>
+          <p class="text-secondary leading-relaxed">
+            <strong>Zero Commercial Data Brokering:</strong> We do NOT sell, lease, or monetize your personal information to third-party ad brokers, market researchers, or lead generation networks.
+          </p>
+          <p class="text-secondary leading-relaxed">
+            <strong>Third-Party Libraries:</strong> We utilize trusted Content Delivery Networks (CDNs) including jsDelivr, Cloudflare cdnjs, and Google Fonts solely to deliver CSS styling, icons, and typography. No tracking pixels or behavioral cookies are injected by these resources.
+          </p>
+        </section>
+
+        <!-- 8. Data Retention & Erasure -->
+        <section id="retention-erasure" class="mb-5">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">8. Data Retention & Periodic Review</h2>
+          <p class="text-secondary leading-relaxed">
+            Personal data is retained only for the duration of the longitudinal outcome study (typically up to 24 months post-training completion) or as long as your account remains active. Upon request for deletion or account closure, candidate records are scrubbed within 30 days, leaving only de-identified cohort summary statistics.
+          </p>
+        </section>
+
+        <!-- 9. Grievance Redressal Officer -->
+        <section id="grievance-officer" class="mb-4">
+          <h2 class="fs-4 fw-bold text-dark mb-3 border-bottom pb-2">9. Grievance Redressal Officer & Escalation</h2>
+          <p class="text-secondary leading-relaxed">
+            In compliance with Section 12 of the DPDP Act 2023 and Rule 3(2) of the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021, the designated Grievance & Data Protection Officer is:
+          </p>
+
+          <div class="card p-3 border-2 border-primary bg-light rounded-4">
+            <div class="d-flex align-items-start gap-3">
+              <div class="brand-icon-box bg-primary text-white" style="width: 48px; height: 48px;">
+                <i class="fa-solid fa-user-shield"></i>
+              </div>
+              <div>
+                <h3 class="fs-6 fw-bold text-dark mb-1">{{ GRIEVANCE_OFFICER_NAME|default:"Priyanshu Parida" }}</h3>
+                <span class="small text-muted d-block">Chief Privacy & Grievance Redressal Officer, SOPAN Platform</span>
+                <span class="small text-muted d-block">{{ OFFICE_ADDRESS|default:"Infocity Technology Hub, Patia, Bhubaneswar, Odisha, 751024, India" }}</span>
+                <span class="small fw-semibold text-primary d-block mt-1">
+                  Email: <a href="mailto:{{ GRIEVANCE_EMAIL|default:'grievance@sopan-career.gov.in' }}">{{ GRIEVANCE_EMAIL|default:"grievance@sopan-career.gov.in" }}</a>
+                </span>
+                <div class="mt-2 text-muted small">
+                  <strong>Resolution Timelines:</strong> Formal acknowledgment within 48 hours; complete resolution within 30 days.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="small text-muted mt-3 mb-0">
+            <strong>Escalation to Data Protection Board:</strong> If you are not satisfied with the resolution provided by our Grievance Officer, you have the right to lodge a formal complaint with the <strong>Data Protection Board of India</strong> pursuant to Section 13(3) of the DPDP Act 2023.
+          </p>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

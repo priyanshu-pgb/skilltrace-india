@@ -1,11 +1,102 @@
-<footer class="py-4 border-top bg-white mt-auto">
-  <div class="container-fluid px-4 d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
-    <div class="d-flex align-items-center gap-2">
-      <span class="fw-bold text-dark">{{ BRAND_NAME }}</span>
-      <span class="text-muted small">&bull; {{ BRAND_TAGLINE }}</span>
+<footer class="py-5 border-top bg-white mt-auto" role="contentinfo" aria-label="Site Footer">
+  <div class="container-fluid px-4 px-lg-5">
+    <div class="row g-4 mb-4">
+      
+      <!-- Brand & Entity Information -->
+      <div class="col-lg-4 col-md-6">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="/static/images/sopan_logo.svg" alt="SOPAN Platform Logo" style="height: 32px; width: 32px; border-radius: 8px;">
+          <span class="fw-bold fs-5 text-dark">{{ BRAND_NAME }} (सोपान)</span>
+        </div>
+        <p class="text-muted small mb-2" style="max-width: 380px;">
+          National Longitudinal Outcome & Skill-Gap Benchmarking Platform. Bridging education, verified competency, and sustainable livelihood mobility across India.
+        </p>
+        <div class="small text-muted">
+          <div><i class="fa-solid fa-building me-1 text-secondary"></i> <strong>Entity:</strong> {{ OPERATING_ENTITY|default:"SOPAN Skilling Intelligence Technologies (Priyanshu Parida)" }}</div>
+          <div><i class="fa-solid fa-location-dot me-1 text-secondary"></i> <strong>Address:</strong> {{ OFFICE_ADDRESS|default:"Infocity Technology Hub, Patia, Bhubaneswar, Odisha, 751024, India" }}</div>
+          <div><i class="fa-solid fa-envelope me-1 text-secondary"></i> <strong>Support:</strong> <a href="mailto:{{ SUPPORT_EMAIL|default:'support@sopan-career.gov.in' }}">{{ SUPPORT_EMAIL|default:"support@sopan-career.gov.in" }}</a></div>
+        </div>
+      </div>
+
+      <!-- Quick Links & Modules -->
+      <div class="col-lg-2 col-md-6 col-6">
+        <h4 class="fs-6 fw-bold text-dark mb-3">Core Platform</h4>
+        <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+          <li><a href="{% url 'landing' %}" class="text-secondary text-decoration-none hover-primary">Home Overview</a></li>
+          <li><a href="{% url 'skills_list' %}" class="text-secondary text-decoration-none hover-primary">Skill Taxonomy</a></li>
+          <li><a href="{% url 'assessment_catalog' %}" class="text-secondary text-decoration-none hover-primary">Skill Assessments</a></li>
+          <li><a href="{% url 'jobs_list' %}" class="text-secondary text-decoration-none hover-primary">Job Gap Engine</a></li>
+          <li><a href="{% url 'training_catalog' %}" class="text-secondary text-decoration-none hover-primary">Training Modules</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal & Compliance Links -->
+      <div class="col-lg-3 col-md-6 col-6">
+        <h4 class="fs-6 fw-bold text-dark mb-3">Legal & Compliance</h4>
+        <ul class="list-unstyled small d-flex flex-column gap-2 mb-0">
+          <li>
+            <a href="{% url 'privacy_policy' %}" class="text-secondary text-decoration-none hover-primary d-inline-flex align-items-center gap-1">
+              <i class="fa-solid fa-shield-check text-success" style="font-size: 0.75rem;"></i> Privacy Policy (DPDP Act)
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'terms_conditions' %}" class="text-secondary text-decoration-none hover-primary d-inline-flex align-items-center gap-1">
+              <i class="fa-solid fa-scale-balanced text-primary" style="font-size: 0.75rem;"></i> Terms of Service
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'cookie_policy' %}" class="text-secondary text-decoration-none hover-primary d-inline-flex align-items-center gap-1">
+              <i class="fa-solid fa-cookie-bite text-warning" style="font-size: 0.75rem;"></i> Cookie Policy & Storage
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'refund_policy' %}" class="text-secondary text-decoration-none hover-primary d-inline-flex align-items-center gap-1">
+              <i class="fa-solid fa-receipt text-info" style="font-size: 0.75rem;"></i> Refund & Cancellation
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'grievance_redressal' %}" class="text-secondary text-decoration-none hover-primary d-inline-flex align-items-center gap-1">
+              <i class="fa-solid fa-user-shield text-danger" style="font-size: 0.75rem;"></i> Grievance Officer
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Compliance & Security Assurance Badge -->
+      <div class="col-lg-3 col-md-6">
+        <h4 class="fs-6 fw-bold text-dark mb-3">Data Governance</h4>
+        <div class="p-3 bg-light rounded-3 border">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <i class="fa-solid fa-certificate text-success"></i>
+            <span class="small fw-bold text-dark">DPDP Act 2023 Compliant</span>
+          </div>
+          <p class="small text-muted mb-2" style="font-size: 0.75rem;">
+            Consent-based candidate record ledger, data minimization, zero advertising trackers, and statutory 30-day grievance redressal.
+          </p>
+          <div class="d-flex align-items-center gap-2 small">
+            <span class="badge bg-success-subtle text-success">TLS 1.3</span>
+            <span class="badge bg-primary-subtle text-primary">SIDH Ready</span>
+            <span class="badge bg-warning-subtle text-dark">Zero Ad Cookies</span>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="text-muted small">
-      &copy; {{ CURRENT_YEAR }} {{ BRAND_NAME }} (सोपान) Platform. National Longitudinal Outcomes & Skill Gap Benchmark System.
+
+    <!-- Statutory Disclaimer -->
+    <div class="pt-3 border-top pb-3">
+      <p class="text-muted small mb-0" style="font-size: 0.76rem; line-height: 1.45;">
+        <strong>Regulatory Disclaimer:</strong> SOPAN (सोपान) is an independent outcome evaluation and skill gap diagnosis technology system. SOPAN is NOT a recruitment agency, placement contractor, or government employment exchange, and makes NO representation, warranty, or guarantee of employment, job placement, or wage levels. Demonstration cohort statistics (such as 6-month retention rates and average salary hikes) reflect simulated research pilot cohorts modeled on national vocational skilling frameworks (PMKVY 4.0 / NAPS) for testing and demonstration purposes.
+      </p>
+    </div>
+
+    <!-- Bottom Copyright & Jurisdiction -->
+    <div class="pt-3 border-top d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 small text-muted">
+      <div>
+        &copy; {{ CURRENT_YEAR }} {{ BRAND_NAME }} Platform. All rights reserved. Intellectual property protected under the Indian Copyright Act, 1957.
+      </div>
+      <div>
+        <span>Governing Jurisdiction: <strong>{{ JURISDICTION|default:"Bhubaneswar, Odisha, India" }}</strong></span>
+      </div>
     </div>
   </div>
 </footer>

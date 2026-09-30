@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Grievance Redressal & DPDP Officer - SOPAN Platform{% endblock %}
+
+{% block public_content %}
+<div class="container py-5" id="main-content-focus">
+  <div class="mb-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a href="{% url 'landing' %}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Grievance Redressal</li>
+      </ol>
+    </nav>
+    <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-2" style="background: #eef2ff; border: 1px solid #c7d2fe;">
+      <i class="fa-solid fa-shield-halved text-primary"></i>
+      <span class="small fw-bold text-primary">DPDP ACT 2023 SEC 12 & IT RULES 2021 MANDATED</span>
+    </div>
+    <h1 class="fw-bold fs-2 text-dark mb-2">Grievance Redressal Mechanism</h1>
+    <p class="text-muted small mb-0">
+      Official mechanism for resolving candidate data protection requests, privacy concerns, and platform grievances.
+    </p>
+  </div>
+
+  <div class="row g-4 justify-content-center">
+    <div class="col-lg-8">
+      <div class="card-custom p-4 p-md-5">
+
+        <!-- Officer Card -->
+        <div class="p-4 rounded-4 bg-light border border-2 border-primary mb-4">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div class="brand-icon-box bg-primary text-white" style="width: 54px; height: 54px; font-size: 1.5rem;">
+              <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <div>
+              <h2 class="fs-5 fw-bold text-dark mb-0">{{ GRIEVANCE_OFFICER_NAME|default:"Priyanshu Parida" }}</h2>
+              <span class="small text-muted d-block">Designated Data Protection & Grievance Redressal Officer</span>
+              <span class="badge bg-primary-subtle text-primary fw-bold mt-1">SOPAN Platform Authority</span>
+            </div>
+          </div>
+
+          <div class="row g-3 small">
+            <div class="col-sm-6">
+              <span class="text-muted d-block">OFFICIAL EMAIL:</span>
+              <a href="mailto:{{ GRIEVANCE_EMAIL|default:'grievance@sopan-career.gov.in' }}" class="fw-bold text-primary">
+                {{ GRIEVANCE_EMAIL|default:"grievance@sopan-career.gov.in" }}
+              </a>
+            </div>
+            <div class="col-sm-6">
+              <span class="text-muted d-block">POSTAL ADDRESS:</span>
+              <span class="text-dark">{{ OFFICE_ADDRESS|default:"Infocity Technology Hub, Patia, Bhubaneswar, Odisha, 751024, India" }}</span>
+            </div>
+            <div class="col-sm-6">
+              <span class="text-muted d-block">ACKNOWLEDGMENT WINDOW:</span>
+              <span class="fw-bold text-dark">Within 48 Hours</span>
+            </div>
+            <div class="col-sm-6">
+              <span class="text-muted d-block">STATUTORY RESOLUTION LIMIT:</span>
+              <span class="fw-bold text-dark">Within 30 Calendar Days</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Procedure -->
+        <h3 class="fs-5 fw-bold text-dark mb-3">How to File a Grievance</h3>
+        <p class="text-secondary leading-relaxed">
+          If you have any grievance or complaint concerning:
+        </p>
+        <ul class="text-secondary leading-relaxed small">
+          <li>Unauthorized processing or disclosure of your personal data;</li>
+          <li>Exercise of your statutory rights (Access, Correction, Erasure, Consent Withdrawal);</li>
+          <li>Discrepancies in verified assessment scores or employer verification records;</li>
+          <li>Suspected security vulnerability or data breach incident;</li>
+        </ul>
+        <p class="text-secondary leading-relaxed">
+          Please submit a formal notice to our Grievance Officer via email with the subject line format: <br>
+          <code class="p-1 bg-light rounded text-dark">[GRIEVANCE - DPDP ACT] - Your Name - Description</code>
+        </p>
+
+        <!-- Information to Include -->
+        <div class="p-3 bg-light rounded border mb-4">
+          <h4 class="fs-6 fw-bold text-dark mb-2">Required Information in Your Notice:</h4>
+          <ol class="small text-muted mb-0 ps-3">
+            <li>Your registered username and primary email address on SOPAN.</li>
+            <li>Specific nature of the grievance or right being exercised under the DPDP Act 2023.</li>
+            <li>Any supporting documents or screenshots (if applicable).</li>
+            <li>Your preferred contact channel for resolution updates.</li>
+          </ol>
+        </div>
+
+        <!-- Escalation -->
+        <div class="alert alert-secondary py-3 mb-0 small">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <i class="fa-solid fa-building-columns fs-5 text-secondary"></i>
+            <strong class="fs-6 text-dark">Statutory Escalation to the Data Protection Board of India</strong>
+          </div>
+          <p class="mb-0 text-muted">
+            Under Section 13(3) of India's Digital Personal Data Protection Act, 2023, if our Grievance Officer fails to resolve your grievance within 30 days, or if you are dissatisfied with the resolution provided, you may escalate your complaint directly to the <strong>Data Protection Board of India</strong>.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

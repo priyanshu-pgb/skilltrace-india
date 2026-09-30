@@ -1,0 +1,112 @@
+<!-- Accessible Interactive Cookie & Privacy Consent Banner (DPDP Act 2023 Compliant) -->
+<div id="sopanCookieConsent" class="sopan-cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie and Privacy Consent Banner" style="display: none;">
+  <div class="container-fluid px-3 px-md-4">
+    <div class="sopan-cookie-content">
+      <div class="sopan-cookie-text">
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <i class="fa-solid fa-cookie-bite text-warning fs-5"></i>
+          <span class="fw-bold text-white small">Privacy & Essential Cookies on SOPAN (सोपान)</span>
+          <span class="badge bg-success-subtle text-success px-2 py-0" style="font-size: 0.65rem;">ZERO AD TRACKERS</span>
+        </div>
+        <p class="text-secondary small mb-0" style="color: #cbd5e1 !important; line-height: 1.4;">
+          We use strictly necessary cookies (<code class="text-warning small">csrftoken</code>, <code class="text-warning small">sessionid</code>) to ensure platform security and keep you signed in. We do not use third-party behavioral trackers or sell your data under India's DPDP Act 2023. Read our <a href="{% url 'cookie_policy' %}" class="text-white text-decoration-underline fw-semibold">Cookie Policy</a> and <a href="{% url 'privacy_policy' %}" class="text-white text-decoration-underline fw-semibold">Privacy Policy</a>.
+        </p>
+      </div>
+      <div class="sopan-cookie-actions">
+        <button type="button" class="btn btn-outline-light btn-sm rounded-pill px-3" id="sopanCookieNecessaryOnly" aria-label="Accept strictly necessary cookies only">
+          Strictly Necessary Only
+        </button>
+        <button type="button" class="btn btn-warning btn-sm rounded-pill px-4 fw-bold text-dark shadow-sm" id="sopanCookieAcceptAll" aria-label="Accept all cookies and acknowledge privacy terms">
+          <i class="fa-solid fa-check me-1"></i> Accept All
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.sopan-cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99998;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 2px solid #f8cb46;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.35);
+  padding: 14px 0;
+  animation: sopanCookieSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes sopanCookieSlideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.sopan-cookie-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .sopan-cookie-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+}
+
+.sopan-cookie-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const consentBanner = document.getElementById('sopanCookieConsent');
+  const btnAcceptAll = document.getElementById('sopanCookieAcceptAll');
+  const btnNecessaryOnly = document.getElementById('sopanCookieNecessaryOnly');
+
+  if (!consentBanner) return;
+
+  const currentConsent = localStorage.getItem('sopan_cookie_consent');
+  if (!currentConsent) {
+    // Show banner after brief delay for smooth entrance
+    setTimeout(() => {
+      consentBanner.style.display = 'block';
+    }, 400);
+  }
+
+  function recordConsent(choice) {
+    localStorage.setItem('sopan_cookie_consent', choice);
+    localStorage.setItem('sopan_cookie_consent_timestamp', new Date().toISOString());
+    consentBanner.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+    consentBanner.style.transform = 'translateY(100%)';
+    consentBanner.style.opacity = '0';
+    setTimeout(() => {
+      consentBanner.style.display = 'none';
+    }, 300);
+  }
+
+  if (btnAcceptAll) {
+    btnAcceptAll.addEventListener('click', () => recordConsent('all'));
+  }
+
+  if (btnNecessaryOnly) {
+    btnNecessaryOnly.addEventListener('click', () => recordConsent('necessary'));
+  }
+});
+</script>

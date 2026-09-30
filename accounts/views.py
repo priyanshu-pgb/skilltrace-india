@@ -13,7 +13,7 @@ def register_view(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            messages.success(request, f"Welcome to SkillBridge, {user.first_name or user.username}! Your account has been created.")
+            messages.success(request, f"Welcome to SOPAN, {user.first_name or user.username}! Your account has been created.")
             login(request, user)
             if user.is_admin_role:
                 return redirect('admin_dashboard')

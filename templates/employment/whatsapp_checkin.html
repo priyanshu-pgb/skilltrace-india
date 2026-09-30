@@ -69,10 +69,10 @@
             <input type="hidden" name="channel" value="whatsapp_bot">
 
             <div class="mb-3">
-              <label class="form-label small fw-bold text-dark">
+              <label class="form-label small fw-bold text-dark" for="checkinStatus">
                 <i class="fa-solid fa-briefcase text-primary me-1"></i> 1. What is your current livelihood status?
               </label>
-              <select name="status" class="form-select form-select-sm" required style="border-radius: 8px;">
+              <select name="status" id="checkinStatus" class="form-select form-select-sm" required style="border-radius: 8px;">
                 <option value="employed">I am Formally Employed (Full-time)</option>
                 <option value="internship">I am an Apprentice / NAPS Intern</option>
                 <option value="self_employed">I am Self-Employed / Running an Enterprise</option>
@@ -82,22 +82,22 @@
             </div>
 
             <div class="mb-3">
-              <label class="form-label small fw-bold text-dark">
+              <label class="form-label small fw-bold text-dark" for="checkinMonthlyWage">
                 <i class="fa-solid fa-indian-rupee-sign text-success me-1"></i> 2. What is your current monthly take-home salary?
               </label>
               <div class="input-group input-group-sm">
                 <span class="input-group-text bg-light fw-bold">₹</span>
-                <input type="number" name="monthly_wage" value="18500" class="form-control form-control-sm" required style="font-weight: 600;">
+                <input type="number" name="monthly_wage" id="checkinMonthlyWage" value="18500" class="form-control form-control-sm" required style="font-weight: 600;">
                 <span class="input-group-text bg-light">/ month</span>
               </div>
               <span class="text-muted" style="font-size: 0.72rem;">Tracks your wage progression from Day 0 baseline.</span>
             </div>
 
             <div class="mb-3">
-              <label class="form-label small fw-bold text-dark">
+              <label class="form-label small fw-bold text-dark" for="checkinRelevance">
                 <i class="fa-solid fa-graduation-cap text-warning me-1"></i> 3. Is your skilling curriculum relevant in your current role?
               </label>
-              <select name="training_relevance" class="form-select form-select-sm" required style="border-radius: 8px;">
+              <select name="training_relevance" id="checkinRelevance" class="form-select form-select-sm" required style="border-radius: 8px;">
                 <option value="high">High - Directly relevant & used daily</option>
                 <option value="partial">Medium - Partially relevant</option>
                 <option value="low">Low - Minimally relevant</option>
@@ -106,14 +106,21 @@
             </div>
 
             <div class="mb-3">
-              <label class="form-label small fw-bold text-dark">
+              <label class="form-label small fw-bold text-dark" for="checkinAltPhone">
                 <i class="fa-solid fa-phone text-secondary me-1"></i> 4. Alternative Village / Guardian Phone (SIM-Churn Defense)
               </label>
-              <input type="text" name="alt_phone" value="{{ user.alt_phone|default:'' }}" class="form-control form-control-sm" placeholder="e.g. 9811223344 (Parent / Village Pradhan / Secondary SIM)" style="border-radius: 8px;">
+              <input type="text" name="alt_phone" id="checkinAltPhone" value="{{ user.alt_phone|default:'' }}" class="form-control form-control-sm" placeholder="e.g. 9811223344 (Parent / Village Pradhan / Secondary SIM)" style="border-radius: 8px;">
               <span class="text-muted" style="font-size: 0.72rem;">Ensures long-term benefits even if your primary SIM changes.</span>
             </div>
 
-            <button type="submit" class="btn text-white w-100 fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" style="background-color: #25d366; border-radius: 10px; font-size: 14px;">
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" name="whatsapp_consent" id="whatsappConsentCheck" checked required>
+              <label class="form-check-label text-dark" for="whatsappConsentCheck" style="font-size: 0.75rem;">
+                I voluntarily consent to logging this 30-second career milestone update under India's DPDP Act 2023 for longitudinal skilling research. <span class="text-danger">*</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn text-white w-100 fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" id="sendCheckinBtn" style="background-color: #25d366; border-radius: 10px; font-size: 14px;">
               <i class="fa-solid fa-paper-plane"></i> Send 30s Check-in Response
             </button>
           </form>

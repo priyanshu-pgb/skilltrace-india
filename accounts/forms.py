@@ -24,6 +24,17 @@ class UserRegistrationForm(UserCreationForm):
         widget=forms.TextInput(attrs={'class': 'form-control input-custom', 'placeholder': 'Last Name'})
     )
 
+    consent_given = forms.BooleanField(
+        required=True,
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input', 'id': 'id_consent_given'}),
+        error_messages={'required': 'You must review and agree to the Terms & Conditions and DPDP Act Privacy Policy to create an account.'}
+    )
+    allow_whatsapp_outreach = forms.BooleanField(
+        required=False,
+        initial=True,
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input', 'id': 'id_allow_whatsapp_outreach'})
+    )
+
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ('username', 'email', 'first_name', 'last_name', 'role')
@@ -36,6 +47,16 @@ class UserRegistrationForm(UserCreationForm):
         if User.objects.filter(email__iexact=email).exists():
             raise forms.ValidationError("An account with this email already exists.")
         return email
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.consent_given = self.cleaned_data.get('consent_given', True)
+        from django.utils import timezone
+        user.consent_timestamp = timezone.now()
+        user.allow_whatsapp_outreach = self.cleaned_data.get('allow_whatsapp_outreach', True)
+        if commit:
+            user.save()
+        return user
 
 
 class UserLoginForm(forms.Form):

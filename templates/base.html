@@ -29,8 +29,14 @@
 </head>
 <body>
 
+  <!-- Skip to Main Content Link for Keyboard Accessibility (WCAG 2.1 AA) -->
+  <a href="#main-content-focus" class="skip-link">Skip to main content</a>
+
   <!-- Toast Notification System -->
   {% include 'components/toasts.html' %}
+
+  <!-- Cookie Consent Banner (DPDP Act 2023 Compliant) -->
+  {% include 'components/cookie_consent.html' %}
 
   {% if user.is_authenticated and not is_public_page %}
     <div class="app-container">
@@ -58,7 +64,7 @@
     <!-- Public Layout (Landing / Auth / Clean Pages) -->
     <div class="public-layout">
       {% include 'components/navbar.html' %}
-      <main class="flex-grow-1" id="main-content-focus">
+      <main class="flex-grow-1" id="main-content-focus" tabindex="-1">
         {% block public_content %}{% endblock %}
       </main>
       {% include 'components/footer.html' %}

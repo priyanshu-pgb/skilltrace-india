@@ -323,8 +323,8 @@
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label class="form-label small fw-semibold">Milestone Month</label>
-            <select name="milestone_month" class="form-select">
+            <label class="form-label small fw-semibold" for="modalMilestoneMonth">Milestone Month</label>
+            <select name="milestone_month" id="modalMilestoneMonth" class="form-select">
               <option value="0">Month 0 (Initial Placement / Exit)</option>
               <option value="3" selected>Month 3 (Early Retention)</option>
               <option value="6">Month 6 (Mid-Term Retention)</option>
@@ -333,8 +333,8 @@
             </select>
           </div>
           <div class="mb-3">
-            <label class="form-label small fw-semibold">Livelihood Status</label>
-            <select name="status" class="form-select">
+            <label class="form-label small fw-semibold" for="modalLivelihoodStatus">Livelihood Status</label>
+            <select name="status" id="modalLivelihoodStatus" class="form-select">
               <option value="employed">Formally Employed</option>
               <option value="internship">Apprenticeship (NAPS)</option>
               <option value="self_employed">Self-Employed / Entrepreneur</option>
@@ -344,34 +344,39 @@
           </div>
           <div class="row g-2 mb-3">
             <div class="col-6">
-              <label class="form-label small fw-semibold">Company / Enterprise</label>
-              <input type="text" name="company_name" value="{{ record.company_name }}" class="form-control" required>
+              <label class="form-label small fw-semibold" for="modalCompanyName">Company / Enterprise</label>
+              <input type="text" name="company_name" id="modalCompanyName" value="{{ record.company_name }}" class="form-control" required>
             </div>
             <div class="col-6">
-              <label class="form-label small fw-semibold">Job Role</label>
-              <input type="text" name="job_role" value="{{ record.job_role }}" class="form-control" required>
+              <label class="form-label small fw-semibold" for="modalJobRole">Job Role</label>
+              <input type="text" name="job_role" id="modalJobRole" value="{{ record.job_role }}" class="form-control" required>
             </div>
           </div>
           <div class="mb-3">
-            <label class="form-label small fw-semibold">Current Monthly In-Hand Wage (₹)</label>
+            <label class="form-label small fw-semibold" for="modalMonthlyWage">Current Monthly In-Hand Wage (₹)</label>
             <div class="input-group">
               <span class="input-group-text">₹</span>
-              <input type="number" name="monthly_wage" value="{{ record.current_monthly_wage|default:16000 }}" class="form-control" required>
+              <input type="number" name="monthly_wage" id="modalMonthlyWage" value="{{ record.current_monthly_wage|default:16000 }}" class="form-control" required>
             </div>
           </div>
           <div class="mb-3">
-            <label class="form-label small fw-semibold">Training Relevance</label>
-            <select name="training_relevance" class="form-select">
+            <label class="form-label small fw-semibold" for="modalTrainingRelevance">Training Relevance</label>
+            <select name="training_relevance" id="modalTrainingRelevance" class="form-select">
               <option value="high">Directly Relevant</option>
               <option value="partial">Partially Relevant</option>
               <option value="low">Minimally Relevant</option>
               <option value="none">Not Relevant</option>
             </select>
           </div>
+          <div class="small text-muted">
+            <i class="fa-solid fa-shield-halved text-success me-1"></i> Data collected voluntarily under your DPDP Act 2023 longitudinal research consent.
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary btn-sm">Save Milestone</button>
+          <button type="submit" class="btn btn-primary btn-sm" id="saveMilestoneBtn">
+            <i class="fa-solid fa-floppy-disk me-1"></i> Save Verified Milestone
+          </button>
         </div>
       </form>
     </div>
