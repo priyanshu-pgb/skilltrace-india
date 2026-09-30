@@ -313,6 +313,21 @@ class Command(BaseCommand):
         admin_user.set_password('adminpassword123')
         admin_user.save()
 
+        # Dedicated Trainer Proctor: Vikram
+        trainer_user, _ = User.objects.get_or_create(
+            username='trainer',
+            defaults={
+                'email': 'trainer@skillbridge.edu',
+                'first_name': 'Vikram',
+                'last_name': 'Trainer',
+                'role': 'admin',
+                'is_staff': True,
+                'is_superuser': False,
+            }
+        )
+        trainer_user.set_password('trainerpass123')
+        trainer_user.save()
+
         # Candidate 1: Alex (Active Student)
         alex, _ = User.objects.get_or_create(
             username='alex_candidate',
