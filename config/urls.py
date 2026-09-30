@@ -31,6 +31,7 @@ urlpatterns = [
     # Direct dashboard routes
     path('user-dashboard/', analytics_views.user_dashboard, name='user_dashboard'),
     path('admin-dashboard/', analytics_views.admin_dashboard, name='admin_dashboard'),
+    path('reassessment/', include('training.urls')),
 ]
 
 if settings.DEBUG:

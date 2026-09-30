@@ -5,8 +5,14 @@ from skills.models import Skill, UserSkill, Certificate
 from assessments.models import Question, AssessmentAttempt, AttemptAnswer, PracticalTask, PracticalSubmission
 from projects.models import ProjectSubmission
 from jobs.models import Job, JobRequirement
-from training.models import TrainingCourse, TrainingEnrollment
-from employment.models import EmploymentRecord
+from training.models import TrainingCourse, TrainingEnrollment, TrainingProvider, TrainingCentre, Cohort, District
+from employment.models import (
+    EmploymentRecord,
+    LongitudinalMilestone,
+    NonPlacementReason,
+    FollowUpLog,
+    EmployerVerificationRequest,
+)
 
 class Command(BaseCommand):
     help = 'Seeds initial demonstration data for SkillBridge (Skills, MCQs, Practicals, Jobs, Training, Users)'
@@ -183,6 +189,112 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS("Seeded 4 training courses."))
 
+        # 6.5. Seed National Skilling Hierarchy (Districts, Providers, Centres, Cohorts)
+        districts_data = [
+            ('Ranchi', 'Jharkhand', True),
+            ('Nuh', 'Haryana', True),
+            ('Khurda', 'Odisha', True),
+            ('Dharmapuri', 'Tamil Nadu', True),
+            ('Varanasi', 'Uttar Pradesh', False),
+            ('Bengaluru Urban', 'Karnataka', False),
+        ]
+        districts = {}
+        for d_name, d_state, is_asp in districts_data:
+            d_obj, _ = District.objects.get_or_create(
+                name=d_name, state=d_state,
+                defaults={'is_aspirational': is_asp}
+            )
+            districts[d_name] = d_obj
+
+        # Training Providers (NSDC Accredited)
+        tp_apex, _ = TrainingProvider.objects.get_or_create(
+            nsdc_partner_code='TP-NSDC-2024-089',
+            defaults={
+                'name': 'Apex SkillTech Academy',
+                'accreditation_grade': 'A+',
+                'contact_person': 'Dr. K. Sharma',
+                'contact_email': 'contact@apexskilltech.org',
+                'contact_phone': '+91 9811223344',
+            }
+        )
+        tp_gramin, _ = TrainingProvider.objects.get_or_create(
+            nsdc_partner_code='TP-NSDC-2024-041',
+            defaults={
+                'name': 'Gramin Vocational Vikas Mission',
+                'accreditation_grade': 'A',
+                'contact_person': 'Sunita Soren',
+                'contact_email': 'info@graminvikas.org',
+                'contact_phone': '+91 9822334455',
+            }
+        )
+        tp_national, _ = TrainingProvider.objects.get_or_create(
+            nsdc_partner_code='TP-NSDC-2024-112',
+            defaults={
+                'name': 'National Technical Training Hub',
+                'accreditation_grade': 'B',
+                'contact_person': 'Anand Verma',
+                'contact_email': 'reach@nationalhub.in',
+                'contact_phone': '+91 9833445566',
+            }
+        )
+
+        # Training Centres
+        tc_ranchi, _ = TrainingCentre.objects.get_or_create(
+            center_code='TC-RNC-01',
+            defaults={
+                'provider': tp_gramin,
+                'district': districts['Ranchi'],
+                'center_name': 'Gramin Skill Centre, Ranchi Main',
+                'address': 'Circular Road, Lalpur, Ranchi, Jharkhand',
+            }
+        )
+        tc_bengaluru, _ = TrainingCentre.objects.get_or_create(
+            center_code='TC-BLR-02',
+            defaults={
+                'provider': tp_apex,
+                'district': districts['Bengaluru Urban'],
+                'center_name': 'Apex Digital Tech Centre, Bengaluru',
+                'address': 'Electronic City Phase 1, Bengaluru, Karnataka',
+            }
+        )
+        tc_nuh, _ = TrainingCentre.objects.get_or_create(
+            center_code='TC-NUH-03',
+            defaults={
+                'provider': tp_national,
+                'district': districts['Nuh'],
+                'center_name': 'Mewat Vocational Skill Centre, Nuh',
+                'address': 'Sohna-Alwar Highway, Nuh, Haryana',
+            }
+        )
+
+        # Cohorts
+        cohort_pmkvy, _ = Cohort.objects.get_or_create(
+            batch_code='PMKVY4-WD-2025-01',
+            defaults={
+                'scheme_name': 'pmkvy4',
+                'training_centre': tc_ranchi,
+                'course': courses['Python Advanced Programming'],
+            }
+        )
+        cohort_naps, _ = Cohort.objects.get_or_create(
+            batch_code='NAPS-DA-2025-02',
+            defaults={
+                'scheme_name': 'naps',
+                'training_centre': tc_bengaluru,
+                'course': courses['Intermediate SQL Mastery'],
+            }
+        )
+        cohort_vishwakarma, _ = Cohort.objects.get_or_create(
+            batch_code='VISWAKARMA-2025-03',
+            defaults={
+                'scheme_name': 'vishwakarma',
+                'training_centre': tc_nuh,
+                'course': courses['Power BI Fundamentals for Analysts'],
+            }
+        )
+
+        self.stdout.write(self.style.SUCCESS("Seeded National Hierarchy (Districts, Providers, Centres, Cohorts)."))
+
         # 7. Seed Demo Users & Longitudinal Outcomes (Section 59)
         # Admin User
         admin_user, _ = User.objects.get_or_create(
@@ -207,6 +319,14 @@ class Command(BaseCommand):
                 'first_name': 'Alex',
                 'last_name': 'Sharma',
                 'role': 'user',
+                'phone': '+91 9876543210',
+                'alt_phone': '+91 9876543219',
+                'guardian_phone': '+91 9876543218',
+                'trainee_id': 'SIDH-2026-JH-8832',
+                'gender': 'male',
+                'category': 'general',
+                'area_type': 'semi_urban',
+                'consent_given': True,
             }
         )
         alex.set_password('candidatepass123')
@@ -237,15 +357,16 @@ class Command(BaseCommand):
         )
 
         # Assessment Attempt for Alex
-        AssessmentAttempt.objects.get_or_create(
-            user=alex, skill=skills['Python'],
-            defaults={'total_questions': 10, 'correct_answers': 8, 'score_percent': 80.0, 'is_completed': True, 'completed_at': timezone.now()}
-        )
+        if not AssessmentAttempt.objects.filter(user=alex, skill=skills['Python']).exists():
+            AssessmentAttempt.objects.create(
+                user=alex, skill=skills['Python'],
+                total_questions=10, correct_answers=8, score_percent=80.0, is_completed=True, completed_at=timezone.now()
+            )
 
         # Training Enrollment for Alex
         TrainingEnrollment.objects.get_or_create(
             user=alex, course=courses['Intermediate SQL Mastery'],
-            defaults={'status': 'in_progress', 'progress_percent': 65, 'score_before': 50.0}
+            defaults={'status': 'in_progress', 'progress_percent': 65, 'score_before': 50.0, 'cohort': cohort_naps, 'district': districts['Ranchi']}
         )
 
         # Project for Alex
@@ -264,7 +385,7 @@ class Command(BaseCommand):
             }
         )
 
-        # Candidate 2: Priya (Trained & Employed Candidate demonstrating Skilling Impact)
+        # Candidate 2: Priya (Employed Candidate demonstrating Longitudinal Skilling & Wage Progression)
         priya, _ = User.objects.get_or_create(
             username='priya_analyst',
             defaults={
@@ -272,6 +393,14 @@ class Command(BaseCommand):
                 'first_name': 'Priya',
                 'last_name': 'Nair',
                 'role': 'user',
+                'phone': '+91 9844001122',
+                'alt_phone': '+91 9844001123',
+                'guardian_phone': '+91 9844001124',
+                'trainee_id': 'SIDH-2026-KA-4412',
+                'gender': 'female',
+                'category': 'obc',
+                'area_type': 'rural',
+                'consent_given': True,
             }
         )
         priya.set_password('candidatepass123')
@@ -296,24 +425,237 @@ class Command(BaseCommand):
                 'progress_percent': 100,
                 'score_before': 48.0,
                 'score_after': 88.0, # +40 points improvement delta!
+                'cohort': cohort_naps,
+                'district': districts['Bengaluru Urban'],
                 'completed_at': timezone.now()
             }
         )
 
         # Employment Record for Priya
-        EmploymentRecord.objects.get_or_create(
+        EmploymentRecord.objects.update_or_create(
             user=priya,
             defaults={
                 'status': 'employed',
                 'company_name': 'TechCorp Analytics Ltd.',
-                'job_role': 'Junior Data Analyst',
+                'job_role': 'Associate Data Analyst',
                 'salary_range': '₹6 - ₹8 LPA',
+                'current_monthly_wage': 28000,
                 'location': 'Bangalore, India',
                 'employment_type': 'full_time',
                 'skills_used': 'SQL, Python, Power BI',
+                'training_relevance': 'high',
                 'is_verified_by_admin': True,
+                'epfo_uan': 'EPFO-10192837465',
+                'employer_gstin': '29ABCDE1234F1Z5',
+                'last_milestone_month': 12,
             }
         )
 
-        self.stdout.write(self.style.SUCCESS("Seeded sample users, longitudinal before/after impact records, and employment verification."))
+        # Longitudinal Milestones for Priya (Demonstrating ₹18k -> ₹20k -> ₹24k -> ₹28k Wage Progression!)
+        priya_milestones = [
+            (0, 'employed', 'TechCorp Analytics Ltd.', 'Junior Trainee Analyst', 18000, True, False, 'employer_confirmed', 'Initial exit placement'),
+            (3, 'employed', 'TechCorp Analytics Ltd.', 'Junior Data Analyst', 20000, True, True, 'employer_confirmed', 'Completed 3-month probation with wage hike'),
+            (6, 'employed', 'TechCorp Analytics Ltd.', 'Data Analyst', 24000, True, True, 'assisted_call', '6-Month retention audit validated by Rozgar Sahayak'),
+            (12, 'employed', 'TechCorp Analytics Ltd.', 'Associate Data Analyst', 28000, True, True, 'epfo_signal', '1-Year sustained formal livelihood validated via EPFO signal'),
+        ]
+        for m_month, m_status, m_comp, m_role, m_wage, m_ret, m_inc, m_src, m_notes in priya_milestones:
+            LongitudinalMilestone.objects.update_or_create(
+                user=priya,
+                milestone_month=m_month,
+                defaults={
+                    'status': m_status,
+                    'company_name': m_comp,
+                    'job_role': m_role,
+                    'monthly_wage': m_wage,
+                    'is_retained': m_ret,
+                    'is_wage_increased': m_inc,
+                    'training_relevance': 'high',
+                    'verification_source': m_src,
+                    'check_in_date': timezone.now().date(),
+                    'notes': m_notes,
+                }
+            )
+
+        # Candidate 3: Rahul (Ranchi Aspirational District Candidate - Formally Employed)
+        rahul, _ = User.objects.get_or_create(
+            username='rahul_trainee',
+            defaults={
+                'email': 'rahul@example.com',
+                'first_name': 'Rahul',
+                'last_name': 'Karmakar',
+                'role': 'user',
+                'phone': '+91 9771122334',
+                'alt_phone': '+91 9771122335',
+                'guardian_phone': '+91 9771122336',
+                'trainee_id': 'SIDH-2026-JH-1902',
+                'gender': 'male',
+                'category': 'st',
+                'area_type': 'rural',
+                'consent_given': True,
+            }
+        )
+        rahul.set_password('candidatepass123')
+        rahul.save()
+        EmploymentRecord.objects.update_or_create(
+            user=rahul,
+            defaults={
+                'status': 'employed',
+                'company_name': 'Jharkhand Tech Solutions',
+                'job_role': 'Frontend Web Technician',
+                'current_monthly_wage': 17500,
+                'training_relevance': 'high',
+                'is_verified_by_admin': True,
+                'employer_gstin': '20AAAAA0000A1Z5',
+                'last_milestone_month': 3,
+            }
+        )
+        LongitudinalMilestone.objects.update_or_create(
+            user=rahul, milestone_month=0,
+            defaults={'status': 'employed', 'company_name': 'Jharkhand Tech Solutions', 'job_role': 'Frontend Intern', 'monthly_wage': 14000, 'is_retained': True, 'training_relevance': 'high', 'verification_source': 'employer_confirmed', 'check_in_date': timezone.now().date()}
+        )
+        LongitudinalMilestone.objects.update_or_create(
+            user=rahul, milestone_month=3,
+            defaults={'status': 'employed', 'company_name': 'Jharkhand Tech Solutions', 'job_role': 'Frontend Web Technician', 'monthly_wage': 17500, 'is_retained': True, 'is_wage_increased': True, 'training_relevance': 'high', 'verification_source': 'self_reported', 'check_in_date': timezone.now().date()}
+        )
+
+        # Candidate 4: Anjali (Nuh Aspirational District - NAPS Apprenticeship)
+        anjali, _ = User.objects.get_or_create(
+            username='anjali_apprentice',
+            defaults={
+                'email': 'anjali@example.com',
+                'first_name': 'Anjali',
+                'last_name': 'Kumari',
+                'role': 'user',
+                'phone': '+91 9650011223',
+                'alt_phone': '+91 9650011224',
+                'guardian_phone': '+91 9650011225',
+                'trainee_id': 'SIDH-2026-HR-3184',
+                'gender': 'female',
+                'category': 'sc',
+                'area_type': 'rural',
+                'consent_given': True,
+            }
+        )
+        anjali.set_password('candidatepass123')
+        anjali.save()
+        EmploymentRecord.objects.update_or_create(
+            user=anjali,
+            defaults={
+                'status': 'internship',
+                'company_name': 'Maruti Vendor Logistics (NAPS)',
+                'job_role': 'Quality Apprentice Technician',
+                'current_monthly_wage': 13500,
+                'training_relevance': 'high',
+                'is_verified_by_admin': True,
+                'last_milestone_month': 0,
+            }
+        )
+        LongitudinalMilestone.objects.update_or_create(
+            user=anjali, milestone_month=0,
+            defaults={'status': 'internship', 'company_name': 'Maruti Vendor Logistics (NAPS)', 'job_role': 'Quality Apprentice Technician', 'monthly_wage': 13500, 'is_retained': True, 'training_relevance': 'high', 'verification_source': 'employer_confirmed', 'check_in_date': timezone.now().date()}
+        )
+
+        # Candidate 5: Deepak (Khurda District - Relocation Attrition Diagnostic Case)
+        deepak, _ = User.objects.get_or_create(
+            username='deepak_candidate',
+            defaults={
+                'email': 'deepak@example.com',
+                'first_name': 'Deepak',
+                'last_name': 'Patra',
+                'role': 'user',
+                'phone': '+91 9437011223',
+                'alt_phone': '+91 9437011224',
+                'guardian_phone': '+91 9437011225',
+                'trainee_id': 'SIDH-2026-OD-5591',
+                'gender': 'male',
+                'category': 'general',
+                'area_type': 'rural',
+                'consent_given': True,
+            }
+        )
+        deepak.set_password('candidatepass123')
+        deepak.save()
+        EmploymentRecord.objects.update_or_create(
+            user=deepak,
+            defaults={'status': 'dropped_out', 'current_monthly_wage': None}
+        )
+        NonPlacementReason.objects.get_or_create(
+            user=deepak,
+            defaults={
+                'category': 'relocation_refusal',
+                'details': 'Candidate was offered a position in Bengaluru (₹16k/mo), but could not relocate due to aging dependent parents in Khurda.',
+                'recommended_action': 'Map to Bhubaneswar-Cuttack IT MSME cluster apprenticeship or local BPO tele-work.',
+            }
+        )
+
+        # 8. Seed Employer Verification Requests
+        EmployerVerificationRequest.objects.get_or_create(
+            user=priya,
+            company_name='TechCorp Analytics Ltd.',
+            defaults={
+                'employer_contact_name': 'Amitabha Sen (VP HR)',
+                'employer_email': 'hr@techcorpanalytics.com',
+                'status': 'confirmed',
+                'confirmed_role': 'Associate Data Analyst',
+                'confirmed_monthly_wage': 28000,
+                'confirmed_joining_date': timezone.now().date(),
+                'gstin': '29ABCDE1234F1Z5',
+                'has_epfo_coverage': True,
+                'feedback_on_trainee': 'Priya demonstrates outstanding SQL mastery and rapid problem-solving capability.',
+                'responded_at': timezone.now(),
+            }
+        )
+        EmployerVerificationRequest.objects.get_or_create(
+            user=alex,
+            company_name='Apex Data Systems Pvt Ltd',
+            defaults={
+                'employer_contact_name': 'Rohit Gupta (Talent Acquisition)',
+                'employer_email': 'talent@apexdata.com',
+                'status': 'pending',
+            }
+        )
+
+        # 9. Seed Multi-Channel Follow-up & Contact Traceability Logs
+        FollowUpLog.objects.get_or_create(
+            user=priya,
+            channel='whatsapp_bot',
+            defaults={
+                'contact_number_used': '+91 9844001122',
+                'contact_type': 'primary',
+                'status': 'responded',
+                'response_text': 'Confirmed: Month 12 retention at TechCorp, Monthly wage ₹28,000, Training high relevance.',
+            }
+        )
+        FollowUpLog.objects.get_or_create(
+            user=rahul,
+            channel='whatsapp_bot',
+            defaults={
+                'contact_number_used': '+91 9771122334',
+                'contact_type': 'primary',
+                'status': 'responded',
+                'response_text': 'Confirmed: Employed in Ranchi, Monthly wage ₹17,500.',
+            }
+        )
+        FollowUpLog.objects.get_or_create(
+            user=deepak,
+            channel='whatsapp_bot',
+            defaults={
+                'contact_number_used': '+91 9437011223',
+                'contact_type': 'primary',
+                'status': 'wrong_number',
+                'response_text': 'Delivery failed: SIM inactive. Automatically escalated to village/guardian phone +91 9437011225.',
+            }
+        )
+        FollowUpLog.objects.get_or_create(
+            user=deepak,
+            channel='assisted_call',
+            defaults={
+                'contact_number_used': '+91 9437011225',
+                'contact_type': 'guardian',
+                'status': 'responded',
+                'response_text': 'Rozgar Sahayak connected with father. Trainee is seeking local MSME work in Khurda.',
+            }
+        )
+
+        self.stdout.write(self.style.SUCCESS("Seeded sample users, longitudinal before/after impact records, wage progression, and employment verification."))
         self.stdout.write(self.style.SUCCESS("Demo seeding completed successfully!"))

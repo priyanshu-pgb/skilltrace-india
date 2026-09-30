@@ -1,8 +1,8 @@
 def skillbridge_context(request):
-    """Global context variables available across all templates."""
+    """Global context variables available across all templates for SOPAN."""
     return {
-        'BRAND_NAME': 'SkillBridge',
-        'BRAND_TAGLINE': 'Assess. Improve. Connect.',
-        'BRAND_SUBTITLE': 'Know your real skills. Discover your gaps. Improve your career readiness.',
+        'BRAND_NAME': 'SOPAN',
+        'BRAND_TAGLINE': 'सोपान: Steps to Verified Skills, Sustained Livelihoods & Wage Growth',
+        'BRAND_SUBTITLE': 'India\'s Longitudinal Skilling & Career Mobility Platform',
         'CURRENT_YEAR': 2026,
     }

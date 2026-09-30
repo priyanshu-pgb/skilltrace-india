@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}WhatsApp 30-Second Outcome Bot - SOPAN{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-3">
+  <div class="col-lg-7 col-md-9">
+
+    <!-- Mentor Guide Callout -->
+    <div class="apple-card p-3 mb-3 d-flex align-items-center gap-3">
+      <div style="width: 48px; height: 48px; border-radius: 50%; overflow: hidden; border: 2px solid var(--blinkit-yellow);" class="flex-shrink-0">
+        <img src="/static/images/mentor_student.svg" alt="Mentor Maya" style="width: 100%; height: 100%; object-fit: contain;">
+      </div>
+      <div>
+        <span class="apple-pill apple-pill-blue mb-1" style="font-size: 11px;">Low-Burden Outcome Bot</span>
+        <p class="mb-0 text-dark small">
+          <strong>Mentor Maya:</strong> "Trainees frequently change SIM cards. By replying to this 30-second WhatsApp prompt and saving a guardian contact, your verified career ladder stays protected under the DPDP Act 2023."
+        </p>
+      </div>
+    </div>
+
+    <!-- WhatsApp Chat Device Frame -->
+    <div class="card shadow-sm overflow-hidden border-0" style="border-radius: 20px; box-shadow: 0 12px 36px rgba(0,0,0,0.12) !important;">
+      <!-- WhatsApp Simulator Header -->
+      <div class="p-3 text-white d-flex align-items-center justify-content-between" style="background: #075e54;">
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded-circle bg-white text-success d-flex align-items-center justify-content-center shadow-sm" style="width: 44px; height: 44px; font-size: 1.4rem;">
+            <i class="fa-brands fa-whatsapp text-success"></i>
+          </div>
+          <div>
+            <div class="d-flex align-items-center gap-2">
+              <h3 class="fs-6 fw-bold mb-0">SOPAN Rozgar Sahayak (सोपान)</h3>
+              <i class="fa-solid fa-circle-check text-warning" title="Verified Govt / NSDC Bot" style="font-size: 0.85rem;"></i>
+            </div>
+            <span class="small opacity-75" style="font-size: 0.72rem;"><i class="fa-solid fa-circle text-success fs-6 me-1" style="font-size: 0.5rem !important;"></i> Official Longitudinal Outcome Channel • Online</span>
+          </div>
+        </div>
+        <span class="badge bg-light text-dark px-3 py-1 small rounded-pill fw-semibold">30s Check-in</span>
+      </div>
+
+      <!-- Simulated WhatsApp Chat Wallpaper Background -->
+      <div class="p-4" style="background-color: #efeae2; min-height: 480px; background-image: radial-gradient(#d3c7b7 1px, transparent 1px); background-size: 18px 18px;">
+        
+        <!-- Timestamp Header -->
+        <div class="text-center mb-3">
+          <span class="badge bg-secondary bg-opacity-25 text-dark small px-3 py-1" style="font-size: 0.72rem; border-radius: 8px;">TODAY</span>
+        </div>
+
+        <!-- Bot Message 1: Personalized Greeting -->
+        <div class="d-flex mb-3">
+          <div class="p-3 rounded shadow-sm bg-white" style="max-width: 88%; border-top-left-radius: 0; border-radius: 12px;">
+            <p class="mb-1 text-dark small">
+              🙏 <strong>Namaste {{ user.first_name|default:user.username }}!</strong>
+            </p>
+            <p class="mb-1 text-dark small">
+              This is the official <strong>SOPAN (सोपान)</strong> Longitudinal Outcome Bot from the Ministry / NSDC. We are logging your post-skilling career progression and wage trajectory.
+            </p>
+            <p class="mb-0 text-dark small">
+              Please take <strong>30 seconds</strong> to verify your current employment status and wage growth below.
+            </p>
+            <span class="text-muted d-block text-end mt-1" style="font-size: 0.65rem;">{% now "H:i" %} <i class="fa-solid fa-check-double text-primary"></i></span>
+          </div>
+        </div>
+
+        <!-- Form Embedded in Conversational Bubble -->
+        <div class="card p-3 shadow-sm border-0 mb-3" style="background-color: #ffffff; border-radius: 14px;">
+          <form method="post" action="{% url 'quick_checkin_simulate' %}">
+            {% csrf_token %}
+            <input type="hidden" name="channel" value="whatsapp_bot">
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-dark">
+                <i class="fa-solid fa-briefcase text-primary me-1"></i> 1. What is your current livelihood status?
+              </label>
+              <select name="status" class="form-select form-select-sm" required style="border-radius: 8px;">
+                <option value="employed">I am Formally Employed (Full-time)</option>
+                <option value="internship">I am an Apprentice / NAPS Intern</option>
+                <option value="self_employed">I am Self-Employed / Running an Enterprise</option>
+                <option value="freelancing">I am Freelancing / Gig Platform Worker</option>
+                <option value="unemployed">I am Currently Seeking a Job</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-dark">
+                <i class="fa-solid fa-indian-rupee-sign text-success me-1"></i> 2. What is your current monthly take-home salary?
+              </label>
+              <div class="input-group input-group-sm">
+                <span class="input-group-text bg-light fw-bold">₹</span>
+                <input type="number" name="monthly_wage" value="18500" class="form-control form-control-sm" required style="font-weight: 600;">
+                <span class="input-group-text bg-light">/ month</span>
+              </div>
+              <span class="text-muted" style="font-size: 0.72rem;">Tracks your wage progression from Day 0 baseline.</span>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-dark">
+                <i class="fa-solid fa-graduation-cap text-warning me-1"></i> 3. Is your skilling curriculum relevant in your current role?
+              </label>
+              <select name="training_relevance" class="form-select form-select-sm" required style="border-radius: 8px;">
+                <option value="high">High - Directly relevant & used daily</option>
+                <option value="partial">Medium - Partially relevant</option>
+                <option value="low">Low - Minimally relevant</option>
+                <option value="none">None - Unrelated role</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-dark">
+                <i class="fa-solid fa-phone text-secondary me-1"></i> 4. Alternative Village / Guardian Phone (SIM-Churn Defense)
+              </label>
+              <input type="text" name="alt_phone" value="{{ user.alt_phone|default:'' }}" class="form-control form-control-sm" placeholder="e.g. 9811223344 (Parent / Village Pradhan / Secondary SIM)" style="border-radius: 8px;">
+              <span class="text-muted" style="font-size: 0.72rem;">Ensures long-term benefits even if your primary SIM changes.</span>
+            </div>
+
+            <button type="submit" class="btn text-white w-100 fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" style="background-color: #25d366; border-radius: 10px; font-size: 14px;">
+              <i class="fa-solid fa-paper-plane"></i> Send 30s Check-in Response
+            </button>
+          </form>
+        </div>
+
+        <div class="text-center small text-muted">
+          <i class="fa-solid fa-shield-halved text-success me-1"></i> Protected under Digital Personal Data Protection (DPDP) Act 2023. Explicit candidate consent logged.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+

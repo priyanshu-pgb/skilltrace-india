@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Assessments Catalog - SkillBridge{% endblock %}
+{% block title %}Assessments Catalog - SOPAN{% endblock %}
 
 {% block content %}
 <div class="dashboard-header">
@@ -8,6 +8,25 @@
     <h1 class="welcome-title">Assessment & Verification Center</h1>
     <p class="welcome-subtitle">Evidence-based competency evaluations through randomized MCQs and real practical coding tasks</p>
   </div>
+</div>
+
+<!-- Mentor Maya Coaching Tip Banner -->
+<div class="mentor-tip-card d-flex align-items-center gap-3 mb-4">
+  <div class="rounded-circle overflow-hidden flex-shrink-0 shadow-sm" style="width: 54px; height: 54px; border: 2.5px solid var(--blinkit-yellow);">
+    <img src="/static/images/mentor_student.svg" alt="Mentor Maya" style="width: 100%; height: 100%; object-fit: contain;">
+  </div>
+  <div class="flex-grow-1">
+    <div class="d-flex align-items-center gap-2 mb-1">
+      <span class="mentor-badge" style="font-size: 0.68rem; padding: 2px 8px;"><i class="fa-solid fa-lightbulb"></i> MENTOR MAYA COACHING</span>
+      <span class="small fw-bold text-dark">Why Take These Tests?</span>
+    </div>
+    <p class="mb-0 small text-dark fw-medium">
+      "Practical coding challenges carry <strong>50% weight</strong> in your verified score! Take 10 minutes to solve a challenge—employers filter candidates based on verified capability rather than paper certificates."
+    </p>
+  </div>
+  <a href="#practical-pane" class="btn btn-sm btn-outline-dark rounded-pill px-3 d-none d-md-inline-block">
+    <i class="fa-solid fa-code me-1"></i> Try Coding Task
+  </a>
 </div>
 
 <!-- Tabs: MCQs vs Practical Tasks -->

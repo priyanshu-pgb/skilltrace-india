@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+
+{% block title %}Verify Trainee Employment - SOPAN National Outcome Registry{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center py-4">
+  <div class="col-lg-8">
+    <div class="card-custom p-4 p-md-5">
+      <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+        <div class="brand-icon-box bg-success text-white" style="width: 50px; height: 50px; font-size: 1.4rem;">
+          <i class="fa-solid fa-building-circle-check"></i>
+        </div>
+        <div>
+          <span class="badge bg-primary-subtle text-primary px-2 py-1 mb-1">OFFICIAL SKILLING VERIFICATION PORTAL</span>
+          <h2 class="fs-4 fw-bold mb-0">1-Click Employer Outcome Verification</h2>
+          <p class="text-muted small mb-0">Verify employment status for candidate <strong>{{ candidate.get_full_name|default:candidate.username }}</strong></p>
+        </div>
+      </div>
+
+      <div class="p-3 bg-light rounded border mb-4">
+        <div class="row g-2 small">
+          <div class="col-sm-6">
+            <span class="text-muted d-block">CANDIDATE NAME:</span>
+            <span class="fw-bold text-dark fs-6">{{ candidate.get_full_name|default:candidate.username }}</span>
+          </div>
+          <div class="col-sm-6">
+            <span class="text-muted d-block">SKILL INDIA (SIDH) ID:</span>
+            <span class="fw-bold text-primary">{{ candidate.trainee_id|default:"SIDH-2026-IN-88912" }}</span>
+          </div>
+          <div class="col-sm-6">
+            <span class="text-muted d-block">ORGANIZATION:</span>
+            <span class="fw-bold text-dark">{{ verif_req.company_name }}</span>
+          </div>
+          <div class="col-sm-6">
+            <span class="text-muted d-block">REQUESTED DATE:</span>
+            <span class="text-muted">{{ verif_req.created_at|date:"M d, Y" }}</span>
+          </div>
+        </div>
+      </div>
+
+      <form method="post" action="{% url 'public_employer_verify' verif_req.token %}">
+        {% csrf_token %}
+
+        <h3 class="fs-6 fw-bold mb-3 text-dark"><i class="fa-solid fa-circle-check text-success me-2"></i> Confirm Employment Details</h3>
+
+        <div class="row g-3 mb-3">
+          <div class="col-sm-6">
+            <label class="form-label small fw-semibold text-dark">Confirmed Designation / Job Role</label>
+            <input type="text" name="confirmed_role" value="{{ verif_req.user.employment_record.job_role|default:'Junior Developer / Associate' }}" class="form-control input-custom" required>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label small fw-semibold text-dark">Confirmed Monthly Take-Home Wage (₹)</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light">₹</span>
+              <input type="number" name="confirmed_monthly_wage" value="{{ verif_req.user.employment_record.current_monthly_wage|default:18000 }}" class="form-control input-custom" required>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+          <div class="col-sm-6">
+            <label class="form-label small fw-semibold text-dark">Date of Joining</label>
+            <input type="date" name="confirmed_joining_date" value="{% now 'Y-m-d' %}" class="form-control input-custom" required>
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label small fw-semibold text-dark">Employer GSTIN / Registration No.</label>
+            <input type="text" name="gstin" class="form-control input-custom" placeholder="e.g. 29AAAAA0000A1Z5">
+          </div>
+        </div>
+
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" name="has_epfo_coverage" id="epfoCheck" checked>
+          <label class="form-check-label small fw-semibold text-dark" for="epfoCheck">
+            Candidate is enrolled under formal social security (EPFO / ESIC)
+          </label>
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label small fw-semibold text-dark">Feedback on Candidate's Skill Readiness</label>
+          <textarea name="feedback_on_trainee" rows="3" class="form-control input-custom" placeholder="Share a brief line on practical skills, work ethic, and relevance of skilling curriculum..."></textarea>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn-primary-custom px-4 py-2">
+            <i class="fa-solid fa-stamp me-1"></i> Confirm & Authorize Verification
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block public_content %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card-custom p-4 p-md-5">
+        <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-3">
+          <div class="brand-icon-box bg-success text-white" style="width: 50px; height: 50px; font-size: 1.4rem;">
+            <i class="fa-solid fa-building-circle-check"></i>
+          </div>
+          <div>
+            <span class="badge bg-primary-subtle text-primary px-2 py-1 mb-1">OFFICIAL SKILLING VERIFICATION PORTAL</span>
+            <h2 class="fs-4 fw-bold mb-0">1-Click Employer Outcome Verification</h2>
+            <p class="text-muted small mb-0">Verify employment status for candidate <strong>{{ candidate.get_full_name|default:candidate.username }}</strong></p>
+          </div>
+        </div>
+
+        <div class="p-3 bg-light rounded border mb-4">
+          <div class="row g-2 small">
+            <div class="col-sm-6">
+              <span class="text-muted d-block">CANDIDATE NAME:</span>
+              <span class="fw-bold text-dark fs-6">{{ candidate.get_full_name|default:candidate.username }}</span>
+            </div>
+            <div class="col-sm-6">
+              <span class="text-muted d-block">SKILL INDIA (SIDH) ID:</span>
+              <span class="fw-bold text-primary">{{ candidate.trainee_id|default:"SIDH-2026-IN-88912" }}</span>
+            </div>
+            <div class="col-sm-6">
+              <span class="text-muted d-block">ORGANIZATION:</span>
+              <span class="fw-bold text-dark">{{ verif_req.company_name }}</span>
+            </div>
+            <div class="col-sm-6">
+              <span class="text-muted d-block">REQUESTED DATE:</span>
+              <span class="text-muted">{{ verif_req.created_at|date:"M d, Y" }}</span>
+            </div>
+          </div>
+        </div>
+
+        <form method="post" action="{% url 'public_employer_verify' verif_req.token %}">
+          {% csrf_token %}
+
+          <h3 class="fs-6 fw-bold mb-3 text-dark"><i class="fa-solid fa-circle-check text-success me-2"></i> Confirm Employment Details</h3>
+
+          <div class="row g-3 mb-3">
+            <div class="col-sm-6">
+              <label class="form-label small fw-semibold text-dark">Confirmed Designation / Job Role</label>
+              <input type="text" name="confirmed_role" value="{{ verif_req.user.employment_record.job_role|default:'Junior Developer / Associate' }}" class="form-control input-custom" required>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label small fw-semibold text-dark">Confirmed Monthly Take-Home Wage (₹)</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">₹</span>
+                <input type="number" name="confirmed_monthly_wage" value="{{ verif_req.user.employment_record.current_monthly_wage|default:18000 }}" class="form-control input-custom" required>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-sm-6">
+              <label class="form-label small fw-semibold text-dark">Date of Joining</label>
+              <input type="date" name="confirmed_joining_date" value="{% now 'Y-m-d' %}" class="form-control input-custom" required>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label small fw-semibold text-dark">Employer GSTIN / Registration No.</label>
+              <input type="text" name="gstin" class="form-control input-custom" placeholder="e.g. 29AAAAA0000A1Z5">
+            </div>
+          </div>
+
+          <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" name="has_epfo_coverage" id="epfoCheckPub" checked>
+            <label class="form-check-label small fw-semibold text-dark" for="epfoCheckPub">
+              Candidate is enrolled under formal social security (EPFO / ESIC)
+            </label>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label small fw-semibold text-dark">Feedback on Candidate's Skill Readiness</label>
+            <textarea name="feedback_on_trainee" rows="3" class="form-control input-custom" placeholder="Share a brief line on practical skills, work ethic, and relevance of skilling curriculum..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary-custom px-4 py-2">
+            <i class="fa-solid fa-stamp me-1"></i> Confirm & Authorize Verification
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

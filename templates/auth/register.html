@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}Create Account - SkillBridge{% endblock %}
+{% block title %}Create Account - SOPAN{% endblock %}
 
 {% block public_content %}
 <div class="container py-5">
   <div class="row justify-content-center">
     <div class="col-md-7 col-lg-6">
-      <div class="card-custom p-4 p-md-5">
+      <div class="apple-card p-4 p-md-5">
         <div class="text-center mb-4">
-          <div class="brand-icon-box mx-auto mb-3" style="width: 48px; height: 48px; font-size: 1.5rem;">
-            <i class="fa-solid fa-bolt-lightning"></i>
+          <div class="mx-auto mb-3" style="width: 56px; height: 56px;">
+            <img src="/static/images/sopan_logo.svg" alt="SOPAN Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.1);">
           </div>
-          <h2 class="fw-bold fs-3">Join SkillBridge</h2>
-          <p class="text-muted small">Start measuring, verifying, and tracking your real skills</p>
+          <h2 class="fw-bold fs-3 text-dark">Join SOPAN (सोपान)</h2>
+          <p class="text-muted small">Start measuring, verifying, and tracking your real skills and wage growth</p>
         </div>
 
         <form method="post" action="{% url 'register' %}" data-loading="true">

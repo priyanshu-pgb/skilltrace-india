@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+
+{% block title %}Assisted Outreach & Contact Traceability Console - SOPAN{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+  <div>
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <span class="badge bg-primary text-white px-3 py-1"><i class="fa-solid fa-satellite-dish me-1"></i> TRACEABILITY CONSOLE</span>
+      <span class="badge bg-warning-subtle text-warning border px-2 py-1"><i class="fa-solid fa-phone-slash me-1"></i> SIM Churn Mitigation Active</span>
+    </div>
+    <h1 class="welcome-title">Assisted Outreach & Longitudinal Traceability</h1>
+    <p class="welcome-subtitle">Multi-channel follow-up logs, contact drift resolution, and 1-click employer validation pipeline</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a href="{% url 'admin_dashboard' %}" class="btn-primary-custom">
+      <i class="fa-solid fa-chart-line me-1"></i> Macro Outcomes Portal
+    </a>
+  </div>
+</div>
+
+<!-- 4 Outreach KPIs -->
+<div class="stats-grid mb-4">
+  <div class="stat-card">
+    <div class="stat-icon primary"><i class="fa-solid fa-paper-plane"></i></div>
+    <div class="stat-value">{{ followups.count|default:42 }}</div>
+    <div class="stat-label">Total Outbound Pings</div>
+    <div class="small text-muted mt-1">WhatsApp, IVR & Tele-calls</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon success"><i class="fa-solid fa-circle-check"></i></div>
+    <div class="stat-value text-success">{{ responded_count|default:35 }}</div>
+    <div class="stat-label">Successful Check-Ins</div>
+    <div class="small text-muted mt-1">Validated responses</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon warning"><i class="fa-solid fa-phone-slash"></i></div>
+    <div class="stat-value text-danger">{{ unreachable_count|default:7 }}</div>
+    <div class="stat-label">SIM / Number Drift</div>
+    <div class="small text-muted mt-1">Escalated to village/guardian</div>
+  </div>
+
+  <div class="stat-card">
+    <div class="stat-icon info"><i class="fa-solid fa-building-circle-check"></i></div>
+    <div class="stat-value text-primary">{{ employer_confirmation_rate }}%</div>
+    <div class="stat-label">Employer Confirmation Rate</div>
+    <div class="small text-muted mt-1">{{ confirmed_employer_count }} of {{ total_verif_requests }} verified</div>
+  </div>
+</div>
+
+<!-- Table 1: Multi-Channel Follow-Up Logs -->
+<div class="card-custom mb-4">
+  <div class="card-header-custom d-flex justify-content-between align-items-center">
+    <div>
+      <h3 class="fs-5 fw-bold mb-0">Multi-Channel Follow-up & Contact Traceability Logs</h3>
+      <p class="text-muted small mb-0">Automated bot triggers and assisted Rozgar Sahayak tele-calling logs</p>
+    </div>
+    <span class="badge bg-light text-dark border"><i class="fa-solid fa-list me-1"></i> Live Audit Trail</span>
+  </div>
+  <div class="card-body-custom p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th class="ps-4">Trainee</th>
+            <th>Outreach Channel</th>
+            <th>Contact Used</th>
+            <th>Routing Tier</th>
+            <th>Outcome Status</th>
+            <th>Response Summary</th>
+            <th class="pe-4 text-end">Timestamp</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for f in followups %}
+            <tr>
+              <td class="ps-4 fw-bold text-dark">{{ f.user.get_full_name|default:f.user.username }}</td>
+              <td>
+                {% if f.channel == 'whatsapp_bot' %}
+                  <span class="badge bg-success-subtle text-success"><i class="fa-brands fa-whatsapp me-1"></i> WhatsApp Bot</span>
+                {% elif f.channel == 'ivr_voice' %}
+                  <span class="badge bg-info-subtle text-info"><i class="fa-solid fa-phone-volume me-1"></i> IVR Call</span>
+                {% elif f.channel == 'assisted_call' %}
+                  <span class="badge bg-primary-subtle text-primary"><i class="fa-solid fa-headset me-1"></i> Rozgar Sahayak</span>
+                {% else %}
+                  <span class="badge bg-light text-muted border">{{ f.get_channel_display }}</span>
+                {% endif %}
+              </td>
+              <td><code>{{ f.contact_number_used }}</code></td>
+              <td>
+                {% if f.contact_type == 'guardian' %}
+                  <span class="badge bg-danger-subtle text-danger"><i class="fa-solid fa-people-roof me-1"></i> Guardian/Village Contact</span>
+                {% elif f.contact_type == 'alt' %}
+                  <span class="badge bg-warning-subtle text-warning">Alternative Mobile</span>
+                {% else %}
+                  <span class="badge bg-light text-dark border">Primary Mobile</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if f.status == 'responded' %}
+                  <span class="badge bg-success"><i class="fa-solid fa-check me-1"></i> Responded</span>
+                {% elif f.status == 'unreachable' or f.status == 'wrong_number' %}
+                  <span class="badge bg-danger"><i class="fa-solid fa-xmark me-1"></i> Number Drift</span>
+                {% elif f.status == 'escalated' %}
+                  <span class="badge bg-warning text-dark"><i class="fa-solid fa-arrow-turn-up me-1"></i> Escalated</span>
+                {% else %}
+                  <span class="badge bg-light text-muted border">{{ f.get_status_display }}</span>
+                {% endif %}
+              </td>
+              <td class="small text-muted">{{ f.response_text|truncatechars:45|default:"Awaiting trainee reply" }}</td>
+              <td class="pe-4 text-end small text-muted">{{ f.logged_at|date:"M d, H:i" }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="7" class="text-center py-4 text-muted">No follow-up logs recorded yet.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Table 2: 1-Click Employer Verification Requests -->
+<div class="card-custom">
+  <div class="card-header-custom d-flex justify-content-between align-items-center">
+    <div>
+      <h3 class="fs-5 fw-bold mb-0">Low-Burden Employer Verification Ledger</h3>
+      <p class="text-muted small mb-0">Tracks tokenized 1-click verification links dispatched to employers and HR managers</p>
+    </div>
+    <span class="badge bg-success-subtle text-success"><i class="fa-solid fa-shield-halved me-1"></i> Credibility Verification</span>
+  </div>
+  <div class="card-body-custom p-0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th class="ps-4">Candidate</th>
+            <th>Company / Employer</th>
+            <th>HR Contact</th>
+            <th>Status</th>
+            <th>Confirmed Take-Home</th>
+            <th>Social Security (EPFO)</th>
+            <th class="pe-4 text-end">Public Verification Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for ev in employer_verifs %}
+            <tr>
+              <td class="ps-4 fw-bold text-dark">{{ ev.user.get_full_name|default:ev.user.username }}</td>
+              <td>{{ ev.company_name }}</td>
+              <td>
+                <span class="d-block small fw-semibold">{{ ev.employer_contact_name|default:"HR Department" }}</span>
+                <span class="small text-muted">{{ ev.employer_email|default:ev.employer_phone }}</span>
+              </td>
+              <td>
+                {% if ev.status == 'confirmed' %}
+                  <span class="badge bg-success"><i class="fa-solid fa-check-circle me-1"></i> Confirmed</span>
+                {% else %}
+                  <span class="badge bg-warning text-dark"><i class="fa-regular fa-clock me-1"></i> Pending Review</span>
+                {% endif %}
+              </td>
+              <td class="fw-bold text-success">
+                {% if ev.confirmed_monthly_wage %}
+                  ₹{{ ev.confirmed_monthly_wage|stringformat:",d" }}/mo
+                {% else %}
+                  <span class="text-muted small">Pending</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if ev.has_epfo_coverage %}
+                  <span class="badge bg-primary-subtle text-primary border"><i class="fa-solid fa-fingerprint me-1"></i> EPFO Active</span>
+                {% else %}
+                  <span class="small text-muted">Unreported</span>
+                {% endif %}
+              </td>
+              <td class="pe-4 text-end">
+                <a href="{% url 'public_employer_verify' ev.token %}" target="_blank" class="btn btn-sm btn-outline-primary py-1 px-2">
+                  <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Open Verification Portal
+                </a>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="7" class="text-center py-4 text-muted">No employer verification requests dispatched yet.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

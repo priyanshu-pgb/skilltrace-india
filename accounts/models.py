@@ -11,6 +11,42 @@ class User(AbstractUser):
     location = models.CharField(max_length=150, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    # National Skilling / SIDH Unique Trainee Registry
+    trainee_id = models.CharField(max_length=50, blank=True, default='', help_text="Skill India Digital (SIDH) / APAAR Identifier")
+    alt_phone = models.CharField(max_length=20, blank=True, default='', help_text="Secondary/Alternative phone to prevent contact drift")
+    guardian_phone = models.CharField(max_length=20, blank=True, default='', help_text="Family/Village contact for assisted outreach")
+    
+    # Demographics for national equity analysis
+    GENDER_CHOICES = (
+        ('male', 'Male'),
+        ('female', 'Female'),
+        ('transgender', 'Transgender'),
+        ('undisclosed', 'Prefer not to say'),
+    )
+    gender = models.CharField(max_length=20, choices=GENDER_CHOICES, default='undisclosed')
+    
+    CATEGORY_CHOICES = (
+        ('general', 'General'),
+        ('obc', 'OBC'),
+        ('sc', 'SC'),
+        ('st', 'ST'),
+        ('ews', 'EWS'),
+    )
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='general')
+    
+    AREA_CHOICES = (
+        ('rural', 'Rural'),
+        ('semi_urban', 'Semi-Urban'),
+        ('urban', 'Urban'),
+    )
+    area_type = models.CharField(max_length=20, choices=AREA_CHOICES, default='urban')
+    is_pwd = models.BooleanField(default=False, help_text="Person with Disability (Divyangjan)")
+    
+    # DPDP Act 2023 Consent Architecture
+    consent_given = models.BooleanField(default=True, help_text="Consent for longitudinal livelihood tracking")
+    consent_timestamp = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    allow_whatsapp_outreach = models.BooleanField(default=True, help_text="Permission for automated WhatsApp milestone pings")
+
     @property
     def is_admin_role(self):
         return self.role == 'admin' or self.is_superuser

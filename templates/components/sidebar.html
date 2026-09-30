@@ -1,11 +1,12 @@
 <aside class="sidebar" id="appSidebar" aria-label="Sidebar Navigation">
   <!-- Brand Header -->
   <div class="p-3 border-bottom d-flex align-items-center justify-content-between">
-    <a href="{% url 'landing' %}" class="brand-logo text-decoration-none">
-      <div class="brand-icon-box">
-        <i class="fa-solid fa-bolt-lightning"></i>
+    <a href="{% if user.is_authenticated %}{% if user.is_admin_role %}{% url 'admin_dashboard' %}{% else %}{% url 'user_dashboard' %}{% endif %}{% else %}{% url 'landing' %}{% endif %}" class="brand-logo text-decoration-none d-flex align-items-center gap-2">
+      <img src="/static/images/sopan_logo.svg" alt="SOPAN" style="height: 38px; width: 38px; object-fit: contain; border-radius: 8px;">
+      <div class="d-flex flex-column text-start">
+        <span class="fw-bold fs-5 tracking-tight text-dark" style="line-height: 1;">{{ BRAND_NAME }}</span>
+        <span class="text-muted" style="font-size: 0.65rem; font-weight: 700; letter-spacing: 0.5px;">सोपान • CAREER LADDER</span>
       </div>
-      <span>{{ BRAND_NAME }}</span>
     </a>
   </div>
 
@@ -26,7 +27,12 @@
         <!-- Admin Routes -->
         <li class="nav-item">
           <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'admin_dashboard' %}">
-            <i class="fa-solid fa-chart-line text-primary"></i> Admin Analytics
+            <i class="fa-solid fa-chart-line text-primary"></i> National Outcomes Portal
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'admin_outreach_console' %}">
+            <i class="fa-solid fa-satellite-dish text-info"></i> Outreach & Traceability
           </a>
         </li>
         <li class="nav-item">
@@ -103,7 +109,12 @@
         </li>
         <li class="nav-item">
           <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'employment_tracker' %}">
-            <i class="fa-solid fa-building text-info"></i> Employment
+            <i class="fa-solid fa-timeline text-info"></i> Longitudinal Livelihood
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link py-2 px-3 rounded text-dark fw-semibold d-flex align-items-center gap-2 hover-bg" href="{% url 'quick_checkin_simulate' %}">
+            <i class="fa-brands fa-whatsapp text-success"></i> 30s Quick Check-in
           </a>
         </li>
         <li class="nav-item">

@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400">
+  <defs>
+    <linearGradient id="trainerBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#eff6ff" />
+      <stop offset="50%" stop-color="#e0e7ff" />
+      <stop offset="100%" stop-color="#c7d2fe" />
+    </linearGradient>
+    <linearGradient id="blazerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="shadow2d" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-opacity="0.1" />
+    </filter>
+  </defs>
+
+  <!-- Clean Canvas Background -->
+  <rect width="500" height="400" rx="24" fill="#ffffff" />
+
+  <!-- Backdrop Decorative 2D Shapes -->
+  <circle cx="260" cy="200" r="165" fill="url(#trainerBg)" />
+
+  <!-- 2D Analytical Dashboard Board Behind Trainer -->
+  <g transform="translate(60, 60)" filter="url(#shadow2d)">
+    <rect width="180" height="110" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+    <!-- Header -->
+    <rect x="12" y="12" width="60" height="8" rx="2" fill="#4f46e5" />
+    <circle cx="158" cy="16" r="4" fill="#10b981" />
+    <!-- Trend Chart Lines -->
+    <path d="M16 85 Q50 75 80 60 T140 38" fill="none" stroke="#4f46e5" stroke-width="3" stroke-linecap="round" />
+    <circle cx="80" cy="60" r="4" fill="#f59e0b" />
+    <circle cx="140" cy="38" r="5" fill="#10b981" />
+    <!-- Bar Indicators -->
+    <rect x="16" y="94" width="22" height="6" rx="2" fill="#94a3b8" />
+    <rect x="44" y="94" width="30" height="6" rx="2" fill="#94a3b8" />
+    <rect x="80" y="94" width="40" height="6" rx="2" fill="#10b981" />
+    <text x="125" y="100" font-family="'SF Pro Text', Inter, sans-serif" font-size="9" font-weight="bold" fill="#059669">84% Retained</text>
+  </g>
+
+  <!-- Right Floating Metric: 1-Click Employer Audits -->
+  <g transform="translate(340, 130)" filter="url(#shadow2d)">
+    <rect width="120" height="48" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" />
+    <circle cx="24" cy="24" r="14" fill="#0284c7" />
+    <path d="M18 24 L22 28 L30 20" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="44" y="20" font-family="'SF Pro Text', Inter, sans-serif" font-size="9" font-weight="700" fill="#0f172a">EPFO Signal</text>
+    <text x="44" y="34" font-family="'SF Pro Text', Inter, sans-serif" font-size="11" font-weight="800" fill="#0284c7">100% Audited</text>
+  </g>
+
+  <!-- Ground Line -->
+  <ellipse cx="260" cy="375" rx="190" ry="14" fill="#e2e8f0" opacity="0.6" />
+
+  <!-- ==========================================
+       CENTRAL CHARACTER: TRAINER VIKRAM (2D Indian Educator)
+       ========================================== -->
+  <g id="trainerVikram" transform="translate(200, 75)">
+    <!-- Body / Semi-formal Dark Blazer -->
+    <path d="M45 170 Q30 145 65 145 Q100 145 85 170 L105 285 L25 285 Z" fill="url(#blazerGrad)" />
+    <!-- Crisp Light Blue Shirt & Tie -->
+    <path d="M52 145 L65 185 L78 145 Z" fill="#e0f2fe" />
+    <path d="M62 155 L65 210 L68 155 Z" fill="#4f46e5" />
+
+    <!-- NSDC / SOPAN Official Lanyard Badge -->
+    <path d="M54 148 Q65 195 62 230" fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" />
+    <path d="M76 148 Q65 195 68 230" fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" />
+    <!-- ID Card Tag -->
+    <rect x="56" y="230" width="18" height="24" rx="3" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+    <rect x="59" y="233" width="12" height="4" rx="1" fill="#4f46e5" />
+    <circle cx="65" cy="244" r="3" fill="#94a3b8" />
+
+    <!-- Neck & Face -->
+    <rect x="57" y="125" width="16" height="24" rx="4" fill="#c68a5c" />
+    <ellipse cx="65" cy="100" rx="26" ry="29" fill="#dc9f72" />
+
+    <!-- Hair (Neat Professional Indian Side-parting) -->
+    <path d="M38 95 Q38 60 65 60 Q92 60 92 88 Q80 75 65 75 Q48 75 38 95 Z" fill="#1e293b" />
+
+    <!-- Friendly Eyes -->
+    <circle cx="56" cy="98" r="3" fill="#1e293b" />
+    <circle cx="74" cy="98" r="3" fill="#1e293b" />
+    <circle cx="57" cy="97" r="1" fill="#ffffff" />
+    <circle cx="75" cy="97" r="1" fill="#ffffff" />
+
+    <!-- Eyebrows -->
+    <path d="M50 89 Q56 86 62 89" fill="none" stroke="#1e293b" stroke-width="2.2" stroke-linecap="round" />
+    <path d="M68 89 Q74 86 80 89" fill="none" stroke="#1e293b" stroke-width="2.2" stroke-linecap="round" />
+
+    <!-- Neat Mustache & Warm Confident Smile -->
+    <path d="M55 109 Q65 113 75 109" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round" />
+    <path d="M58 114 Q65 120 72 114" fill="none" stroke="#78350f" stroke-width="2" stroke-linecap="round" />
+
+    <!-- Left Arm Holding National Ledger Clipboard -->
+    <path d="M38 165 Q18 200 35 220" fill="none" stroke="#dc9f72" stroke-width="12" stroke-linecap="round" />
+    <!-- Clipboard -->
+    <g transform="translate(10, 195) rotate(-8)" filter="url(#shadow2d)">
+      <rect width="56" height="74" rx="6" fill="#78350f" />
+      <rect x="4" y="4" width="48" height="66" rx="4" fill="#ffffff" />
+      <!-- Clip at top -->
+      <rect x="20" y="0" width="16" height="8" rx="2" fill="#475569" />
+      <!-- Clipboard Document Lines -->
+      <rect x="10" y="14" width="30" height="5" rx="1.5" fill="#4f46e5" />
+      <line x1="10" y1="26" x2="42" y2="26" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+      <line x1="10" y1="34" x2="36" y2="34" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+      <line x1="10" y1="42" x2="40" y2="42" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" />
+      <line x1="10" y1="50" x2="30" y2="50" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" />
+    </g>
+
+    <!-- Right Arm Gesturing Forward (Welcoming Hand) -->
+    <path d="M85 165 Q115 185 125 175" fill="none" stroke="#dc9f72" stroke-width="12" stroke-linecap="round" />
+    <circle cx="128" cy="175" r="7" fill="#dc9f72" />
+  </g>
+</svg>

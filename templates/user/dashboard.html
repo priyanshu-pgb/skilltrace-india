@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Candidate Dashboard - SkillBridge{% endblock %}
+{% block title %}Candidate Career Hub - SOPAN{% endblock %}
 
 {% block content %}
 <div class="dashboard-header">
@@ -15,6 +15,37 @@
     <a href="{% url 'skills_dashboard' %}" class="btn-outline-custom">
       <i class="fa-solid fa-plus me-1"></i> Add Claimed Skill
     </a>
+  </div>
+</div>
+
+<!-- Live Outcomes Marquee Ticker -->
+{% include 'components/marquee.html' %}
+
+<!-- Mentor Maya Explainer Guide Banner -->
+<div class="mentor-guide-banner d-flex align-items-center gap-4 flex-wrap flex-md-nowrap mb-4">
+  <img src="/static/images/mentor_student.svg" alt="Mentor Maya explaining skill report to student" class="mentor-character-img">
+  <div class="mentor-speech-bubble">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="mentor-badge"><i class="fa-solid fa-graduation-cap"></i> MENTOR MAYA COACHING</span>
+        <span class="small text-muted">Your Personalized Career Guide</span>
+      </div>
+      <span class="badge bg-light text-dark border"><i class="fa-solid fa-bolt text-warning me-1"></i> Quick Action Center</span>
+    </div>
+    <p class="mb-2 text-dark fs-6 fw-semibold">
+      "👋 Hey <strong>{{ user.first_name|default:user.username }}</strong>! Look at your <strong>Career Readiness Score of {{ readiness_score }}/100</strong>. You've verified {{ verified_count }} core skills! To boost your score and unlock higher salary roles, take your pending assessments, close your top skill gaps, and log your latest 3-month wage milestone."
+    </p>
+    <div class="d-flex gap-2 flex-wrap">
+      <a href="{% url 'assessment_catalog' %}" class="mentor-pill-btn">
+        <i class="fa-solid fa-play"></i> Take 5-Min Test
+      </a>
+      <a href="{% url 'jobs_list' %}" class="mentor-pill-btn" style="background: #ffffff; border: 1.5px solid #1f1f1f;">
+        <i class="fa-solid fa-briefcase"></i> View Target Job Gaps
+      </a>
+      <a href="{% url 'employment_tracker' %}" class="mentor-pill-btn" style="background: #0c831f; color: #ffffff;">
+        <i class="fa-solid fa-timeline"></i> Track Wage Progression
+      </a>
+    </div>
   </div>
 </div>
 

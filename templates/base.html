@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}SkillBridge - Assess. Improve. Connect.{% endblock %}</title>
+  <title>{% block title %}{{ BRAND_NAME }} (सोपान) - Steps to Verified Skills & Sustained Livelihoods{% endblock %}</title>
   
   <!-- Inter Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,10 +20,10 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <!-- SkillBridge Design System & Components -->
-  <link rel="stylesheet" href="/static/css/base.css">
-  <link rel="stylesheet" href="/static/css/components.css">
-  <link rel="stylesheet" href="/static/css/dashboard.css">
-  <link rel="stylesheet" href="/static/css/landing.css">
+  <link rel="stylesheet" href="/static/css/base.css?v=2.5">
+  <link rel="stylesheet" href="/static/css/components.css?v=2.5">
+  <link rel="stylesheet" href="/static/css/dashboard.css?v=2.5">
+  <link rel="stylesheet" href="/static/css/landing.css?v=2.5">
   
   {% block extra_css %}{% endblock %}
 </head>
@@ -65,6 +65,107 @@
     </div>
   {% endif %}
 
+  <!-- SOPAN Conversational AI Chatbot Assistant (Apple & Blinkit Hybrid) -->
+  <div class="sopan-chat-widget">
+    <!-- Chat Window (Toggled Open/Close) -->
+    <div class="sopan-chat-window" id="sopanChatWindow" aria-hidden="true">
+      <div class="sopan-chat-header">
+        <div class="sopan-chat-header-info">
+          <div class="sopan-chat-header-avatar">
+            {% if user.is_authenticated and user.is_admin_role %}
+              <img src="/static/images/trainer_admin.svg" alt="Trainer Vikram">
+            {% else %}
+              <img src="/static/images/mentor_student.svg" alt="Mentor Maya">
+            {% endif %}
+          </div>
+          <div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="fw-bold text-white small" id="sopanChatBotName">
+                {% if user.is_authenticated and user.is_admin_role %}Trainer Vikram{% else %}Mentor Maya{% endif %}
+              </span>
+              <span class="badge bg-success px-1 py-0" style="font-size: 0.65rem;">ONLINE</span>
+            </div>
+            <span class="text-light opacity-75" style="font-size: 0.72rem;">SOPAN Longitudinal AI Career Coach</span>
+          </div>
+        </div>
+        <button type="button" class="sopan-chat-close-btn" id="sopanChatClose" title="Minimize Chat">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Messages Area -->
+      <div class="sopan-chat-messages" id="sopanChatMessages">
+        <!-- Welcoming Message from Mentor -->
+        <div class="sopan-chat-msg sopan-chat-msg-assistant">
+          <div class="sopan-chat-msg-avatar">
+            {% if user.is_authenticated and user.is_admin_role %}
+              <img src="/static/images/trainer_admin.svg" alt="Trainer Vikram">
+            {% else %}
+              <img src="/static/images/mentor_student.svg" alt="Mentor Maya">
+            {% endif %}
+          </div>
+          <div class="sopan-chat-bubble">
+            {% if user.is_authenticated and user.is_admin_role %}
+              Namaste Administrator! I'm <strong>Trainer Vikram</strong>. I can brief you on national skilling cohorts, 6-month retention rates, 1-click employer audit rates, and NITI Aayog aspirational district progress. How can I assist you today?
+              <a href="{% url 'admin_dashboard' %}" class="sopan-chat-action-btn">
+                <i class="fa-solid fa-gauge me-1"></i> Open National Command Center
+              </a>
+            {% else %}
+              Namaste <strong>{{ user.first_name|default:"Candidate" }}</strong>! I'm <strong>Mentor Maya</strong>, your SOPAN career ladder guide. Ask me anything about testing your skills, finding jobs, 1-click employer verification, or logging wage increases!
+              <a href="{% url 'assessment_catalog' %}" class="sopan-chat-action-btn">
+                <i class="fa-solid fa-bolt me-1"></i> Take 5-Min Skill Test
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Typing Indicator -->
+      <div class="sopan-typing-indicator px-3 py-1 bg-white" id="sopanTypingIndicator" style="display: none;">
+        <span class="small text-muted me-2" style="font-size: 0.75rem;">SOPAN AI is thinking</span>
+        <div class="sopan-typing-dot"></div>
+        <div class="sopan-typing-dot"></div>
+        <div class="sopan-typing-dot"></div>
+      </div>
+
+      <!-- Quick Suggestion Chips -->
+      <div class="sopan-chat-chips">
+        <button type="button" class="sopan-chip-btn" data-query="How to verify my skills?">⚡ Verify Skills</button>
+        <button type="button" class="sopan-chip-btn" data-query="How to track my wage hike?">📈 Track Wage Hike</button>
+        <button type="button" class="sopan-chip-btn" data-query="What is 1-click employer audit?">🏢 1-Click HR Audit</button>
+        <button type="button" class="sopan-chip-btn" data-query="Show active job gap matches">🎯 Job Gap Match</button>
+        <button type="button" class="sopan-chip-btn" data-query="Open 30s WhatsApp Bot">📱 WhatsApp Bot</button>
+        <button type="button" class="sopan-chip-btn" data-query="Help with district migration and counseling">📍 District Help</button>
+      </div>
+
+      <!-- Chat Input Area -->
+      <form id="sopanChatForm" class="sopan-chat-input-area" onsubmit="return false;">
+        <input type="text" id="sopanChatInput" class="sopan-chat-input-field" placeholder="Ask Mentor Maya anything..." autocomplete="off">
+        <button type="button" id="sopanChatSend" class="sopan-chat-send-btn" title="Send Question">
+          <i class="fa-solid fa-paper-plane" style="font-size: 0.85rem;"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- Floating Chat Launcher Trigger -->
+    <div class="sopan-chat-launcher" id="sopanChatLauncher" title="Click to chat with SOPAN AI Guide">
+      <div class="sopan-chat-launcher-avatar">
+        {% if user.is_authenticated and user.is_admin_role %}
+          <img src="/static/images/trainer_admin.svg" alt="Trainer Vikram">
+        {% else %}
+          <img src="/static/images/mentor_student.svg" alt="Mentor Maya">
+        {% endif %}
+        <div class="sopan-online-pulse"></div>
+      </div>
+      <div class="sopan-chat-launcher-text d-none d-sm-flex">
+        <span class="sopan-chat-launcher-title">
+          {% if user.is_authenticated and user.is_admin_role %}TRAINER VIKRAM{% else %}MENTOR MAYA{% endif %}
+        </span>
+        <span class="sopan-chat-launcher-sub">AI Career Guide • Online</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap 5 Bundle JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
@@ -72,6 +173,176 @@
   <script src="/static/js/main.js"></script>
   <script src="/static/js/animations.js"></script>
   <script src="/static/js/charts.js"></script>
+
+  <!-- SOPAN Conversational AI Chat Assistant Script -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const launcher = document.getElementById('sopanChatLauncher');
+    const navbarLauncher = document.getElementById('navbarChatLauncher');
+    const chatWindow = document.getElementById('sopanChatWindow');
+    const closeBtn = document.getElementById('sopanChatClose');
+    const chatInput = document.getElementById('sopanChatInput');
+    const sendBtn = document.getElementById('sopanChatSend');
+    const messagesContainer = document.getElementById('sopanChatMessages');
+    const typingIndicator = document.getElementById('sopanTypingIndicator');
+    const chipButtons = document.querySelectorAll('.sopan-chip-btn');
+
+    if (!chatWindow) return;
+
+    function openChat() {
+      chatWindow.classList.add('active');
+      chatWindow.setAttribute('aria-hidden', 'false');
+      if (chatInput) chatInput.focus();
+      scrollChatToBottom();
+    }
+
+    function closeChat() {
+      chatWindow.classList.remove('active');
+      chatWindow.setAttribute('aria-hidden', 'true');
+    }
+
+    function toggleChat() {
+      if (chatWindow.classList.contains('active')) {
+        closeChat();
+      } else {
+        openChat();
+      }
+    }
+
+    if (launcher) {
+      launcher.addEventListener('click', toggleChat);
+    }
+
+    if (navbarLauncher) {
+      navbarLauncher.addEventListener('click', toggleChat);
+    }
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeChat);
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && chatWindow.classList.contains('active')) {
+        closeChat();
+      }
+    });
+
+    function scrollChatToBottom() {
+      if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      }
+    }
+
+    function escapeHtml(string) {
+      const div = document.createElement('div');
+      div.innerText = string;
+      return div.innerHTML;
+    }
+
+    function appendUserMessage(text) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'sopan-chat-msg sopan-chat-msg-user';
+      msgDiv.innerHTML = `<div class="sopan-chat-bubble">${escapeHtml(text)}</div>`;
+      messagesContainer.appendChild(msgDiv);
+      scrollChatToBottom();
+    }
+
+    function appendBotMessage(data) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'sopan-chat-msg sopan-chat-msg-assistant';
+      
+      let actionHtml = '';
+      if (data.action_link && data.action_text) {
+        actionHtml = `
+          <a href="${data.action_link}" class="sopan-chat-action-btn">
+            <i class="fa-solid fa-arrow-right me-1"></i> ${escapeHtml(data.action_text)}
+          </a>
+        `;
+      }
+
+      msgDiv.innerHTML = `
+        <div class="sopan-chat-msg-avatar">
+          <img src="${data.avatar || '/static/images/mentor_student.svg'}" alt="${data.sender || 'Mentor'}">
+        </div>
+        <div class="sopan-chat-bubble">
+          <div>${data.reply}</div>
+          ${actionHtml}
+        </div>
+      `;
+      messagesContainer.appendChild(msgDiv);
+      scrollChatToBottom();
+    }
+
+    async function handleSendMessage(query) {
+      const text = (query || (chatInput ? chatInput.value : '')).trim();
+      if (!text) return;
+
+      appendUserMessage(text);
+      if (chatInput) chatInput.value = '';
+      if (sendBtn) sendBtn.disabled = true;
+      if (typingIndicator) typingIndicator.style.display = 'flex';
+      scrollChatToBottom();
+
+      try {
+        const response = await fetch('/api/chat/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          body: JSON.stringify({ message: text })
+        });
+        
+        const data = await response.json();
+        if (typingIndicator) typingIndicator.style.display = 'none';
+        if (sendBtn) sendBtn.disabled = false;
+
+        if (data && data.reply) {
+          appendBotMessage(data);
+        } else {
+          appendBotMessage({
+            reply: "I understand! SOPAN tracks your longitudinal employment outcomes, wage gains, and skill verifications. How can I help you take the next step?",
+            action_link: "/user-dashboard/",
+            action_text: "View Dashboard"
+          });
+        }
+      } catch (err) {
+        console.error("Chatbot API error:", err);
+        if (typingIndicator) typingIndicator.style.display = 'none';
+        if (sendBtn) sendBtn.disabled = false;
+        appendBotMessage({
+          reply: "I'm here to help! You can explore verified skill assessments, log 3-month milestones, or generate employer verification links directly.",
+          action_link: "/assessments/",
+          action_text: "Explore Skill Assessments"
+        });
+      }
+    }
+
+    if (sendBtn) {
+      sendBtn.addEventListener('click', () => handleSendMessage());
+    }
+
+    if (chatInput) {
+      chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleSendMessage();
+        }
+      });
+    }
+
+    chipButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const q = this.getAttribute('data-query');
+        if (!chatWindow.classList.contains('active')) {
+          chatWindow.classList.add('active');
+        }
+        handleSendMessage(q);
+      });
+    });
+  });
+  </script>
 
   {% block extra_js %}{% endblock %}
 </body>

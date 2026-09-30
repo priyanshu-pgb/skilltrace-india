@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: skillbridge
+    name: skilltrace-india
     runtime: python
     buildCommand: ./build.sh
     startCommand: gunicorn config.wsgi:application

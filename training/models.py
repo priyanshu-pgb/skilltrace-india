@@ -23,6 +23,68 @@ class TrainingCourse(models.Model):
         return f"{self.name} ({self.get_target_level_display()})"
 
 
+class District(models.Model):
+    name = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    is_aspirational = models.BooleanField(default=False, help_text="NITI Aayog Aspirational District")
+
+    class Meta:
+        ordering = ['state', 'name']
+        unique_together = ('name', 'state')
+
+    def __str__(self):
+        asp = " [Aspirational]" if self.is_aspirational else ""
+        return f"{self.name}, {self.state}{asp}"
+
+
+class TrainingProvider(models.Model):
+    name = models.CharField(max_length=200)
+    nsdc_partner_code = models.CharField(max_length=50, unique=True, help_text="SMART / NSDC Partner ID")
+    accreditation_grade = models.CharField(max_length=10, default='A', choices=(('A+', 'A+'), ('A', 'A'), ('B', 'B'), ('C', 'C')))
+    contact_person = models.CharField(max_length=100, blank=True, default='')
+    contact_phone = models.CharField(max_length=20, blank=True, default='')
+    contact_email = models.EmailField(blank=True, default='')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return f"{self.name} ({self.nsdc_partner_code})"
+
+
+class TrainingCentre(models.Model):
+    provider = models.ForeignKey(TrainingProvider, on_delete=models.CASCADE, related_name='centres')
+    district = models.ForeignKey(District, on_delete=models.CASCADE, related_name='training_centres')
+    center_name = models.CharField(max_length=200)
+    center_code = models.CharField(max_length=50, unique=True)
+    address = models.TextField(blank=True, default='')
+
+    def __str__(self):
+        return f"{self.center_name} - {self.district.name}"
+
+
+class Cohort(models.Model):
+    SCHEME_CHOICES = (
+        ('pmkvy4', 'PMKVY 4.0 (Skill India)'),
+        ('ddu_gky', 'DDU-GKY (Rural Development)'),
+        ('vishwakarma', 'PM-Vishwakarma Scheme'),
+        ('naps', 'National Apprenticeship Promotion (NAPS)'),
+        ('state_mission', 'State Skill Development Mission (SSDM)'),
+        ('csr_initiative', 'Corporate CSR Skilling Program'),
+    )
+    batch_code = models.CharField(max_length=50, unique=True)
+    scheme_name = models.CharField(max_length=50, choices=SCHEME_CHOICES, default='pmkvy4')
+    training_centre = models.ForeignKey(TrainingCentre, on_delete=models.CASCADE, related_name='cohorts', null=True, blank=True)
+    course = models.ForeignKey(TrainingCourse, on_delete=models.CASCADE, related_name='cohorts')
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.batch_code} ({self.get_scheme_name_display()})"
+
+
 class TrainingEnrollment(models.Model):
     STATUS_CHOICES = (
         ('not_started', 'Not Started'),
@@ -31,6 +93,8 @@ class TrainingEnrollment(models.Model):
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='enrollments')
     course = models.ForeignKey(TrainingCourse, on_delete=models.CASCADE, related_name='enrollments')
+    cohort = models.ForeignKey(Cohort, on_delete=models.SET_NULL, null=True, blank=True, related_name='enrollments')
+    district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True, related_name='enrollments')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='not_started')
     progress_percent = models.PositiveIntegerField(default=0)
     

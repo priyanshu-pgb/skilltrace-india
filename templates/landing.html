@@ -1,57 +1,104 @@
 {% extends 'base.html' %}
 
-{% block title %}SkillBridge - Assess. Improve. Connect.{% endblock %}
+{% block title %}SOPAN (सोपान) - Steps to Verified Skills & Wage Growth{% endblock %}
 
 {% block public_content %}
 <!-- Hero Section -->
-<section class="hero-section">
+<section class="hero-section py-5">
   <div class="container">
-    <div class="hero-pill">
-      <i class="fa-solid fa-sparkles"></i> Autonomous Skilling & Outcome Platform
+    <div class="row align-items-center g-4">
+      <div class="col-lg-7 text-start">
+        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3" style="background: #fff9e6; border: 1.5px solid #f8cb46;">
+          <span class="badge rounded-pill" style="background: #f8cb46; color: #1f1f1f; font-weight: 800;">BLINKIT SPEED & CLARITY</span>
+          <span class="small fw-bold text-dark"><i class="fa-solid fa-sparkles text-warning me-1"></i> Autonomous Longitudinal Skilling Platform</span>
+        </div>
+        
+        <h1 class="hero-title text-start mb-3" style="font-size: 2.75rem; line-height: 1.15;">
+          Learn Like a <span style="background: linear-gradient(135deg, #1f1f1f 0%, #4f46e5 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Guided Mentee</span>.<br>
+          Deliver Like an <span style="background: linear-gradient(135deg, #0c831f 0%, #10b981 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Expert Pro</span>.
+        </h1>
+        
+        <p class="hero-subtitle text-start mb-4 fs-6 text-muted">
+          {{ BRAND_SUBTITLE }} Step-by-step guidance from verified skill tests to longitudinal retention tracking, wage progression curves, and 1-click employer validation.
+        </p>
+        
+        <div class="d-flex gap-3 align-items-center flex-wrap mb-4">
+          <a href="{% url 'register' %}" class="mentor-pill-btn px-4 py-3 fs-6">
+            <i class="fa-solid fa-rocket me-1"></i> Start Guided Journey Free
+          </a>
+          <a href="{% url 'login' %}" class="btn-outline-custom px-4 py-3 fs-6" style="border-radius: 50px;">
+            <i class="fa-solid fa-arrow-right-to-bracket me-1"></i> Sign In to Dashboard
+          </a>
+        </div>
+
+        <div class="d-flex align-items-center gap-4 flex-wrap pt-2 border-top">
+          <div class="d-flex align-items-center gap-2">
+            <i class="fa-solid fa-check-circle text-success fs-5"></i>
+            <span class="small fw-semibold text-dark">DPDP Act 2023 Consent</span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <i class="fa-solid fa-check-circle text-success fs-5"></i>
+            <span class="small fw-semibold text-dark">SIDH Unified IDs</span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <i class="fa-solid fa-check-circle text-success fs-5"></i>
+            <span class="small fw-semibold text-dark">30s 1-Click Verification</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Cartoon Mentor Explaining to Student Illustration -->
+      <div class="col-lg-5">
+        <div class="position-relative text-center">
+          <div class="mentor-speech-bubble text-start mb-3 shadow" style="border-color: #f8cb46;">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <span class="mentor-badge"><i class="fa-solid fa-graduation-cap"></i> MENTOR MAYA SAYS</span>
+              <span class="small text-muted">Zero Confusion Guidance</span>
+            </div>
+            <p class="mb-0 text-dark small fw-semibold">
+              "👋 Don't guess where your career is going! We test your real practical capability, show your salary potential, and track your wage growth at Months 3, 6, and 12!"
+            </p>
+          </div>
+          
+          <img src="/static/images/mentor_student.svg" alt="Mentor Maya explaining digital skill report to student" class="img-fluid rounded-4 shadow-lg border border-3 border-warning" style="max-height: 380px; object-fit: contain;">
+          
+          <div class="p-2 bg-white rounded-pill shadow-sm border border-warning position-absolute bottom-0 start-50 translate-middle-x mb-2 px-3 d-inline-flex align-items-center gap-2">
+            <span class="badge rounded-pill bg-success text-white">Live Tracking</span>
+            <span class="small fw-bold text-dark">From Test ➜ Placement ➜ Wage Hike 🚀</span>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    <h1 class="hero-title">
-      Discover Your <span class="gradient-text">Real Skills</span>.<br>
-      Bridge Every Career Gap.
-    </h1>
-    
-    <p class="hero-subtitle">
-      {{ BRAND_SUBTITLE }} Move beyond unverified certificates with rigorous practical assessments, dynamic job-gap matching, and verified employment outcomes.
-    </p>
-    
-    <div class="hero-actions">
-      <a href="{% url 'register' %}" class="btn-primary-custom px-4 py-3 fs-6">
-        <i class="fa-solid fa-rocket me-2"></i> Get Started Free
-      </a>
-      <a href="#lifecycle" class="btn-outline-custom px-4 py-3 fs-6">
-        <i class="fa-solid fa-arrows-spin me-2"></i> Explore Skilling Lifecycle
-      </a>
+
+    <!-- Live Outcomes Marquee Ticker -->
+    <div class="mt-4">
+      {% include 'components/marquee.html' %}
     </div>
 
     <!-- Micro Stats Banner -->
-    <div class="row justify-content-center mt-5 pt-3">
+    <div class="row justify-content-center mt-3 pt-2">
       <div class="col-6 col-md-3 mb-3">
-        <div class="p-3 bg-white rounded-3 border shadow-sm">
+        <div class="p-3 bg-white rounded-4 border shadow-sm h-100">
           <h3 class="fw-bold mb-0 text-primary">100%</h3>
           <span class="text-muted small">Server-Verified Scores</span>
         </div>
       </div>
       <div class="col-6 col-md-3 mb-3">
-        <div class="p-3 bg-white rounded-3 border shadow-sm">
+        <div class="p-3 bg-white rounded-4 border shadow-sm h-100">
           <h3 class="fw-bold mb-0 text-success">Level 1 - 5</h3>
           <span class="text-muted small">Granular Skill Taxonomy</span>
         </div>
       </div>
       <div class="col-6 col-md-3 mb-3">
-        <div class="p-3 bg-white rounded-3 border shadow-sm">
-          <h3 class="fw-bold mb-0 text-info">Dynamic</h3>
-          <span class="text-muted small">Job Match Gap Engine</span>
+        <div class="p-3 bg-white rounded-4 border shadow-sm h-100">
+          <h3 class="fw-bold mb-0 text-warning">0 - 24 Mo</h3>
+          <span class="text-muted small">Longitudinal Wage Tracking</span>
         </div>
       </div>
       <div class="col-6 col-md-3 mb-3">
-        <div class="p-3 bg-white rounded-3 border shadow-sm">
-          <h3 class="fw-bold mb-0 text-warning">Longitudinal</h3>
-          <span class="text-muted small">Post-Training Impact</span>
+        <div class="p-3 bg-white rounded-4 border shadow-sm h-100">
+          <h3 class="fw-bold mb-0 text-dark">30 Seconds</h3>
+          <span class="text-muted small">1-Click Employer Audit</span>
         </div>
       </div>
     </div>
@@ -63,7 +110,7 @@
   <div class="container">
     <div class="lifecycle-header">
       <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold mb-2">COMPLETE WORKFLOW</span>
-      <h2 class="fw-bold fs-2 mb-3">The SkillBridge Skilling Lifecycle</h2>
+      <h2 class="fw-bold fs-2 mb-3">The SOPAN Longitudinal Skilling Lifecycle</h2>
       <p class="text-muted">
         Bridging the gap between training and employment requires an end-to-end evidence pipeline.
       </p>
@@ -183,12 +230,47 @@
   </div>
 </section>
 
+<!-- Trainer / Institutional Spotlight Section -->
+<section class="py-5 my-4" style="background: linear-gradient(135deg, #1f1f1f 0%, #111827 100%); border-radius: 28px; color: #ffffff;">
+  <div class="container py-3">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-5 text-center">
+        <div class="position-relative d-inline-block">
+          <img src="/static/images/trainer_admin.svg" alt="Trainer Vikram standing in Command Center" class="img-fluid rounded-4 shadow-lg border border-3 border-warning" style="max-height: 340px; object-fit: contain;">
+          <span class="badge bg-warning text-dark position-absolute top-0 start-50 translate-middle px-3 py-2 rounded-pill fw-bold shadow">
+            <i class="fa-solid fa-chalkboard-user me-1"></i> TRAINER VIKRAM BRIEFING
+          </span>
+        </div>
+      </div>
+      <div class="col-lg-7 text-start">
+        <span class="mentor-badge mb-3"><i class="fa-solid fa-shield-halved"></i> FOR SCHEMES & INSTITUTIONS</span>
+        <h2 class="fw-bold fs-2 text-white mb-3">
+          Solve the National Tracking Challenge with Complete Confidence
+        </h2>
+        <div class="mentor-speech-bubble bg-dark text-white border-warning mb-4" style="background-color: #262626 !important; border-color: #f8cb46 !important;">
+          <p class="mb-0 small text-light fw-medium">
+            "👋 <strong>Hey Trainers, State Missions & Funders!</strong> No more losing track of trainees when they migrate or change phone numbers. With our automated WhatsApp triggers, Rozgar Sahayak tele-calling, and 1-click employer validation, you get audited 6-month retention data and wage progression proof in real time."
+          </p>
+        </div>
+        <div class="d-flex gap-3 flex-wrap">
+          <a href="{% url 'admin_dashboard' %}" class="mentor-pill-btn px-4 py-2">
+            <i class="fa-solid fa-chart-pie"></i> Explore Command Center
+          </a>
+          <a href="{% url 'login' %}" class="btn btn-outline-light px-4 py-2 rounded-pill small fw-semibold">
+            <i class="fa-solid fa-user-shield me-1"></i> Admin & Trainer Login
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Call to Action Banner -->
 <section class="py-5 bg-light border-top">
   <div class="container text-center py-4">
     <h2 class="fw-bold mb-3">Ready to Measure and Elevate Career Readiness?</h2>
     <p class="text-muted max-w-600 mx-auto mb-4">
-      Join SkillBridge today to benchmark skills, resolve critical gaps, and unlock verifiable career opportunities.
+      Join SOPAN today to benchmark skills, resolve critical gaps, and unlock verifiable career opportunities.
     </p>
     <a href="{% url 'register' %}" class="btn-primary-custom px-5 py-3 fs-6">
       Create Free Account Now

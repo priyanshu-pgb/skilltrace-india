@@ -18,12 +18,25 @@
   </div>
 </div>
 
-<!-- Distinction Banner -->
-<div class="alert alert-info border-info-subtle d-flex align-items-center gap-3 mb-4">
-  <i class="fa-solid fa-circle-info fs-4 text-info"></i>
-  <div>
-    <span class="fw-bold">Claimed vs. Verified Distinction:</span>
-    A claimed skill reflects your self-assessed confidence level. A verified skill requires demonstrated competence across objective MCQs (20%), hands-on practical tasks (50%), and reviewed projects (30%).
+<!-- Mentor Maya Claimed vs Verified Explainer -->
+<div class="mentor-guide-banner d-flex align-items-center gap-4 flex-wrap flex-md-nowrap mb-4">
+  <img src="/static/images/mentor_student.svg" alt="Mentor Maya explaining skills" class="mentor-character-img">
+  <div class="mentor-speech-bubble">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <span class="mentor-badge"><i class="fa-solid fa-graduation-cap"></i> MENTOR MAYA EXPLAINS</span>
+      <span class="small text-muted">Claimed vs. Verified Competency</span>
+    </div>
+    <p class="mb-2 text-dark fs-6 fw-semibold">
+      "💡 <strong>Here is the golden rule:</strong> Anyone can claim Level 4 on a resume, but top employers look for <strong>Verified Skills</strong>. We test you through <strong>MCQs (20%)</strong>, <strong>Real Coding (50%)</strong>, and <strong>Projects (30%)</strong>. Once verified, your badges stay tamper-proof and unlock high-paying jobs!"
+    </p>
+    <div class="d-flex gap-2 flex-wrap">
+      <button class="mentor-pill-btn" data-bs-toggle="modal" data-bs-target="#claimSkillModal">
+        <i class="fa-solid fa-plus"></i> Claim a New Skill
+      </button>
+      <a href="{% url 'assessment_catalog' %}" class="mentor-pill-btn" style="background: #0c831f; color: #ffffff;">
+        <i class="fa-solid fa-circle-check"></i> Verify Skills Now
+      </a>
+    </div>
   </div>
 </div>
 

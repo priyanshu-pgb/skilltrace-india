@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400">
+  <defs>
+    <!-- Soft Warm Backdrop Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffbeb" />
+      <stop offset="50%" stop-color="#fef3c7" />
+      <stop offset="100%" stop-color="#fde68a" />
+    </linearGradient>
+    <linearGradient id="mayaKurti" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="studentShirt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-opacity="0.1" />
+    </filter>
+  </defs>
+
+  <!-- Clean Canvas Background -->
+  <rect width="500" height="400" rx="24" fill="#ffffff" />
+
+  <!-- Backdrop Decorative 2D Shapes -->
+  <circle cx="250" cy="200" r="165" fill="url(#bgGrad)" />
+  <circle cx="390" cy="90" r="32" fill="#e0e7ff" opacity="0.7" />
+  <circle cx="95" cy="110" r="22" fill="#dcfce7" opacity="0.8" />
+
+  <!-- 2D Geometric Floating Badges -->
+  <!-- Left Badge: Verified Score -->
+  <g transform="translate(60, 160)" filter="url(#softShadow)">
+    <rect width="110" height="42" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" />
+    <circle cx="22" cy="21" r="12" fill="#10b981" />
+    <path d="M16 21 L20 25 L28 17" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="40" y="19" font-family="'SF Pro Text', Inter, sans-serif" font-size="10" font-weight="700" fill="#0f172a">Verified Level</text>
+    <text x="40" y="32" font-family="'SF Pro Text', Inter, sans-serif" font-size="11" font-weight="800" fill="#059669">92% Match</text>
+  </g>
+
+  <!-- Right Badge: Wage Growth Milestone -->
+  <g transform="translate(330, 130)" filter="url(#softShadow)">
+    <rect width="125" height="46" rx="12" fill="#ffffff" stroke="#fde68a" stroke-width="2" />
+    <circle cx="24" cy="23" r="14" fill="#f59e0b" />
+    <text x="18" y="28" font-family="'SF Pro Text', Inter, sans-serif" font-size="14" font-weight="bold" fill="#ffffff">₹</text>
+    <text x="44" y="20" font-family="'SF Pro Text', Inter, sans-serif" font-size="10" font-weight="700" fill="#1e293b">Month 6 Hike</text>
+    <text x="44" y="34" font-family="'SF Pro Text', Inter, sans-serif" font-size="12" font-weight="800" fill="#d97706">+35% Growth</text>
+  </g>
+
+  <!-- Base Ground Line -->
+  <ellipse cx="250" cy="375" rx="200" ry="14" fill="#e2e8f0" opacity="0.6" />
+
+  <!-- ==========================================
+       LEFT CHARACTER: MENTOR MAYA (Indian Female Guide)
+       ========================================== -->
+  <g id="mentorMaya" transform="translate(130, 80)">
+    <!-- Body / Kurti -->
+    <path d="M50 170 Q45 140 70 140 Q95 140 90 170 L105 280 L35 280 Z" fill="url(#mayaKurti)" />
+    <!-- Stole / Dupatta Accent -->
+    <path d="M55 145 Q70 190 65 280 L52 280 Q58 190 48 145 Z" fill="#0d9488" />
+
+    <!-- Neck & Face -->
+    <rect x="62" y="120" width="16" height="25" rx="4" fill="#e5b894" />
+    <ellipse cx="70" cy="98" rx="26" ry="30" fill="#f3cbb0" />
+
+    <!-- Hair (Neat 2D Bun & Parting) -->
+    <path d="M42 95 Q40 55 70 55 Q100 55 98 95 Q90 70 70 70 Q50 70 42 95 Z" fill="#1e1b4b" />
+    <circle cx="70" cy="50" r="16" fill="#1e1b4b" />
+    <circle cx="70" cy="50" r="18" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 2" />
+
+    <!-- Glasses (Modern Round Teal Frame) -->
+    <circle cx="61" cy="96" r="8" fill="none" stroke="#0d9488" stroke-width="2.5" />
+    <circle cx="79" cy="96" r="8" fill="none" stroke="#0d9488" stroke-width="2.5" />
+    <line x1="69" y1="96" x2="71" y2="96" stroke="#0d9488" stroke-width="2.5" />
+
+    <!-- Facial Features: Friendly Eyes & Smile -->
+    <circle cx="61" cy="96" r="2.5" fill="#1e1b4b" />
+    <circle cx="79" cy="96" r="2.5" fill="#1e1b4b" />
+    <!-- Eyebrows -->
+    <path d="M55 86 Q61 83 67 86" fill="none" stroke="#1e1b4b" stroke-width="2" stroke-linecap="round" />
+    <path d="M73 86 Q79 83 85 86" fill="none" stroke="#1e1b4b" stroke-width="2" stroke-linecap="round" />
+    <!-- Small Bindi -->
+    <circle cx="70" cy="85" r="2" fill="#be123c" />
+    <!-- Warm Smile -->
+    <path d="M63 110 Q70 118 77 110" fill="none" stroke="#9a3412" stroke-width="2.5" stroke-linecap="round" />
+
+    <!-- Right Arm Holding Digital Career Tablet -->
+    <path d="M85 155 Q115 165 125 195" fill="none" stroke="#f3cbb0" stroke-width="12" stroke-linecap="round" />
+    <!-- Tablet in Hand -->
+    <g transform="translate(110, 175) rotate(-10)" filter="url(#softShadow)">
+      <rect width="64" height="88" rx="8" fill="#1e293b" />
+      <rect x="4" y="4" width="56" height="80" rx="5" fill="#ffffff" />
+      <!-- Content on Tablet: SOPAN Ladder -->
+      <rect x="8" y="10" width="35" height="6" rx="2" fill="#4f46e5" />
+      <line x1="8" y1="24" x2="48" y2="24" stroke="#10b981" stroke-width="3" stroke-linecap="round" />
+      <line x1="8" y1="34" x2="40" y2="34" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" />
+      <line x1="8" y1="44" x2="50" y2="44" stroke="#3b82f6" stroke-width="3" stroke-linecap="round" />
+      <!-- Ascending Mini Ladder on Screen -->
+      <rect x="10" y="66" width="8" height="10" rx="1" fill="#3b82f6" />
+      <rect x="20" y="58" width="8" height="18" rx="1" fill="#6366f1" />
+      <rect x="30" y="50" width="8" height="26" rx="1" fill="#f59e0b" />
+    </g>
+
+    <!-- Left Arm Gesturing Toward Student -->
+    <path d="M50 155 Q35 180 48 200" fill="none" stroke="#f3cbb0" stroke-width="11" stroke-linecap="round" />
+  </g>
+
+  <!-- ==========================================
+       RIGHT CHARACTER: YOUNG CANDIDATE / STUDENT
+       ========================================== -->
+  <g id="candidateStudent" transform="translate(260, 95)">
+    <!-- Body / Collared Casual Shirt -->
+    <path d="M50 160 Q35 135 70 135 Q105 135 90 160 L105 265 L35 265 Z" fill="url(#studentShirt)" />
+    <!-- White Inner Tee / Collar -->
+    <path d="M60 135 L70 152 L80 135 Z" fill="#ffffff" />
+
+    <!-- Neck & Face -->
+    <rect x="62" y="115" width="16" height="24" rx="4" fill="#d9a57d" />
+    <ellipse cx="70" cy="94" rx="25" ry="28" fill="#e8ba95" />
+
+    <!-- Modern Short Haircut -->
+    <path d="M44 90 Q42 54 70 54 Q96 54 96 85 Q82 72 70 72 Q54 72 44 90 Z" fill="#0f172a" />
+
+    <!-- Eyes (Attentive & Optimistic) -->
+    <circle cx="61" cy="92" r="3" fill="#0f172a" />
+    <circle cx="78" cy="92" r="3" fill="#0f172a" />
+    <circle cx="62" cy="91" r="1" fill="#ffffff" />
+    <circle cx="79" cy="91" r="1" fill="#ffffff" />
+
+    <!-- Eyebrows -->
+    <path d="M55 83 Q61 80 67 83" fill="none" stroke="#0f172a" stroke-width="2.2" stroke-linecap="round" />
+    <path d="M72 83 Q78 80 84 83" fill="none" stroke="#0f172a" stroke-width="2.2" stroke-linecap="round" />
+
+    <!-- Happy Confident Smile -->
+    <path d="M62 107 Q70 116 78 107" fill="none" stroke="#854d0e" stroke-width="2.5" stroke-linecap="round" />
+
+    <!-- Arms Holding Notebook -->
+    <path d="M45 155 Q35 195 55 210" fill="none" stroke="#e8ba95" stroke-width="11" stroke-linecap="round" />
+    <path d="M92 155 Q100 195 75 210" fill="none" stroke="#e8ba95" stroke-width="11" stroke-linecap="round" />
+
+    <!-- Student Notebook / Portfolio -->
+    <g transform="translate(48, 190) rotate(5)" filter="url(#softShadow)">
+      <rect width="52" height="68" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+      <rect x="0" y="0" width="10" height="68" rx="3" fill="#0284c7" />
+      <!-- Lined notes on paper -->
+      <line x1="16" y1="18" x2="44" y2="18" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+      <line x1="16" y1="28" x2="40" y2="28" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+      <line x1="16" y1="38" x2="44" y2="38" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+      <line x1="16" y1="48" x2="32" y2="48" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" />
+    </g>
+  </g>
+
+  <!-- Conversation Connection Spark (2D Dialogue Star) -->
+  <g transform="translate(245, 140)">
+    <circle cx="0" cy="0" r="14" fill="#f59e0b" />
+    <path d="M-6 0 L-2 4 L6 -4" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>
